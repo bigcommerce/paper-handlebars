@@ -1,0 +1,42 @@
+{
+  "name": "@bigcommerce/stencil-paper-handlebars",
+  "version": "1.0.0",
+  "description": "A paper plugin to render pages using Handlebars.js v3",
+  "main": "index.js",
+  "author": "Bigcommerce",
+  "license": "BSD-4-Clause",
+  "scripts": {
+    "test": "lab -l -t 90"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bigcommerce/paper-handlebars.git"
+  },
+  "keywords": [
+    "handlebars",
+    "stencil-paper",
+    "paper"
+  ],
+  "bugs": {
+    "url": "https://github.com/bigcommerce/paper-handlebars/issues"
+  },
+  "homepage": "https://github.com/bigcommerce/paper-handlebars",
+  "dependencies": {
+    "async": "^1.4.2",
+    "handlebars": "^3.0.1",
+    "handlebars-helpers": "^0.8.0",
+    "lodash": "^3.6.0",
+    "messageformat": "^0.2.2",
+    "stringz": "^0.1.1"
+  },
+  "devDependencies": {
+    "code": "^1.4.0",
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-react": "^4.3.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "lab": "^5.8.1",
+    "sinon": "^1.17.2"
+  }
+}
