@@ -1,7 +1,7 @@
 # paper-handlebars
 [![Build Status](https://travis-ci.org/bigcommerce/paper-handlebars.svg?branch=master)](https://travis-ci.org/bigcommerce/paper-handlebars)
 
-*paper-handlebars* is a plugin for `paper`. Its duty is to render pages and strings using the [Handlebars](http://handlebarsjs.com/) v3 template engine.
+*paper-handlebars* is a plugin for [Paper](http://github.com/bigcommerce/paper). Its duty is to render pages and strings using the [Handlebars](http://handlebarsjs.com/) (v3) template engine.
 
 ## Helpers Reference
 See the [Stencil API Reference](https://stencil.bigcommerce.com/docs/handlebars-helpers-reference) for documentation on the available helpers.
