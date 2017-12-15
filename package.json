@@ -22,11 +22,9 @@
   },
   "homepage": "https://github.com/bigcommerce/paper-handlebars",
   "dependencies": {
-    "async": "^1.4.2",
-    "handlebars": "^3.0.1",
-    "handlebars-helpers": "^0.8.0",
+    "handlebars": "3.0.3",
+    "handlebars-helpers": "0.8.4",
     "lodash": "^3.6.0",
-    "messageformat": "^0.2.2",
     "stringz": "^0.1.1"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ const _ = require('lodash');
 function helper(paper) {
     paper.handlebars.registerHelper('stylesheet', function (assetPath) {
         const options = arguments[arguments.length - 1];
-        const configId = paper.settings['theme_config_id'];
+        const configId = paper.siteSettings['theme_config_id'];
         // append the configId only if the asset path starts with assets/css/
         const path = configId && assetPath.match(/^\/?assets\/css\//)
             ? assetPath.replace(/\.css$/, `-${configId}.css`)

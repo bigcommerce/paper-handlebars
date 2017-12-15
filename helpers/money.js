@@ -18,7 +18,7 @@ function numberFormat(value, n, s, c) {
 
 function helper(paper) {
     paper.handlebars.registerHelper('money', function (value) {
-        var money = paper.settings.money;
+        var money = paper.siteSettings.money;
 
         if (!_.isNumber(value)) {
             return '';
