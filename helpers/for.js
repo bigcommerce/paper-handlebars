@@ -1,9 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-function helper(paper) {
-    paper.handlebars.registerHelper('for', function (from, to, context) {
+const factory = globals => {
+    return function(from, to, context) {
         const options = arguments[arguments.length - 1];
         const maxIterations = 100;
         var output = '';
@@ -42,7 +42,10 @@ function helper(paper) {
         }
 
         return output;
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'for',
+    factory: factory,
+}];

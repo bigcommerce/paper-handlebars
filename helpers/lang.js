@@ -1,15 +1,14 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('lang', function (translationKey) {
+const factory = globals => {
+    return function(translationKey) {
         const options = arguments[arguments.length - 1];
+        const translator = globals.getTranslator();
+        return translator ? translator.translate(translationKey, options.hash) : '';
+    };
+};
 
-        if (paper.translator) {
-            return paper.translator.translate(translationKey, options.hash);
-        }
-
-        return '';
-    });
-}
-
-module.exports = helper;
+module.exports = [{
+    name: 'lang',
+    factory: factory,
+}];

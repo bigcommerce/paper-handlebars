@@ -1,51 +1,64 @@
 'use strict';
 
 const _ = require('lodash');
-const Fs = require('fs');
 const Handlebars = require('handlebars');
-const Path = require('path');
+const helpers = require('./helpers/index'); // TODO: Move into module
 
-const helpers = [];
 const handlebarsOptions = {
     preventIndent: true
 };
 
-// Load helpers (this is run once on module initialization)
-Fs.readdirSync(Path.join(__dirname, 'helpers')).forEach(function (file) {
-    helpers.push(require('./helpers/' + file));
-});
-
+// HandlebarsRenderer implements the interface Paper requires for its
+// rendering needs, and does so with Handlebars v3.
 class HandlebarsRenderer {
     /**
     * Constructor
     *
-    * @param {Object} siteSettings - Global site settings
-    * @param {Object} themeSettings - Theme settings (configuration)
+    * @param {Object} siteSettings - Global site settings, passed to helpers
+    * @param {Object} themeSettings - Theme settings (configuration), passed to helpers
     */
     constructor(siteSettings, themeSettings) {
-        this.siteSettings = siteSettings || {};
-        this.themeSettings = themeSettings || {};
-
         this.handlebars = Handlebars.create();
+        this._translator = null;
+        this._decorators = [];
+        this._contentRegions = {};
 
-        this.translator = null;
-        this.decorators = [];
-        this.contentRegions = {};
+        // Build global context for helpers
+        this.helperContext = {
+            siteSettings: siteSettings || {},
+            themeSettings: themeSettings || {},
+            handlebars: this.handlebars,
+            getTranslator: this.getTranslator.bind(this),
+            getContent: this.getContent.bind(this),
+            storage: {}, // global storage used by helpers to keep state
+        };
 
-        this.inject = {}; // TODO: move this into helper
-
-        // Register helpers with Handlebars.
-        helpers.forEach(helper => helper(this)); // TODO: reduce coupling
+        // Register helpers with Handlebars
+        helpers.forEach(spec => {
+            this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
+        });
     }
 
     /**
+     * Set the paper.Translator instance used to translate strings in helpers.
+     *
      * @param {Translator} A paper.Translator instance used to translate strings in helpers
      */
     setTranslator(translator) {
-        this.translator = translator;
+        this._translator = translator;
     };
 
     /**
+     * Get the paper.Translator instance used to translate strings in helpers.
+     */
+    getTranslator() {
+        return this._translator;
+    };
+
+    /**
+     * Add templates to the active set of partials. The templates passed in have been
+     * run through the preProcessor function.
+     *
      * @param {Object} A set of pre-processed templates to add to the active set of partials
      */
     addTemplates(templates) {
@@ -54,122 +67,63 @@ class HandlebarsRenderer {
             // be directly executed. Then, add it to the list of templates & partials.
             if (typeof this.handlebars.partials[path] === 'undefined') {
                 let template;
-                eval(`template = ${precompiled};`); // evil
+                eval(`template = ${precompiled};`); // evil, but necessary :/
                 this.handlebars.registerPartial(path, this.handlebars.template(template));
             }
         });
     };
 
+    /**
+     * Detect whether a given template has been loaded.
+     */
     isTemplateLoaded(path) {
         return typeof this.handlebars.partials[path] !== 'undefined';
     }
 
     /**
-     * Return a function that returns the given templates in a precompiled form.
+     * Return a function that performs any preprocessing we want to do on the templates.
+     * In our case, run them through the Handlebars precompiler.
      */
     getPreProcessor() {
         return templates => {
-            let precompiled = {};
-
-            _.each(templates, (content, path) => {
-                precompiled[path] = this.handlebars.precompile(content, handlebarsOptions);
+            const processed = {};
+            _.forEach(templates, (template, path) => {
+                processed[path] = this.handlebars.precompile(template, handlebarsOptions);
             });
-
-            return precompiled;
+            return processed;
         };
     }
 
     /**
+     * Add a decorator to be applied at render time.
+     *
      * @param {Function} decorator
      */
     addDecorator(decorator) {
-        this.decorators.push(decorator);
+        this._decorators.push(decorator);
     };
 
     /**
+     * Add content regions to be used by the `region` helper.
+     *
      * @param {Object} Regions with widgets
      */
     addContent(regions) {
-        this.contentRegions = regions;
-    };
-
-    getContent() {
-        return this.contentRegions;
+        this._contentRegions = regions;
     };
 
     /**
-     * Add CDN base url to the relative path
-     * @param  {String} path     Relative path
-     * @return {String}          Url cdn
+     * Get content regions.
+     *
+     * @param {Object} Regions with widgets
      */
-    cdnify(path) {
-        const cdnUrl = this.siteSettings['cdn_url'] || '';
-        const versionId = this.siteSettings['theme_version_id'];
-        const sessionId = this.siteSettings['theme_session_id'];
-        const protocolMatch = /(.*!?:)/;
-
-        if (path instanceof Handlebars.SafeString) {
-            path = path.string;
-        }
-
-        if (!path) {
-            return '';
-        }
-
-        if (/^(?:https?:)?\/\//.test(path)) {
-            return path;
-        }
-
-        if (protocolMatch.test(path)) {
-            var match = path.match(protocolMatch);
-            path = path.slice(match[0].length, path.length);
-
-            if (path[0] === '/') {
-                path = path.slice(1, path.length);
-            }
-
-            if (match[0] === 'webdav:') {
-                return [cdnUrl, 'content', path].join('/');
-            }
-
-            if (this.themeSettings.cdn) {
-                var endpointKey = match[0].substr(0, match[0].length - 1);
-                if (this.themeSettings.cdn.hasOwnProperty(endpointKey)) {
-                    if (cdnUrl) {
-                        return [this.themeSettings.cdn[endpointKey], path].join('/');
-                    }
-
-                    return ['/assets/cdn', endpointKey, path].join('/');
-                }
-            }
-
-            if (path[0] !== '/') {
-                path = '/' + path;
-            }
-
-            return path;
-        }
-
-        if (path[0] !== '/') {
-            path = '/' + path;
-        }
-
-        if (!versionId) {
-            return path;
-        }
-
-        if (path.match(/^\/assets\//)) {
-            path = path.substr(8, path.length);
-        }
-
-        if (sessionId) {
-            return [cdnUrl, 'stencil', versionId, 'e', sessionId, path].join('/');
-        }
-
-        return [cdnUrl, 'stencil', versionId, path].join('/');
+    getContent() {
+        return this._contentRegions;
     };
 
     /**
+     * Render a template with the given context
+     *
      * @param {String} path
      * @param {Object} context
      * @return {String}
@@ -178,13 +132,15 @@ class HandlebarsRenderer {
         context = context || {};
         context.template = path;
 
-        if (this.translator) {
-            context.locale_name = this.translator.getLocale();
+        if (this._translator) {
+            context.locale_name = this._translator.getLocale();
         }
 
+        // Render the template
         let output = this.handlebars.partials[path](context);
 
-        _.each(this.decorators, function (decorator) {
+        // Apply decorators
+        _.each(this._decorators, function (decorator) {
             output = decorator(output);
         });
 
@@ -193,8 +149,10 @@ class HandlebarsRenderer {
 
     /**
      * Renders a string with the given context
+     *
      * @param  {String} string
      * @param  {Object} context
+     * @return {String}
      */
     renderString(string, context) {
         return this.handlebars.compile(string)(context);

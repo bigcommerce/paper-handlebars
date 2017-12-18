@@ -23,16 +23,19 @@ const substring = require('stringz').substring;
  *
  *  {{lang (truncate 'blog.post.body.' 40) }}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('truncate', function (string, length) {
+const factory = globals => {
+    return function(string, length) {
         if (typeof string !== 'string') {
             return string;
         }
 
         const truncatedString = substring(string, 0, length);
 
-        return new paper.handlebars.SafeString(truncatedString);
-    });
-}
+        return new globals.handlebars.SafeString(truncatedString);
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'truncate',
+    factory: factory,
+}];

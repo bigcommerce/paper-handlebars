@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Yield block if any object within a collection matches supplied predicate
@@ -8,9 +8,8 @@ var _ = require('lodash');
  * @example
  * {{#any items selected=true}} ... {{/any}}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('any', function () {
-
+const factory = globals => {
+    return function() {
         var args = [],
             opts,
             predicate,
@@ -51,7 +50,10 @@ function helper(paper) {
         }
 
         return opts.inverse(this);
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'any',
+    factory: factory,
+}];

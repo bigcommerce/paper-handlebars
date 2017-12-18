@@ -1,13 +1,14 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('langJson', function (keyFilter) {
-        if (!paper.translator) {
-            return '{}';
-        }
+const factory = globals => {
+    return function(keyFilter) {
+        const translator = globals.getTranslator();
+        const langJson = translator ? translator.getLanguage(keyFilter) : {};
+        return JSON.stringify(langJson);
+    };
+};
 
-        return JSON.stringify(paper.translator.getLanguage(keyFilter));
-    });
-}
-
-module.exports = helper;
+module.exports = [{
+    name: 'langJson',
+    factory: factory,
+}];

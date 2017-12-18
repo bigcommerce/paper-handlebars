@@ -1,9 +1,12 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('helperMissing', function () {
+const factory = globals => {
+    return function() {
         return undefined;
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'helperMissing',
+    factory: factory,
+}];

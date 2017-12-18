@@ -6,7 +6,9 @@
   "author": "Bigcommerce",
   "license": "BSD-4-Clause",
   "scripts": {
-    "test": "lab -l -t 90"
+    "linter": "eslint .",
+    "test": "npm run linter && lab -v -t 98 --ignore Reflect,WebAssembly,_time,format spec",
+    "coverage": "lab -c -r console -o stdout -r html -o coverage.html lib spec"
   },
   "repository": {
     "type": "git",

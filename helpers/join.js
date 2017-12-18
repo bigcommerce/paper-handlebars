@@ -1,7 +1,7 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('join', function (array, separator) {
+const factory = globals => {
+    return function(array, separator) {
         const options = arguments[arguments.length - 1];
         var config = options.hash || {};
 
@@ -21,7 +21,10 @@ function helper(paper) {
         }
 
         return array.join(separator);
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'join',
+    factory: factory,
+}];

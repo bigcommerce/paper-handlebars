@@ -1,9 +1,8 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('cdn', function (assetPath) {
-        return paper.cdnify(assetPath);
-    });
-}
+const factory = require('./lib/cdnify');
 
-module.exports = helper;
+module.exports = [{
+    name: 'cdn',
+    factory: factory,
+}];

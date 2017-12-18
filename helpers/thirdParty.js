@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const helpers = require('handlebars-helpers');
+
 const whitelist = [
     {
         name: 'array',
@@ -142,8 +143,18 @@ const whitelist = [
     },
 ];
 
-function helper(paper) {
-    whitelist.forEach(helper => paper.handlebars.registerHelper(_.pick(helpers[helper.name](), helper.include)));
-}
+// Construct the data structure the caller expects: an array of { name, factory }
+const exportedHelpers = [];
+whitelist.forEach(whitelistSpec => {
+    // Pluck whitelisted functions from each helper module.
+    const whitelistedHelpers = _.pick(helpers[whitelistSpec.name](), whitelistSpec.include);
+    _.each(whitelistedHelpers, (fn, name) => {
+        // Wrap with what the caller expects
+        exportedHelpers.push({
+            name: name,
+            factory: globals => fn,
+        });
+    });
+});
 
-module.exports = helper;
+module.exports = exportedHelpers;

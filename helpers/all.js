@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Yield block only if all arguments are valid
@@ -8,9 +8,8 @@ var _ = require('lodash');
  * @example
  * {{#all items theme_settings.optionA theme_settings.optionB}} ... {{/all}}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('all', function () {
-
+const factory = globals => {
+    return function() {
         var args = [], opts, result;
 
         // Translate arguments to array safely
@@ -42,7 +41,10 @@ function helper(paper) {
         } else {
             return opts.inverse(this);
         }
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'all',
+    factory: factory,
+}];

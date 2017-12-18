@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Format numbers
@@ -16,9 +16,9 @@ function numberFormat(value, n, s, c) {
     return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
 }
 
-function helper(paper) {
-    paper.handlebars.registerHelper('money', function (value) {
-        var money = paper.siteSettings.money;
+const factory = globals => {
+    return function(value) {
+        var money = globals.siteSettings.money;
 
         if (!_.isNumber(value)) {
             return '';
@@ -34,7 +34,10 @@ function helper(paper) {
         return money.currency_location === 'left'
             ? money.currency_token + ' ' + value
             : value + ' ' + money.currency_token;
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'money',
+    factory: factory,
+}];

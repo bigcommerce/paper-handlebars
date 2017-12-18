@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Limit an array to the second argument
@@ -8,9 +8,8 @@ var _ = require('lodash');
  * @example
  * {{limit array 4}}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('limit', function (data, limit) {
-
+const factory = globals => {
+    return function(data, limit) {
         if (_.isString(data)) {
             return data.substring(0, limit);
         }
@@ -19,7 +18,10 @@ function helper(paper) {
         }
 
         return data.slice(0, limit);
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'limit',
+    factory: factory,
+}];

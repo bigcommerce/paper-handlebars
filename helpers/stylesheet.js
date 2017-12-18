@@ -1,17 +1,20 @@
 'use strict';
 
 const _ = require('lodash');
+const buildCDNHelper = require('./lib/cdnify');
 
-function helper(paper) {
-    paper.handlebars.registerHelper('stylesheet', function (assetPath) {
+const factory = globals => {
+    const cdnify = buildCDNHelper(globals);
+
+    return function(assetPath) {
         const options = arguments[arguments.length - 1];
-        const configId = paper.siteSettings['theme_config_id'];
+        const configId = globals.siteSettings['theme_config_id'];
         // append the configId only if the asset path starts with assets/css/
         const path = configId && assetPath.match(/^\/?assets\/css\//)
             ? assetPath.replace(/\.css$/, `-${configId}.css`)
             : assetPath;
 
-        const url = paper.cdnify(path);
+        const url = cdnify(path);
 
         let attrs = { rel: 'stylesheet' };
 
@@ -23,7 +26,10 @@ function helper(paper) {
         attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
 
         return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'stylesheet',
+    factory: factory,
+}];
