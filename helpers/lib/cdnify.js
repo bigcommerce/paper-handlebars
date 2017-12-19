@@ -1,7 +1,5 @@
 'use strict';
 
-const Handlebars = require('handlebars');
-
 // Return a function that can be used to translate paths to cdn paths
 module.exports = globals => {
     const cdnUrl = globals.siteSettings['cdn_url'] || '';
@@ -17,7 +15,7 @@ module.exports = globals => {
     return function(path) {
         const protocolMatch = /(.*!?:)/;
 
-        if (path instanceof Handlebars.SafeString) {
+        if (path instanceof globals.handlebars.SafeString) {
             path = path.string;
         }
 

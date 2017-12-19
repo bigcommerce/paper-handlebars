@@ -8,7 +8,7 @@
   "scripts": {
     "linter": "eslint .",
     "test": "npm run linter && lab -v -t 98 --ignore Reflect,WebAssembly,_time,format spec",
-    "coverage": "lab -c -r console -o stdout -r html -o coverage.html lib spec"
+    "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {
     "type": "git",
