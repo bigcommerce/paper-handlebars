@@ -8,7 +8,7 @@ const _ = require('lodash');
  * @example
  * {{#all items theme_settings.optionA theme_settings.optionB}} ... {{/all}}
  */
-const factory = globals => {
+const factory = () => {
     return function() {
         var args = [], opts, result;
 

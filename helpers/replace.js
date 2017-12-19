@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = globals => {
+const factory = () => {
     return function(needle, haystack) {
         const options = arguments[arguments.length - 1];
 

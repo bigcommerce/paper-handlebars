@@ -9,7 +9,7 @@ const _ = require('lodash');
  * {{#contains fonts "Roboto"}} ... {{/contains}}
  * {{#contains font_path "Roboto"}} ... {{/contains}}
  */
-const factory = globals => {
+const factory = () => {
     return function() {
         var args = Array.prototype.slice.call(arguments, 0, -1),
             options = _.last(arguments),

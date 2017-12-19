@@ -8,7 +8,7 @@ const _ = require('lodash');
  * @example
  * {{#any items selected=true}} ... {{/any}}
  */
-const factory = globals => {
+const factory = () => {
     return function() {
         var args = [],
             opts,

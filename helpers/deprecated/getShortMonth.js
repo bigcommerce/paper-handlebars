@@ -3,7 +3,7 @@
 /**
  * @deprecate Use lang + concat
  */
-const factory = globals => {
+const factory = () => {
     return function(index) {
         switch (index) {
         case 1:

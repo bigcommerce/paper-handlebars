@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const factory = globals => {
+const factory = () => {
     /**
      * @deprecate
      */

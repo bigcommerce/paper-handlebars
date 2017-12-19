@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-const factory = globals => {
+const factory = () => {
     return function(collection, path) {
         return _.pluck(collection, path);
     };

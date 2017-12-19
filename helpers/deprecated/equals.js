@@ -3,7 +3,7 @@
 /**
  * @deprecate Use {{#if val1 '==' val2}}...{{/if}}
  */
-const factory = globals => {
+const factory = () => {
     return function(val1, val2) {
         const options = arguments[arguments.length - 1];
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = globals => {
+const factory = () => {
     return function(location) {
         return '<!-- snippet location ' + location + ' -->';
     };

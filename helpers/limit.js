@@ -8,7 +8,7 @@ const _ = require('lodash');
  * @example
  * {{limit array 4}}
  */
-const factory = globals => {
+const factory = () => {
     return function(data, limit) {
         if (_.isString(data)) {
             return data.substring(0, limit);
