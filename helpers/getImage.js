@@ -2,10 +2,10 @@
 
 var _ = require('lodash');
 
-function helper(paper) {
-    paper.handlebars.registerHelper('getImage', function (image, presetName, defaultImageUrl) {
+const factory = globals => {
+    return function(image, presetName, defaultImageUrl) {
         var sizeRegex = /^(\d+?)x(\d+?)$/g;
-        var settings = paper.themeSettings || {};
+        var settings = globals.themeSettings || {};
         var presets = settings._images;
         var size;
         var width;
@@ -32,7 +32,11 @@ function helper(paper) {
         }
 
         return image.data.replace('{:size}', size);
-    });
+
+    };
 };
 
-module.exports = helper;
+module.exports = [{
+    name: 'getImage',
+    factory: factory,
+}];

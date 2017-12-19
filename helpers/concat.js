@@ -5,10 +5,13 @@
  * @example
  *  {{@lang (concat 'products.reviews.rating.' this) }}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('concat', function (value, otherValue) {
-        return new paper.handlebars.SafeString(value + otherValue);
-    });
-}
+const factory = globals => {
+    return function(value, otherValue) {
+        return new globals.handlebars.SafeString(value + otherValue);
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'concat',
+    factory: factory,
+}];

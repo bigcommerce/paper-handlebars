@@ -1,9 +1,12 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('snippet', function (location) {
+const factory = globals => {
+    return function(location) {
         return '<!-- snippet location ' + location + ' -->';
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'snippet',
+    factory: factory,
+}];

@@ -1,19 +1,22 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('inject', function (key, value) {
+const factory = globals => {
+    return function(key, value) {
         if (typeof value === 'function') {
             return;
         }
 
-        paper.inject[key] = value;
-    });
+        // Setup storage
+        if (typeof globals.storage.inject === 'undefined') {
+            globals.storage.inject = {};
+        }
 
-    paper.handlebars.registerHelper('jsContext', function () {
-        const jsContext = JSON.stringify(JSON.stringify(paper.inject));
+        // Store value for later use by jsContext
+        globals.storage.inject[key] = value;
+    };
+};
 
-        return new paper.handlebars.SafeString(jsContext);
-    });
-}
-
-module.exports = helper;
+module.exports = [{
+    name: 'inject',
+    factory: factory,
+}];

@@ -1,37 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
-
-function helper(paper) {
-    var handlebars = paper.handlebars;
-
-    handlebars.registerHelper('getFontsCollection', function () {
-        var fontKeyFormat = new RegExp(/\w+(-\w*)*-font$/),
-            googleFonts = [],
-            linkElements = [];
-
-        _.each(paper.themeSettings, function (value, key) {
-            var split;
-
-            if (fontKeyFormat.test(key)) {
-                split = value.split('_');
-
-                switch (split[0]) {
-                case 'Google':
-                    googleFonts.push(value);
-                    break;
-
-                default:
-                    break;
-                }
-            }
-        });
-
-        linkElements.push(googleParser(googleFonts));
-
-        return new handlebars.SafeString(linkElements.join(''));
-    });
-}
+const _ = require('lodash');
 
 /**
  * Parser for Google fonts
@@ -46,7 +15,6 @@ function helper(paper) {
  *
  * @returns {string}
  */
-
 function googleParser(fonts) {
     var collection = [],
         familyHash = {};
@@ -82,4 +50,36 @@ function googleParser(fonts) {
     return '<link href="//fonts.googleapis.com/css?family=' + collection.join('|') + '" rel="stylesheet">';
 }
 
-module.exports = helper;
+const factory = globals => {
+    return function() {
+        var fontKeyFormat = new RegExp(/\w+(-\w*)*-font$/),
+            googleFonts = [],
+            linkElements = [];
+
+        _.each(globals.themeSettings, function (value, key) {
+            var split;
+
+            if (fontKeyFormat.test(key)) {
+                split = value.split('_');
+
+                switch (split[0]) {
+                case 'Google':
+                    googleFonts.push(value);
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        });
+
+        linkElements.push(googleParser(googleFonts));
+
+        return new globals.handlebars.SafeString(linkElements.join(''));
+    };
+};
+
+module.exports = [{
+    name: 'getFontsCollection',
+    factory: factory,
+}];

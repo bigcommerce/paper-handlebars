@@ -1,9 +1,9 @@
 'use strict';
 
-var Path = require('path');
+const Path = require('path');
 
-function helper(paper) {
-    paper.handlebars.registerHelper('dynamicComponent', function (path) {
+const factory = globals => {
+    return function(path) {
         if (!this['partial']) {
             return;
         }
@@ -19,11 +19,13 @@ function helper(paper) {
 
         path = Path.join(path, this['partial']);
 
-        if (paper.handlebars.partials[path]) {
-
-            return paper.handlebars.partials[path](this);
+        if (globals.handlebars.partials[path]) {
+            return globals.handlebars.partials[path](this);
         }
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'dynamicComponent',
+    factory: factory,
+}];

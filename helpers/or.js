@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Yield block if any object within a collection matches supplied predicate
@@ -8,8 +8,8 @@ var _ = require('lodash');
  * @example
  * {{#or 1 0 0 0 0 0}} ... {{/or}}
  */
-function helper(paper) {
-    paper.handlebars.registerHelper('or', function () {
+const factory = globals => {
+    return function() {
         var args = [],
             opts,
             any;
@@ -42,7 +42,10 @@ function helper(paper) {
         }
 
         return opts.inverse(this);
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'or',
+    factory: factory,
+}];

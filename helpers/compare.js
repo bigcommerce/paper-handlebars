@@ -1,7 +1,7 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('compare', function (lvalue, rvalue) {
+const factory = globals => {
+    return function(lvalue, rvalue) {
         const options = arguments[arguments.length - 1];
         var operator;
         var operators;
@@ -39,7 +39,10 @@ function helper(paper) {
         } else {
             return options.inverse(this);
         }
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'compare',
+    factory: factory,
+}];

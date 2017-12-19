@@ -1,20 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-function helper(paper) {
-    paper.handlebars.registerHelper('unless', function () {
-        const options = arguments[arguments.length - 1];
-        arguments[arguments.length - 1] = Object.assign({}, options, {
-            fn: options.inverse || (() => false),
-            inverse: options.fn || (() => true),
-            hash: options.hash
-        });
-
-        return paper.handlebars.helpers['if'].apply(this, arguments);
-    });
-
-    paper.handlebars.registerHelper('if', function (lvalue, operator, rvalue) {
+const factory = globals => {
+    return function(lvalue, operator, rvalue) {
         const options = arguments[arguments.length - 1];
         let result;
 
@@ -39,7 +28,7 @@ function helper(paper) {
         } else {
 
             if (isOptions(rvalue)) {
-                // @TODO: this is block is for backwards compatibility with 'compare' helper
+                // @TODO: this block is for backwards compatibility with 'compare' helper
                 // Remove after operator='==' is removed from stencil theme
                 rvalue = operator;
                 operator = options.hash.operator || "==";
@@ -97,7 +86,10 @@ function helper(paper) {
         } else {
             return options.inverse(this);
         }
-    });
-}
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'if',
+    factory: factory,
+}];

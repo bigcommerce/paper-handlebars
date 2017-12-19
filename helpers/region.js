@@ -1,17 +1,23 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('region', function (params) {
-        let regionId = params.hash.name;
+const _ = require('lodash');
 
-        if (!paper.contentRegions) {
+const factory = globals => {
+    return function(params) {
+        let regionId = params.hash.name;
+        let contentRegions = globals.getContent();
+
+        if (_.keys(contentRegions).length === 0) {
             return '';
         }
 
-        const content = `<div data-content-region="${regionId}">${paper.contentRegions[regionId] || ''}</div>`;
+        const content = `<div data-content-region="${regionId}">${contentRegions[regionId] || ''}</div>`;
 
-        return new paper.handlebars.SafeString(content);
-    });
-}
+        return new globals.handlebars.SafeString(content);
+    };
+};
 
-module.exports = helper;
+module.exports = [{
+    name: 'region',
+    factory: factory,
+}];

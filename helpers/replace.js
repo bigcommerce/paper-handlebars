@@ -1,7 +1,7 @@
 'use strict';
 
-function helper(paper) {
-    paper.handlebars.registerHelper('replace', function (needle, haystack) {
+const factory = globals => {
+    return function(needle, haystack) {
         const options = arguments[arguments.length - 1];
 
         if (typeof needle !== 'string') {
@@ -16,12 +16,14 @@ function helper(paper) {
         } else {
             return options.inverse(this);
         }
-    });
-}
-
+    };
+};
 
 function escapeRegex(string) {
     return string.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
 }
 
-module.exports = helper;
+module.exports = [{
+    name: 'replace',
+    factory: factory,
+}];
