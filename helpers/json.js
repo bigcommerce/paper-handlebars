@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = globals => {
+const factory = () => {
     return function(data) {
         return JSON.stringify(data);
     };

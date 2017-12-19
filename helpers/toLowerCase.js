@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = globals => {
+const factory = () => {
     return function(string) {
         if (typeof string !== 'string') {
             return string;

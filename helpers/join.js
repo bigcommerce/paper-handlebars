@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = globals => {
+const factory = () => {
     return function(array, separator) {
         const options = arguments[arguments.length - 1];
         var config = options.hash || {};

@@ -152,7 +152,7 @@ whitelist.forEach(whitelistSpec => {
         // Wrap with what the caller expects
         exportedHelpers.push({
             name: name,
-            factory: globals => fn,
+            factory: () => fn,
         });
     });
 });

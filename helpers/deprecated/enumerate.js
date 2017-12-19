@@ -3,7 +3,7 @@
 /**
  * @deprecate Use {{#for start end (context)}}...{{/for}}
  */
-const factory = globals => {
+const factory = () => {
     return function(start, end) {
         const options = arguments[arguments.length - 1];
         var out = '';
