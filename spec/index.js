@@ -11,6 +11,26 @@ const beforeEach = lab.beforeEach;
 const Handlebars = require('handlebars');
 const HandlebarsRenderer = require('../index');
 
+describe('switching handlebars versions', () => {
+    it('defaults to v3', done => {
+        const renderer = new HandlebarsRenderer();
+        expect(renderer.handlebars.VERSION.substring(0, 1)).to.equal('3');
+        done();
+    });
+
+    it('can load v3', done => {
+        const renderer = new HandlebarsRenderer({}, {}, 'v3');
+        expect(renderer.handlebars.VERSION.substring(0, 1)).to.equal('3');
+        done();
+    });
+
+    it('can load v4', done => {
+        const renderer = new HandlebarsRenderer({}, {}, 'v4');
+        expect(renderer.handlebars.VERSION.substring(0, 1)).to.equal('4');
+        done();
+    });
+});
+
 describe('helper registration', () => {
     let renderer;
 
