@@ -25,6 +25,7 @@
   "homepage": "https://github.com/bigcommerce/paper-handlebars",
   "dependencies": {
     "@bigcommerce/stencil-paper-handlebars-helpers": "bigcommerce/paper-handlebars-helpers",
+    "@bigcommerce/handlebars-v4": "bigcommerce/handlebars-v4",
     "handlebars": "3.0.3",
     "lodash": "^3.6.0"
   },

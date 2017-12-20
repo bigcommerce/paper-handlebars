@@ -1,7 +1,8 @@
 'use strict';
 
 const _ = require('lodash');
-const Handlebars = require('handlebars');
+const HandlebarsV3 = require('handlebars');
+const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('@bigcommerce/stencil-paper-handlebars-helpers');
 
 const handlebarsOptions = {
@@ -16,9 +17,20 @@ class HandlebarsRenderer {
     *
     * @param {Object} siteSettings - Global site settings, passed to helpers
     * @param {Object} themeSettings - Theme settings (configuration), passed to helpers
+    * @param {String} hbVersion - Which version of handlebars to use. One of ['v3', 'v4'] - defaults to 'v3'.
     */
-    constructor(siteSettings, themeSettings) {
-        this.handlebars = Handlebars.create();
+    constructor(siteSettings, themeSettings, hbVersion) {
+        // Figure out which version of Handlebars to use.
+        switch(hbVersion) {
+            case 'v4':
+                this.handlebars = HandlebarsV4.create();
+                break;
+            case 'v3':
+            default:
+                this.handlebars = HandlebarsV3.create();
+                break;
+        }
+
         this._translator = null;
         this._decorators = [];
         this._contentRegions = {};
