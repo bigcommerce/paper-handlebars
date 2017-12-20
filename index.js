@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const Handlebars = require('handlebars');
-const helpers = require('./helpers/index'); // TODO: Move into module
+const helpers = require('@bigcommerce/stencil-paper-handlebars-helpers');
 
 const handlebarsOptions = {
     preventIndent: true
@@ -128,8 +128,7 @@ class HandlebarsRenderer {
      * @param {Object} context
      * @return {String}
      */
-    render(path, context) {
-        context = context || {};
+    render(path, context = {}) {
         context.template = path;
 
         if (this._translator) {
@@ -154,7 +153,7 @@ class HandlebarsRenderer {
      * @param  {Object} context
      * @return {String}
      */
-    renderString(string, context) {
+    renderString(string, context = {}) {
         return this.handlebars.compile(string)(context);
     }
 }

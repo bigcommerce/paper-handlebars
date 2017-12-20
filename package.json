@@ -7,7 +7,7 @@
   "license": "BSD-4-Clause",
   "scripts": {
     "linter": "eslint .",
-    "test": "npm run linter && lab -v -t 98 --ignore Reflect,WebAssembly,_time,format spec",
+    "test": "npm run linter && lab -v -t 100 --ignore WebAssembly spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {
@@ -24,10 +24,9 @@
   },
   "homepage": "https://github.com/bigcommerce/paper-handlebars",
   "dependencies": {
+    "@bigcommerce/stencil-paper-handlebars-helpers": "bigcommerce/paper-handlebars-helpers",
     "handlebars": "3.0.3",
-    "handlebars-helpers": "0.8.4",
-    "lodash": "^3.6.0",
-    "stringz": "^0.1.1"
+    "lodash": "^3.6.0"
   },
   "devDependencies": {
     "code": "~4.0.0",
