@@ -45,7 +45,7 @@ describe('helper registration', () => {
         const defaultHelpers = Object.keys(handlebars.helpers).length;
         expect(defaultHelpers).to.be.greaterThan(0);
 
-        // We already test that the expected helpers load properly in the handlebars-helpers repo
+        // We already test that the expected helpers load properly in the helpers spec,
         // so here let's just test that we register extra helpers above and beyond the defaults.
         expect(Object.keys(renderer.handlebars.helpers).length).to.be.greaterThan(defaultHelpers);
         done();
