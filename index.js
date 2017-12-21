@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
-const helpers = require('@bigcommerce/stencil-paper-handlebars-helpers');
+const helpers = require('./helpers');
 
 const handlebarsOptions = {
     preventIndent: true
