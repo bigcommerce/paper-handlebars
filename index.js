@@ -10,7 +10,7 @@ const handlebarsOptions = {
 };
 
 // HandlebarsRenderer implements the interface Paper requires for its
-// rendering needs, and does so with Handlebars v3.
+// rendering needs, and does so with Handlebars.
 class HandlebarsRenderer {
     /**
     * Constructor
