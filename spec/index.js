@@ -1,5 +1,6 @@
 'use strict';
 
+const Sinon = require('sinon');
 const Code = require('code');
 const Lab = require('lab');
 const lab = exports.lab = Lab.script();
@@ -7,9 +8,11 @@ const expect = Code.expect;
 const it = lab.it;
 const describe = lab.describe;
 const beforeEach = lab.beforeEach;
+const afterEach = lab.afterEach;
 
 const Handlebars = require('handlebars');
 const HandlebarsRenderer = require('../index');
+const capture = require('./spec-helpers').capture;
 
 describe('switching handlebars versions', () => {
     it('defaults to v3', done => {
@@ -110,23 +113,69 @@ describe('helper context', () => {
     });
 });
 
-describe('pre-processed templates', () => {
-    let renderer;
+describe('addTemplates', () => {
+    let renderer, sandbox, loggerSpy;
     const templates = {
         'foo': '{{bar}}',
         'baz': '{{bat}}',
     };
 
     beforeEach(done => {
+        sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
+        loggerSpy = Sinon.spy(renderer._logger, 'error');
         done();
     });
 
-    it('registers partials with handlebars', done => {
+    afterEach(done => {
+        sandbox.restore();
+        done();
+    });
+
+    it('registers preprocessed templates with handlebars', done => {
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
         expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
         expect(renderer.handlebars.partials['baz']).to.not.be.undefined();
+        done();
+    });
+
+    it('registers raw templates with handlebars', done => {
+        renderer.addTemplates(templates);
+        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['baz']).to.not.be.undefined();
+        done();
+    });
+
+    it('registers a mix of preprocessed and raw templates with handlebars', done => {
+        const processor = renderer.getPreProcessor();
+        const processedTemplates = processor(templates);
+        renderer.addTemplates(Object.assign({}, processedTemplates, { 'bat': '{{bob}}' }));
+        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['baz']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['bat']).to.not.be.undefined();
+        done();
+    });
+
+    it('skips over precompiled templates with the wrong compiler version', done => {
+        const processor = renderer.getPreProcessor();
+        const processedTemplates = processor(templates);
+        processedTemplates['baz'] = processedTemplates['baz'].replace(/\[6,">= 2.0.0-beta.1"\]/, '[7,">= 4.0"]');
+        renderer.addTemplates(processedTemplates);
+        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['baz']).to.be.undefined();
+        expect(loggerSpy.called).to.equal(true);
+        done();
+    });
+
+    it('preProcessor skips over bad templates', done => {
+        const processor = renderer.getPreProcessor();
+        const processedTemplates = processor(Object.assign({}, templates, { 'bat': '{{' }));
+        renderer.addTemplates(processedTemplates);
+        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['baz']).to.not.be.undefined();
+        expect(renderer.handlebars.partials['bat']).to.be.undefined();
+        expect(loggerSpy.called).to.equal(true);
         done();
     });
 
@@ -158,7 +207,7 @@ describe('pre-processed templates', () => {
 });
 
 describe('render', () => {
-    let renderer;
+    let renderer, sandbox, loggerSpy;
     const templates = {
         'foo': '{{bar}}',
         'capitalize_foo': '{{capitalize bar}}',
@@ -170,9 +219,16 @@ describe('render', () => {
     };
 
     beforeEach(done => {
+        sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
+        loggerSpy = Sinon.spy(renderer._logger, 'error');
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
+        done();
+    });
+
+    afterEach(done => {
+        sandbox.restore();
         done();
     });
 
@@ -212,16 +268,36 @@ describe('render', () => {
         expect(renderer.render('capitalize_foo', context)).to.equal('Baz');
         done();
     });
+
+    it('can tolerate missing template', done => {
+        expect(renderer.render('nonexistent-template', context)).to.equal('');
+        expect(loggerSpy.called).to.equal(true);
+        done();
+    });
+
+    it('can tolerate bad template', done => {
+        renderer.addTemplates({'bad-template': '{{'});
+        expect(renderer.render('bad-template', context)).to.equal('');
+        expect(loggerSpy.called).to.equal(true);
+        done();
+    });
 });
 
-describe('render', () => {
-    let renderer;
+describe('renderString', () => {
+    let renderer, sandbox, loggerSpy;
     const context = {
         bar: 'baz'
     };
 
     beforeEach(done => {
+        sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
+        loggerSpy = Sinon.spy(renderer._logger, 'error');
+        done();
+    });
+
+    afterEach(done => {
+        sandbox.restore();
         done();
     });
 
@@ -237,6 +313,32 @@ describe('render', () => {
 
     it('renders without a context', done => {
         expect(renderer.renderString('foo')).to.equal('foo');
+        done();
+    });
+
+    it('can tolerate bad template', done => {
+        expect(renderer.renderString('{{', context)).to.equal('');
+        expect(loggerSpy.called).to.equal(true);
+        done();
+    });
+});
+
+describe('logger', () => {
+    const message = 'Great minds think alike.';
+    let renderer;
+
+    beforeEach(done => {
+        renderer = new HandlebarsRenderer();
+        renderer.setLogger({ 'info': m => { console.log(`message = ${m}`); } });
+        done();
+    });
+
+    it('uses the given logger', done => {
+        let captured = capture(() => {
+            renderer.logger().info(message);
+        });
+
+        expect(captured).to.equal(`message = ${message}\n`);
         done();
     });
 });

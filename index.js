@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const Logger = require('./lib/logger');
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
@@ -34,6 +35,7 @@ class HandlebarsRenderer {
         this._translator = null;
         this._decorators = [];
         this._contentRegions = {};
+        this._logger = new Logger();
 
         // Build global context for helpers
         this.helperContext = {
@@ -52,6 +54,24 @@ class HandlebarsRenderer {
     }
 
     /**
+     * Set the logger for us to use.
+     *
+     * @param {Object} An object that responds to `info`, `warn`, and `error`.
+     */
+    setLogger(logger) {
+        this._logger = logger;
+    };
+
+    /**
+     * Get logger
+     *
+     * @return {Object} Logger
+     */
+    logger() {
+        return this._logger;
+    };
+
+    /**
      * Set the paper.Translator instance used to translate strings in helpers.
      *
      * @param {Translator} A paper.Translator instance used to translate strings in helpers
@@ -68,22 +88,54 @@ class HandlebarsRenderer {
     };
 
     /**
-     * Add templates to the active set of partials. The templates passed in have been
-     * run through the preProcessor function.
+     * Add templates to the active set of partials. The templates can either be raw
+     * template strings, or the result coming from the preProcessor function.
      *
-     * @param {Object} A set of pre-processed templates to add to the active set of partials
+     * @param {Object} A set of templates to register with handlebars
      */
     addTemplates(templates) {
-        _.each(templates, (precompiled, path) => {
-            // Take precompiled template and convert it into something that can
-            // be directly executed. Then, add it to the list of templates & partials.
-            if (typeof this.handlebars.partials[path] === 'undefined') {
-                let template;
-                eval(`template = ${precompiled};`); // evil, but necessary :/
-                this.handlebars.registerPartial(path, this.handlebars.template(template));
+        _.each(templates, (template, path) => {
+            // Don't do this work twice, first one wins.
+            if (typeof this.handlebars.partials[path] !== 'undefined') {
+                return;
+            }
+
+            // Check if it is a precompiled template
+            try {
+                // If precompiled, restore function
+                template = this._tryRestoringPrecompiled(template);
+
+                // Register it with handlebars
+                this.handlebars.registerPartial(path, template);
+            } catch(e) {
+                // Swallow the error, but log it
+                this.logger().error(e);
             }
         });
     };
+
+    _tryRestoringPrecompiled(precompiled) {
+        // Let's analyze the string to make sure it at least looks
+        // something like a handlebars precompiled template. It should
+        // be a string representation of an object containing a `main`
+        // function and a `compiler` array. We do this because the next
+        // step is a potentially dangerous eval.
+        const re = /.*"compiler"\w*:\w*\[.*"main"\w*:\w*function/;
+        if (!re.test(precompiled)) {
+            // This is not a valid precompiled template, so this is
+            // a raw template that can be registered directly.
+            return precompiled;
+        }
+
+        // We need to take the string representation and turn it into a
+        // valid JavaScript object. eval is evil, but necessary in this case.
+        let template;
+        eval(`template = ${precompiled}`);
+
+        // Take the precompiled object and get the actual function out of it,
+        // after first testing for runtime version compatibility.
+        return this.handlebars.template(template);
+    }
 
     /**
      * Detect whether a given template has been loaded.
@@ -94,13 +146,19 @@ class HandlebarsRenderer {
 
     /**
      * Return a function that performs any preprocessing we want to do on the templates.
-     * In our case, run them through the Handlebars precompiler.
+     * In our case, run them through the Handlebars precompiler. This returns a string
+     * representation of an object understood by Handlebars to be a precompiled template.
      */
     getPreProcessor() {
         return templates => {
             const processed = {};
-            _.forEach(templates, (template, path) => {
-                processed[path] = this.handlebars.precompile(template, handlebarsOptions);
+            _.each(templates, (template, path) => {
+                try {
+                    processed[path] = this.handlebars.precompile(template, handlebarsOptions);
+                } catch(e) {
+                    // Swallow the error, but log it
+                    this.logger().error(e);
+                }
             });
             return processed;
         };
@@ -147,13 +205,28 @@ class HandlebarsRenderer {
             context.locale_name = this._translator.getLocale();
         }
 
-        // Render the template
-        let output = this.handlebars.partials[path](context);
+        // Look up the template
+        const template = this.handlebars.partials[path];
+        if (typeof template === 'undefined') {
+            // Swallow the error, but log it
+            this.logger().error(`template not found: ${path}`);
+            return '';
+        }
 
-        // Apply decorators
-        _.each(this._decorators, function (decorator) {
-            output = decorator(output);
-        });
+        let output;
+        try {
+            // Render the template
+            output = template(context);
+
+            // Apply decorators
+            _.each(this._decorators, fn => {
+                output = fn(output);
+            });
+        } catch(e) {
+            // Swallow the error, but log it
+            this.logger().error(e);
+            output = '';
+        }
 
         return output;
     };
@@ -161,12 +234,18 @@ class HandlebarsRenderer {
     /**
      * Renders a string with the given context
      *
-     * @param  {String} string
+     * @param  {String} template
      * @param  {Object} context
      * @return {String}
      */
-    renderString(string, context = {}) {
-        return this.handlebars.compile(string)(context);
+    renderString(template, context = {}) {
+        try {
+            return this.handlebars.compile(template)(context);
+        } catch(e) {
+            // Swallow the error, but log it
+            this.logger().error(e);
+            return '';
+        }
     }
 }
 
