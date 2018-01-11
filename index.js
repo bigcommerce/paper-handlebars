@@ -198,7 +198,8 @@ class HandlebarsRenderer {
      * @param {Object} context
      * @return {String}
      */
-    render(path, context = {}) {
+    render(path, context) {
+        context = context || {};
         context.template = path;
 
         if (this._translator) {
@@ -238,7 +239,9 @@ class HandlebarsRenderer {
      * @param  {Object} context
      * @return {String}
      */
-    renderString(template, context = {}) {
+    renderString(template, context) {
+        context = context || {};
+
         try {
             return this.handlebars.compile(template)(context);
         } catch(e) {

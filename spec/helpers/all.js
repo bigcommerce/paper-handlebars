@@ -7,7 +7,7 @@ const Code = require('code'),
       renderString = require('../spec-helpers').renderString;
 
 describe('all helper', function() {
-    let context = {
+    var context = {
         num1: 1,
         num2: 2,
         product: {a: 1, b: 2},
