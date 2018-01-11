@@ -26,9 +26,9 @@ function render(template, context, siteSettings, themeSettings, templates) {
 
 // Call the callback while capturing output to stdout
 function capture(callback) {
-    let captured = '';
-    let intercept = require("intercept-stdout");
-    let unhook_intercept = intercept(function(text) {
+    var captured = '';
+    var intercept = require("intercept-stdout");
+    var unhook_intercept = intercept(function(text) {
         captured += text;
     });
 
