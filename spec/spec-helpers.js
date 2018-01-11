@@ -24,8 +24,23 @@ function render(template, context, siteSettings, themeSettings, templates) {
     return renderer.render(template, context);
 }
 
+// Call the callback while capturing output to stdout
+function capture(callback) {
+    let captured = '';
+    let intercept = require("intercept-stdout");
+    let unhook_intercept = intercept(function(text) {
+        captured += text;
+    });
+
+    callback();
+
+    unhook_intercept();
+    return captured;
+}
+
 module.exports = {
     buildRenderer,
     renderString,
     render,
+    capture,
 };
