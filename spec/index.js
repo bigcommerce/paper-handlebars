@@ -10,9 +10,9 @@ const describe = lab.describe;
 const beforeEach = lab.beforeEach;
 const afterEach = lab.afterEach;
 
+const helpers = require('./spec-helpers');
 const Handlebars = require('handlebars');
 const HandlebarsRenderer = require('../index');
-const capture = require('./spec-helpers').capture;
 
 describe('switching handlebars versions', () => {
     it('defaults to v3', done => {
@@ -114,7 +114,7 @@ describe('helper context', () => {
 });
 
 describe('addTemplates', () => {
-    let renderer, sandbox, loggerSpy;
+    let renderer, sandbox;
     const templates = {
         'foo': '{{bar}}',
         'baz': '{{bat}}',
@@ -123,7 +123,6 @@ describe('addTemplates', () => {
     beforeEach(done => {
         sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
-        loggerSpy = Sinon.spy(renderer._logger, 'error');
         done();
     });
 
@@ -157,25 +156,26 @@ describe('addTemplates', () => {
         done();
     });
 
-    it('skips over precompiled templates with the wrong compiler version', done => {
+    it('throws FormatError if templates were precompiled with the wrong compiler version', done => {
         const processor = renderer.getPreProcessor();
         const processedTemplates = processor(templates);
         processedTemplates['baz'] = processedTemplates['baz'].replace(/\[6,">= 2.0.0-beta.1"\]/, '[7,">= 4.0"]');
-        renderer.addTemplates(processedTemplates);
-        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
-        expect(renderer.handlebars.partials['baz']).to.be.undefined();
-        expect(loggerSpy.called).to.equal(true);
+        try {
+            renderer.addTemplates(processedTemplates);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.FormatError).to.be.true();
+        }
         done();
     });
 
-    it('preProcessor skips over bad templates', done => {
+    it('preProcessor throws CompileError when given bad templates', done => {
         const processor = renderer.getPreProcessor();
-        const processedTemplates = processor(Object.assign({}, templates, { 'bat': '{{' }));
-        renderer.addTemplates(processedTemplates);
-        expect(renderer.handlebars.partials['foo']).to.not.be.undefined();
-        expect(renderer.handlebars.partials['baz']).to.not.be.undefined();
-        expect(renderer.handlebars.partials['bat']).to.be.undefined();
-        expect(loggerSpy.called).to.equal(true);
+        try {
+            processor(Object.assign({}, templates, { 'bat': '{{' }));
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.CompileError).to.be.true();
+            expect(e.details.path).to.equal('bat');
+        }
         done();
     });
 
@@ -207,7 +207,7 @@ describe('addTemplates', () => {
 });
 
 describe('render', () => {
-    let renderer, sandbox, loggerSpy;
+    let renderer, sandbox;
     const templates = {
         'foo': '{{bar}}',
         'capitalize_foo': '{{capitalize bar}}',
@@ -221,7 +221,6 @@ describe('render', () => {
     beforeEach(done => {
         sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
-        loggerSpy = Sinon.spy(renderer._logger, 'error');
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
         done();
@@ -269,22 +268,45 @@ describe('render', () => {
         done();
     });
 
-    it('can tolerate missing template', done => {
-        expect(renderer.render('nonexistent-template', context)).to.equal('');
-        expect(loggerSpy.called).to.equal(true);
+    it('throws TemplateNotFound if missing template', done => {
+        try {
+            renderer.render('nonexistent-template', context);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.TemplateNotFoundError).to.be.true();
+        }
+
         done();
     });
 
-    it('can tolerate bad template', done => {
+    it('throws RenderError if given bad template', done => {
         renderer.addTemplates({'bad-template': '{{'});
-        expect(renderer.render('bad-template', context)).to.equal('');
-        expect(loggerSpy.called).to.equal(true);
+
+        try {
+            renderer.render('bad-template', context);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
+        }
+
+        done();
+    });
+
+    it('throws DecoratorError if decorator fails', done => {
+        renderer.addDecorator(output => {
+            throw Error();
+        });
+
+        try {
+            renderer.render('foo', context);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.DecoratorError).to.be.true();
+        }
+
         done();
     });
 });
 
 describe('renderString', () => {
-    let renderer, sandbox, loggerSpy;
+    let renderer, sandbox;
     const context = {
         bar: 'baz'
     };
@@ -292,7 +314,6 @@ describe('renderString', () => {
     beforeEach(done => {
         sandbox = Sinon.sandbox.create();
         renderer = new HandlebarsRenderer();
-        loggerSpy = Sinon.spy(renderer._logger, 'error');
         done();
     });
 
@@ -316,29 +337,47 @@ describe('renderString', () => {
         done();
     });
 
-    it('can tolerate bad template', done => {
-        expect(renderer.renderString('{{', context)).to.equal('');
-        expect(loggerSpy.called).to.equal(true);
+    it('throws CompileError if given a non-string template', done => {
+        try {
+            renderer.renderString(helpers.randomInt(), context);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.CompileError).to.be.true();
+        }
+
+        done();
+    });
+
+    it('throws RenderError if given malformed template', done => {
+        try {
+            renderer.renderString('{{', context);
+        } catch(e) {
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
+        }
+
         done();
     });
 });
 
-describe('logger', () => {
-    const message = 'Great minds think alike.';
-    let renderer;
+describe('errors', () => {
+    let sandbox;
 
     beforeEach(done => {
-        renderer = new HandlebarsRenderer();
-        renderer.setLogger({ 'info': m => { console.log(`message = ${m}`); } });
+        sandbox = Sinon.sandbox.create();
         done();
     });
 
-    it('uses the given logger', done => {
-        let captured = capture(() => {
-            renderer.logger().info(message);
-        });
+    afterEach(done => {
+        sandbox.restore();
+        done();
+    });
 
-        expect(captured).to.equal(`message = ${message}\n`);
+    it('has an accessor to get custom error classes', done => {
+        expect(HandlebarsRenderer.errors).to.not.be.empty();
+        expect(HandlebarsRenderer.errors.CompileError.prototype instanceof Error).to.be.true();
+        expect(HandlebarsRenderer.errors.FormatError.prototype instanceof Error).to.be.true();
+        expect(HandlebarsRenderer.errors.RenderError.prototype instanceof Error).to.be.true();
+        expect(HandlebarsRenderer.errors.DecoratorError.prototype instanceof Error).to.be.true();
+        expect(HandlebarsRenderer.errors.TemplateNotFoundError.prototype instanceof Error).to.be.true();
         done();
     });
 });

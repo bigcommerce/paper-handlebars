@@ -1,3 +1,4 @@
+const Crypto = require('crypto');
 const Renderer = require('../index');
 
 function buildRenderer(siteSettings, themeSettings, templates) {
@@ -24,23 +25,22 @@ function render(template, context, siteSettings, themeSettings, templates) {
     return renderer.render(template, context);
 }
 
-// Call the callback while capturing output to stdout
-function capture(callback) {
-    var captured = '';
-    var intercept = require("intercept-stdout");
-    var unhook_intercept = intercept(function(text) {
-        captured += text;
-    });
+// Return a random string
+function randomString() {
+    return Crypto.randomBytes(10).toString('hex');
+}
 
-    callback();
-
-    unhook_intercept();
-    return captured;
+// Return a random integer
+function randomInt(low, high) {
+    low = low || 0;
+    high = high || 1e9;
+    return Math.floor(Math.random() * (high - low) + low);
 }
 
 module.exports = {
     buildRenderer,
     renderString,
     render,
-    capture,
+    randomString,
+    randomInt,
 };

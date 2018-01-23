@@ -1,6 +1,6 @@
 {
   "name": "@bigcommerce/stencil-paper-handlebars",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A paper plugin to render pages using Handlebars.js",
   "main": "index.js",
   "author": "Bigcommerce",
@@ -33,7 +33,6 @@
   "devDependencies": {
     "code": "~4.0.0",
     "eslint": "~4.10.0",
-    "intercept-stdout": "^0.1.2",
     "lab": "~13.0.4",
     "sinon": "~2.1.0"
   }
