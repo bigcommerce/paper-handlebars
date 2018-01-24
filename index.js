@@ -1,10 +1,16 @@
 'use strict';
 
 const _ = require('lodash');
-const Logger = require('./lib/logger');
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
+
+const AppError = require('./lib/appError');
+class CompileError extends AppError {};          // Error compiling template
+class FormatError extends AppError {};           // Error restoring precompiled template
+class RenderError extends AppError {};           // Error rendering template
+class DecoratorError extends AppError {};        // Error applying decorator
+class TemplateNotFoundError extends AppError {}; // Template not registered
 
 const handlebarsOptions = {
     preventIndent: true
@@ -13,6 +19,17 @@ const handlebarsOptions = {
 // HandlebarsRenderer implements the interface Paper requires for its
 // rendering needs, and does so with Handlebars.
 class HandlebarsRenderer {
+    // Add static accessor to reference custom errors
+    static get errors() {
+        return {
+            CompileError,
+            FormatError,
+            RenderError,
+            DecoratorError,
+            TemplateNotFoundError,
+        };
+    }
+
     /**
     * Constructor
     *
@@ -35,7 +52,6 @@ class HandlebarsRenderer {
         this._translator = null;
         this._decorators = [];
         this._contentRegions = {};
-        this._logger = new Logger();
 
         // Build global context for helpers
         this.helperContext = {
@@ -52,24 +68,6 @@ class HandlebarsRenderer {
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
         });
     }
-
-    /**
-     * Set the logger for us to use.
-     *
-     * @param {Object} An object that responds to `info`, `warn`, and `error`.
-     */
-    setLogger(logger) {
-        this._logger = logger;
-    };
-
-    /**
-     * Get logger
-     *
-     * @return {Object} Logger
-     */
-    logger() {
-        return this._logger;
-    };
 
     /**
      * Set the paper.Translator instance used to translate strings in helpers.
@@ -102,15 +100,13 @@ class HandlebarsRenderer {
 
             // Check if it is a precompiled template
             try {
-                // If precompiled, restore function
                 template = this._tryRestoringPrecompiled(template);
-
-                // Register it with handlebars
-                this.handlebars.registerPartial(path, template);
             } catch(e) {
-                // Swallow the error, but log it
-                this.logger().error(e);
+                throw new FormatError(e.message);
             }
+
+            // Register it with handlebars
+            this.handlebars.registerPartial(path, template);
         });
     };
 
@@ -156,8 +152,7 @@ class HandlebarsRenderer {
                 try {
                     processed[path] = this.handlebars.precompile(template, handlebarsOptions);
                 } catch(e) {
-                    // Swallow the error, but log it
-                    this.logger().error(e);
+                    throw new CompileError(e.message, { path });
                 }
             });
             return processed;
@@ -197,11 +192,13 @@ class HandlebarsRenderer {
      * @param {String} path
      * @param {Object} context
      * @return {String}
+     * @throws [TemplateNotFoundError|RenderError|DecoratorError]
      */
     render(path, context) {
         context = context || {};
-        context.template = path;
 
+        // Add some data to the context
+        context.template = path;
         if (this._translator) {
             context.locale_name = this._translator.getLocale();
         }
@@ -209,27 +206,27 @@ class HandlebarsRenderer {
         // Look up the template
         const template = this.handlebars.partials[path];
         if (typeof template === 'undefined') {
-            // Swallow the error, but log it
-            this.logger().error(`template not found: ${path}`);
-            return '';
+            throw new TemplateNotFoundError(`template not found: ${path}`);
         }
 
-        let output;
+        // Render the template
+        let result;
         try {
-            // Render the template
-            output = template(context);
+            result = template(context);
+        } catch(e) {
+            throw new RenderError(e.message);
+        }
 
-            // Apply decorators
+        // Apply decorators
+        try {
             _.each(this._decorators, fn => {
-                output = fn(output);
+                result = fn(result);
             });
         } catch(e) {
-            // Swallow the error, but log it
-            this.logger().error(e);
-            output = '';
+            throw new DecoratorError(e.message);
         }
 
-        return output;
+        return result;
     };
 
     /**
@@ -238,17 +235,27 @@ class HandlebarsRenderer {
      * @param  {String} template
      * @param  {Object} context
      * @return {String}
+     * @throws [CompileError|RenderError]
      */
     renderString(template, context) {
         context = context || {};
 
+        // Compile the template
         try {
-            return this.handlebars.compile(template)(context);
+            template = this.handlebars.compile(template);
         } catch(e) {
-            // Swallow the error, but log it
-            this.logger().error(e);
-            return '';
+            throw new CompileError(e.message);
         }
+
+        // Render the result
+        let result;
+        try {
+            result = template(context);
+        } catch(e) {
+            throw new RenderError(e.message);
+        }
+
+        return result;
     }
 }
 
