@@ -56,7 +56,7 @@ const factory = globals => {
             googleFonts = [],
             linkElements = [];
 
-        _.each(globals.themeSettings, function (value, key) {
+        _.each(globals.getThemeSettings(), function (value, key) {
             var split;
 
             if (fontKeyFormat.test(key)) {

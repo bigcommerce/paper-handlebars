@@ -64,26 +64,26 @@ describe('helper context', () => {
     });
 
     it('puts empty site settings into the helper context when not provided', done => {
-        expect(renderer.helperContext.siteSettings).to.equal({});
+        expect(renderer.helperContext.getSiteSettings()).to.equal({});
         done();
     });
 
     it('puts site settings into the helper context when provided', done => {
         siteSettings = { foo: 'bar' };
         renderer = new HandlebarsRenderer(siteSettings);
-        expect(renderer.helperContext.siteSettings).to.equal(siteSettings);
+        expect(renderer.helperContext.getSiteSettings()).to.equal(siteSettings);
         done();
     });
 
     it('puts empty theme settings into the helper context when not provided', done => {
-        expect(renderer.helperContext.themeSettings).to.equal({});
+        expect(renderer.helperContext.getThemeSettings()).to.equal({});
         done();
     });
 
     it('puts theme settings into the helper context when provided', done => {
         themeSettings = { foo: 'bar' };
         renderer = new HandlebarsRenderer({}, themeSettings);
-        expect(renderer.helperContext.themeSettings).to.equal(themeSettings);
+        expect(renderer.helperContext.getThemeSettings()).to.equal(themeSettings);
         done();
     });
 
@@ -96,7 +96,7 @@ describe('helper context', () => {
 
     it('puts page content accessor into the helper context', done => {
         const content = { foo: 'bar' };
-        renderer.addContent(content);
+        renderer.setContent(content);
         expect(renderer.helperContext.getContent()).to.equal(content);
         done();
     });

@@ -5,7 +5,7 @@ var _ = require('lodash');
 const factory = globals => {
     return function(image, presetName, defaultImageUrl) {
         var sizeRegex = /^(\d+?)x(\d+?)$/g;
-        var settings = globals.themeSettings || {};
+        var settings = globals.getThemeSettings() || {};
         var presets = settings._images;
         var size;
         var width;

@@ -49,15 +49,17 @@ class HandlebarsRenderer {
                 break;
         }
 
-        this._translator = null;
-        this._decorators = [];
-        this._contentRegions = {};
+        this.setSiteSettings(siteSettings || {});
+        this.setThemeSettings(themeSettings || {});
+        this.setTranslator(null);
+        this.setContent({});
+        this.resetDecorators();
 
         // Build global context for helpers
         this.helperContext = {
-            siteSettings: siteSettings || {},
-            themeSettings: themeSettings || {},
             handlebars: this.handlebars,
+            getSiteSettings: this.getSiteSettings.bind(this),
+            getThemeSettings: this.getThemeSettings.bind(this),
             getTranslator: this.getTranslator.bind(this),
             getContent: this.getContent.bind(this),
             storage: {}, // global storage used by helpers to keep state
@@ -72,7 +74,7 @@ class HandlebarsRenderer {
     /**
      * Set the paper.Translator instance used to translate strings in helpers.
      *
-     * @param {Translator} A paper.Translator instance used to translate strings in helpers
+     * @param {Translator} translator A paper.Translator instance used to translate strings in helpers
      */
     setTranslator(translator) {
         this._translator = translator;
@@ -80,9 +82,81 @@ class HandlebarsRenderer {
 
     /**
      * Get the paper.Translator instance used to translate strings in helpers.
+     *
+     * @return {Translator} A paper.Translator instance used to translate strings in helpers
      */
     getTranslator() {
         return this._translator;
+    };
+
+    /**
+     * Set the siteSettings object containing global site settings.
+     *
+     * @param {object} settings An object containing global site settings.
+     */
+    setSiteSettings(settings) {
+        this._siteSettings = settings;
+    };
+
+    /**
+     * Get the siteSettings object containing global site settings.
+     *
+     * @return {object} settings An object containing global site settings.
+     */
+    getSiteSettings() {
+        return this._siteSettings;
+    };
+
+    /**
+     * Set the themeSettings object containing the theme configuration.
+     *
+     * @param {object} settings An object containing the theme configuration.
+     */
+    setThemeSettings(settings) {
+        this._themeSettings = settings;
+    };
+
+    /**
+     * Get the themeSettings object containing the theme configuration.
+     *
+     * @return {object} settings An object containing the theme configuration.
+     */
+    getThemeSettings() {
+        return this._themeSettings;
+    };
+
+    /**
+     * Reset decorator list.
+     */
+    resetDecorators() {
+        this._decorators = [];
+    };
+
+    /**
+     * Add a decorator to be applied at render time.
+     *
+     * @param {Function} decorator
+     */
+    addDecorator(decorator) {
+        this._decorators.push(decorator);
+    };
+
+    /**
+     * Setup content regions to be used by the `region` helper.
+     *
+     * @param {Object} Regions with widgets
+     */
+    setContent(regions) {
+        this._contentRegions = regions;
+    };
+
+    /**
+     * Get content regions.
+     *
+     * @param {Object} Regions with widgets
+     */
+    getContent() {
+        return this._contentRegions;
     };
 
     /**
@@ -158,33 +232,6 @@ class HandlebarsRenderer {
             return processed;
         };
     }
-
-    /**
-     * Add a decorator to be applied at render time.
-     *
-     * @param {Function} decorator
-     */
-    addDecorator(decorator) {
-        this._decorators.push(decorator);
-    };
-
-    /**
-     * Add content regions to be used by the `region` helper.
-     *
-     * @param {Object} Regions with widgets
-     */
-    addContent(regions) {
-        this._contentRegions = regions;
-    };
-
-    /**
-     * Get content regions.
-     *
-     * @param {Object} Regions with widgets
-     */
-    getContent() {
-        return this._contentRegions;
-    };
 
     /**
      * Render a template with the given context
