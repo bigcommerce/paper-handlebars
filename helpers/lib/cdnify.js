@@ -2,20 +2,20 @@
 
 // Return a function that can be used to translate paths to cdn paths
 module.exports = globals => {
-    const siteSettings = globals.getSiteSettings();
-    const themeSettings = globals.getThemeSettings();
-
-    const cdnUrl = siteSettings.cdn_url || '';
-    const versionId = siteSettings.theme_version_id;
-    const editSessionId = siteSettings.theme_session_id;
-    const cdnSettings = themeSettings.cdn;
-
     /**
      * Add CDN base url to the relative path
      * @param  {String} path     Relative path
      * @return {String}          Url cdn
      */
     return function(path) {
+        const siteSettings = globals.getSiteSettings();
+        const themeSettings = globals.getThemeSettings();
+
+        const cdnUrl = siteSettings.cdn_url || '';
+        const versionId = siteSettings.theme_version_id;
+        const editSessionId = siteSettings.theme_session_id;
+        const cdnSettings = themeSettings.cdn;
+
         const protocolMatch = /(.*!?:)/;
 
         if (path instanceof globals.handlebars.SafeString) {
