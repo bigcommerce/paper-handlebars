@@ -71,7 +71,15 @@ describe('helper context', () => {
     it('puts site settings into the helper context when provided', done => {
         siteSettings = { foo: 'bar' };
         renderer = new HandlebarsRenderer(siteSettings);
-        expect(renderer.helperContext.getSiteSettings()).to.equal(siteSettings);
+        expect(renderer.helperContext.getSiteSettings().foo).to.equal('bar');
+        done();
+    });
+
+    it('puts site settings into the helper context when provided after construction', done => {
+        siteSettings = { foo: 'bar' };
+        renderer = new HandlebarsRenderer();
+        renderer.setSiteSettings(siteSettings);
+        expect(renderer.helperContext.getSiteSettings().foo).to.equal('bar');
         done();
     });
 
@@ -83,7 +91,15 @@ describe('helper context', () => {
     it('puts theme settings into the helper context when provided', done => {
         themeSettings = { foo: 'bar' };
         renderer = new HandlebarsRenderer({}, themeSettings);
-        expect(renderer.helperContext.getThemeSettings()).to.equal(themeSettings);
+        expect(renderer.helperContext.getThemeSettings().foo).to.equal('bar');
+        done();
+    });
+
+    it('puts theme settings into the helper context when provided after construction', done => {
+        themeSettings = { foo: 'bar' };
+        renderer = new HandlebarsRenderer();
+        renderer.setThemeSettings(themeSettings);
+        expect(renderer.helperContext.getThemeSettings().foo).to.equal('bar');
         done();
     });
 
