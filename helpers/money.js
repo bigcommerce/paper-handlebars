@@ -18,7 +18,8 @@ function numberFormat(value, n, s, c) {
 
 const factory = globals => {
     return function(value) {
-        var money = globals.siteSettings.money;
+        const siteSettings = globals.getSiteSettings();
+        const money = siteSettings.money;
 
         if (!_.isNumber(value)) {
             return '';

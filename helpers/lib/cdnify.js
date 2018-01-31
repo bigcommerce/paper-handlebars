@@ -2,10 +2,13 @@
 
 // Return a function that can be used to translate paths to cdn paths
 module.exports = globals => {
-    const cdnUrl = globals.siteSettings['cdn_url'] || '';
-    const versionId = globals.siteSettings['theme_version_id'];
-    const editSessionId = globals.siteSettings['theme_session_id'];
-    const cdnSettings = globals.themeSettings.cdn;
+    const siteSettings = globals.getSiteSettings();
+    const themeSettings = globals.getThemeSettings();
+
+    const cdnUrl = siteSettings.cdn_url || '';
+    const versionId = siteSettings.theme_version_id;
+    const editSessionId = siteSettings.theme_session_id;
+    const cdnSettings = themeSettings.cdn;
 
     /**
      * Add CDN base url to the relative path

@@ -23,7 +23,7 @@ describe('Region Helper', () => {
         };
 
         renderer = buildRenderer();
-        renderer.addContent(context);
+        renderer.setContent(context);
 
         done();
     });
