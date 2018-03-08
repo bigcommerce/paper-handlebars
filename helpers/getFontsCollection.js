@@ -47,7 +47,7 @@ function googleParser(fonts) {
         collection.push(family + ':' + weights.join(','));
     });
 
-    return '<link href="//fonts.googleapis.com/css?family=' + collection.join('|') + '" rel="stylesheet">';
+    return '<link href="//fonts.googleapis.com/css?family=' + collection.join('|') + '" rel="preload" as=“font” onload="this.onload=null;this.rel="stylesheet">';
 }
 
 const factory = globals => {
@@ -72,8 +72,10 @@ const factory = globals => {
                 }
             }
         });
-
+        if (googleFonts.length > 0) {
+        linkElements.push('<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>');
         linkElements.push(googleParser(googleFonts));
+        }
 
         return new globals.handlebars.SafeString(linkElements.join(''));
     };
