@@ -1,13 +1,13 @@
 {
   "name": "@bigcommerce/stencil-paper-handlebars",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A paper plugin to render pages using Handlebars.js",
   "main": "index.js",
   "author": "Bigcommerce",
   "license": "BSD-4-Clause",
   "scripts": {
     "linter": "eslint .",
-    "test": "npm run linter && lab -v -t 98 --ignore WebAssembly,_time,format spec",
+    "test": "npm run linter && lab -v -t 98 --ignore WebAssembly,_time,format,SharedArrayBuffer,Atomics spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {

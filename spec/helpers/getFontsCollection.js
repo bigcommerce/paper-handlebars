@@ -6,8 +6,8 @@ var Code = require('code'),
     it = lab.it,
     renderString = require('../spec-helpers').renderString;
 
-describe('fonts helper', function () {
-    it('should return the expected font url', function (done) {
+describe('getFontsCollection', function () {
+    it('should return the expected font link', function (done) {
         var themeSettings = {
             'test1-font': 'Google_Open+Sans',
             'test2-font': 'Google_Open+Sans_400italic',
