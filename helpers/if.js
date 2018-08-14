@@ -67,6 +67,13 @@ const factory = globals => {
                 result = (lvalue >= rvalue);
                 break;
 
+            case 'gtnum':  
+                if ((typeof lvalue === 'string') && (typeof(rvalue) === 'string') && (!isNaN(lvalue)) && (!isNaN(rvalue))) {
+                    result = (parseInt(lvalue) > parseInt(rvalue));
+                    break;
+                } else {
+                    throw new Error("Handlerbars Helper if gtnum accepts ONLY valid number string");
+                }
             case 'typeof':
                 result = (typeof lvalue === rvalue);
                 break;
