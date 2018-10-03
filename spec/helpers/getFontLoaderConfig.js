@@ -1,14 +1,12 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('getFontLoaderConfig', function () {
     it('should return the expected font config', function (done) {
-        var themeSettings = {
+        const themeSettings = {
             'test1-font': 'Google_Open+Sans',
             'test2-font': 'Google_Open+Sans_400italic',
             'test3-font': 'Google_Open+Sans_700',
@@ -20,16 +18,18 @@ describe('getFontLoaderConfig', function () {
             'random-property': 'not a font'
         };
 
-        const template = "{{getFontLoaderConfig}}";
         const expectedConfig = {
-          google: {
-            families: ['Open Sans:,400italic,700', 'Karla:700', 'Lora:400', 'Volkron:', 'Droid:400,700', 'Crimson Text:400,700']
-          }
+            google: {
+                families: ['Open Sans:,400italic,700', 'Karla:700', 'Lora:400', 'Volkron:', 'Droid:400,700', 'Crimson Text:400,700']
+            }
         };
 
-        expect(renderString(template, {}, {}, themeSettings))
-            .to.be.equal(JSON.stringify(expectedConfig));
-
-        done();
+        const runTestCases = testRunner({themeSettings});
+        runTestCases([
+            {
+                input: '{{getFontLoaderConfig}}',
+                output: JSON.stringify(expectedConfig),
+            },
+        ], done);
     });
 });

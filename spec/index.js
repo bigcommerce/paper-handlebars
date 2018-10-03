@@ -198,8 +198,10 @@ describe('addTemplates', () => {
     it('can render using registered partials', done => {
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
-        expect(renderer.render('baz', { bat: '123' })).to.equal('123');
-        done();
+        renderer.render('baz', { bat: '123' }).then(result => {
+            expect(result).to.equal('123');
+            done();
+        });
     });
 
     it('isTemplateLoaded tells you if a template has been loaded', done => {
@@ -217,8 +219,10 @@ describe('addTemplates', () => {
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
         renderer.addTemplates(processor(newTemplates));
-        expect(renderer.render('baz', { bat: '123' })).to.equal('123');
-        done();
+        renderer.render('baz', { bat: '123' }).then(result => {
+            expect(result).to.equal('123');
+            done();
+        });
     });
 });
 
@@ -248,13 +252,17 @@ describe('render', () => {
     });
 
     it('can render using registered partials', done => {
-        expect(renderer.render('foo', context)).to.equal('baz');
-        done();
+        renderer.render('foo', context).then(result => {
+            expect(result).to.equal('baz');
+            done();
+        });
     });
 
     it('renders without a context', done => {
-        expect(renderer.render('foo')).to.equal('');
-        done();
+        renderer.render('foo').then(result => {
+            expect(result).to.equal('');
+            done();
+        });
     });
 
     it('sets the locale in the context if a translator is supplied', done => {
@@ -262,48 +270,49 @@ describe('render', () => {
             getLocale: () => 'en',
         };
         renderer.setTranslator(translator);
-        expect(renderer.render('with_locale', context)).to.equal('en');
-        done();
+        renderer.render('with_locale', context).then(result => {
+            expect(result).to.equal('en');
+            done();
+        });
     });
 
     it('sets the template path in the context', done => {
-        expect(renderer.render('with_template', context)).to.equal('with_template');
-        done();
+        renderer.render('with_template', context).then(result => {
+            expect(result).to.equal('with_template');
+            done();
+        });
     });
 
     it('applies decorators', done => {
         renderer.addDecorator(output => {
             return `<wrap>${output}</wrap>`;
         });
-        expect(renderer.render('foo', context)).to.equal('<wrap>baz</wrap>');
-        done();
+        renderer.render('foo', context).then(result => {
+            expect(result).to.equal('<wrap>baz</wrap>');
+            done();
+        });
     });
 
     it('can use helpers', done => {
-        expect(renderer.render('capitalize_foo', context)).to.equal('Baz');
-        done();
+        renderer.render('capitalize_foo', context).then(result => {
+            expect(result).to.equal('Baz');
+            done();
+        });
     });
 
     it('throws TemplateNotFound if missing template', done => {
-        try {
-            renderer.render('nonexistent-template', context);
-        } catch(e) {
+        renderer.render('nonexistent-template', context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.TemplateNotFoundError).to.be.true();
-        }
-
-        done();
+            done();
+        });
     });
 
     it('throws RenderError if given bad template', done => {
         renderer.addTemplates({'bad-template': '{{'});
-
-        try {
-            renderer.render('bad-template', context);
-        } catch(e) {
+        renderer.render('bad-template', context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
-        }
-
-        done();
+            done();
+        });
     });
 
     it('throws DecoratorError if decorator fails', done => {
@@ -311,13 +320,10 @@ describe('render', () => {
             throw Error();
         });
 
-        try {
-            renderer.render('foo', context);
-        } catch(e) {
+        renderer.render('foo', context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.DecoratorError).to.be.true();
-        }
-
-        done();
+            done();
+        });
     });
 });
 
@@ -339,38 +345,38 @@ describe('renderString', () => {
     });
 
     it('renders the given template with the given context', done => {
-        expect(renderer.renderString('<foo>{{bar}}</foo>', context)).to.equal('<foo>baz</foo>');
-        done();
+        renderer.renderString('<foo>{{bar}}</foo>', context).then(result => {
+            expect(result).to.equal('<foo>baz</foo>');
+            done();
+        });
     });
 
     it('can use helpers', done => {
-        expect(renderer.renderString('<foo>{{capitalize bar}}</foo>', context)).to.equal('<foo>Baz</foo>');
-        done();
+        renderer.renderString('<foo>{{capitalize bar}}</foo>', context).then(result => {
+            expect(result).to.equal('<foo>Baz</foo>');
+            done();
+        });
     });
 
     it('renders without a context', done => {
-        expect(renderer.renderString('foo')).to.equal('foo');
-        done();
+        renderer.renderString('foo', context).then(result => {
+            expect(result).to.equal('foo');
+            done();
+        });
     });
 
     it('throws CompileError if given a non-string template', done => {
-        try {
-            renderer.renderString(helpers.randomInt(), context);
-        } catch(e) {
+        renderer.renderString(helpers.randomInt(), context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.CompileError).to.be.true();
-        }
-
-        done();
+            done();
+        });
     });
 
     it('throws RenderError if given malformed template', done => {
-        try {
-            renderer.renderString('{{', context);
-        } catch(e) {
+        renderer.renderString('{{', context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
-        }
-
-        done();
+            done();
+        });
     });
 });
 

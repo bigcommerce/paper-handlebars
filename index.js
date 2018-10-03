@@ -236,44 +236,46 @@ class HandlebarsRenderer {
     /**
      * Render a template with the given context
      *
-     * @param {String} path
-     * @param {Object} context
-     * @return {String}
+     * @param {String} path The path to the template
+     * @param {Object} context The context to provide to the template
+     * @return {Promise} A promise to return the rendered template
      * @throws [TemplateNotFoundError|RenderError|DecoratorError]
      */
     render(path, context) {
-        context = context || {};
+        return new Promise((resolve, reject) => {
+            context = context || {};
 
-        // Add some data to the context
-        context.template = path;
-        if (this._translator) {
-            context.locale_name = this._translator.getLocale();
-        }
+            // Add some data to the context
+            context.template = path;
+            if (this._translator) {
+                context.locale_name = this._translator.getLocale();
+            }
 
-        // Look up the template
-        const template = this.handlebars.partials[path];
-        if (typeof template === 'undefined') {
-            throw new TemplateNotFoundError(`template not found: ${path}`);
-        }
+            // Look up the template
+            const template = this.handlebars.partials[path];
+            if (typeof template === 'undefined') {
+                return reject(new TemplateNotFoundError(`template not found: ${path}`));
+            }
 
-        // Render the template
-        let result;
-        try {
-            result = template(context);
-        } catch(e) {
-            throw new RenderError(e.message);
-        }
+            // Render the template
+            let result;
+            try {
+                result = template(context);
+            } catch(e) {
+                return reject(new RenderError(e.message));
+            }
 
-        // Apply decorators
-        try {
-            _.each(this._decorators, fn => {
-                result = fn(result);
-            });
-        } catch(e) {
-            throw new DecoratorError(e.message);
-        }
+            // Apply decorators
+            try {
+                _.each(this._decorators, fn => {
+                    result = fn(result);
+                });
+            } catch(e) {
+                return reject(new DecoratorError(e.message));
+            }
 
-        return result;
+            resolve(result);
+        });
     };
 
     /**
@@ -285,24 +287,26 @@ class HandlebarsRenderer {
      * @throws [CompileError|RenderError]
      */
     renderString(template, context) {
-        context = context || {};
+        return new Promise((resolve, reject) => {
+            context = context || {};
 
-        // Compile the template
-        try {
-            template = this.handlebars.compile(template);
-        } catch(e) {
-            throw new CompileError(e.message);
-        }
+            // Compile the template
+            try {
+                template = this.handlebars.compile(template);
+            } catch(e) {
+                return reject(new CompileError(e.message));
+            }
 
-        // Render the result
-        let result;
-        try {
-            result = template(context);
-        } catch(e) {
-            throw new RenderError(e.message);
-        }
+            // Render the result
+            let result;
+            try {
+                result = template(context);
+            } catch(e) {
+                return reject(new RenderError(e.message));
+            }
 
-        return result;
+            resolve(result);
+        });
     }
 }
 

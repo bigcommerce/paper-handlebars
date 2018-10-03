@@ -1,35 +1,40 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('equals helper', function() {
-    var context = {
+    const context = {
         value: 5
     };
 
+    // Build a test runner
+    const runTestCases = testRunner({context});
+
     it('should render yes if the value is equal to 5', function(done) {
-
-        expect(renderString('{{#equals 5 value}}yes{{/equals}}', context))
-            .to.be.equal('yes');
-
-        expect(renderString('{{#equals value 5}}yes{{/equals}}', context))
-            .to.be.equal('yes');
-
-        done();
+        runTestCases([
+            {
+                input: '{{#equals 5 value}}yes{{/equals}}',
+                output: 'yes',
+            },
+            {
+                input: '{{#equals value 5}}yes{{/equals}}',
+                output: 'yes',
+            },
+        ], done);
     });
 
     it('should render empty string', function(done) {
-
-        expect(renderString('{{#equals 6 value}}yes{{/equals}}', context))
-            .to.be.equal('');
-
-        expect(renderString('{{#equals value 6}}yes{{/equals}}', context))
-            .to.be.equal('');
-
-        done();
+        runTestCases([
+            {
+                input: '{{#equals 6 value}}yes{{/equals}}',
+                output: '',
+            },
+            {
+                input: '{{#equals value 6}}yes{{/equals}}',
+                output: '',
+            },
+        ], done);
     });
 });

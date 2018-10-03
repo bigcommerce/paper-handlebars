@@ -1,10 +1,8 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('replace helper', function() {
     const templates = {
@@ -16,44 +14,58 @@ describe('replace helper', function() {
         price: '$49.99',
     };
 
+    const runTestCases = testRunner({context, templates});
+
     it('should replace all ocurrance of %%var%% with "day"', function(done) {
-
-        expect(renderString("{{#replace '%%var%%' content}}{{> template2}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('Either you run the day or the  day runs you');
-
-        done();
+        runTestCases([
+            {
+                input: "{{#replace '%%var%%' content}}{{> template2}}{{/replace}}",
+                output: 'Either you run the day or the  day runs you',
+            },
+        ], done);
     });
 
     it('should handle undefined values', function(done) {
-        expect(renderString("{{#replace '%%var%%' content}}{{> template2}}{{/replace}}", {}, {}, {}, templates))
-            .to.be.equal('');
-
-        done();
+        runTestCases([
+            {
+                input: "{{#replace '%%var%%' content}}{{> template2}}{{/replace}}",
+                output: '',
+                context: {},
+            },
+        ], done);
     });
 
     it('should replace $', function(done) {
-        expect(renderString("{{#replace '$' price}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('49.99');
-
-        expect(renderString("{{#replace '$' '$10.00'}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('10.00');
-
-        expect(renderString("{{#replace '$' '$10.00'}}USD {{/replace}}", context, {}, {}, templates))
-            .to.be.equal('USD 10.00');
-
-        done();
+        runTestCases([
+            {
+                input: "{{#replace '$' price}}{{/replace}}",
+                output: '49.99',
+            },
+            {
+                input: "{{#replace '$' '$10.00'}}{{/replace}}",
+                output: '10.00',
+            },
+            {
+                input: "{{#replace '$' '$10.00'}}USD {{/replace}}",
+                output: 'USD 10.00',
+            },
+        ], done);
     });
 
     it('should gracefully handle not strings', function(done) {
-        expect(renderString("{{#replace something price}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('');
-
-        expect(renderString("{{#replace $ '$10.00'}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('');
-
-        expect(renderString("{{#replace foo bar}}{{/replace}}", context, {}, {}, templates))
-            .to.be.equal('');
-
-        done();
+        runTestCases([
+            {
+                input: "{{#replace something price}}{{/replace}}",
+                output: '',
+            },
+            {
+                input: "{{#replace $ '$10.00'}}{{/replace}}",
+                output: '',
+            },
+            {
+                input: "{{#replace foo bar}}{{/replace}}",
+                output: '',
+            },
+        ], done);
     });
 });

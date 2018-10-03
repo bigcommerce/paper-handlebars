@@ -1,19 +1,25 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('concat helper', function() {
+    const context = {
+        var1: 'hello',
+        var2: 'world',
+    };
+
+    // Build a test runner
+    const runTestCases = testRunner({context});
 
     it('should concatanate two strings', function(done) {
-
-        expect(renderString('{{concat var1 var2}}', {var1: 'hello', var2: 'world'}))
-            .to.be.equal('helloworld');
-
-        done();
+        runTestCases([
+            {
+                input: '{{concat var1 var2}}',
+                output: 'helloworld',
+            },
+        ], done);
     });
 });
 

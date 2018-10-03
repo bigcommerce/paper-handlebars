@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.0
+- Change render and renderString to return Promises instead of synchronous results.
+
+## 3.0.3
+- Add support for gtnum in if helper.
+
+## 3.0.2
+- Add getFontLoaderConfig and resourceHints helpers.
+
 ## 3.0.1
 - Fix cdn and stylesheet helpers to pull latest siteSettings and themeSettings
 

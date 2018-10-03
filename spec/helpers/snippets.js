@@ -1,18 +1,19 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('snippet helper', function() {
 
+    const runTestCases = testRunner({});
+
     it('should render a comment', function(done) {
-
-        expect(renderString('{{{snippet "header"}}}'))
-            .to.be.equal('<!-- snippet location header -->');
-
-        done();
+        runTestCases([
+            {
+                input: '{{{snippet "header"}}}',
+                output: '<!-- snippet location header -->',
+            },
+        ], done);
     });
 });

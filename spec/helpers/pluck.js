@@ -1,28 +1,29 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('pluck helper', function() {
-
-    var context = {
+    const context = {
         users: [
           { 'user': 'barney', 'age': 36 },
           { 'user': 'fred',   'age': 40 }
         ]
     };
 
+    const runTestCases = testRunner({context});
+
     it('should get the values from all elements in collection', function(done) {
-
-        expect(renderString('{{pluck users "age"}}', context))
-            .to.contain('36,40');
-
-        expect(renderString('{{#each (pluck users "user")}}hello {{this}} {{/each}}', context))
-            .to.contain('hello barney hello fred ');
-
-        done();
+        runTestCases([
+            {
+                input: '{{pluck users "age"}}',
+                output: '36,40',
+            },
+            {
+                input: '{{#each (pluck users "user")}}hello {{this}} {{/each}}',
+                output: 'hello barney hello fred ',
+            },
+        ], done);
     });
 });
