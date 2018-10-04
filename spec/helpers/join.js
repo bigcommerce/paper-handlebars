@@ -1,45 +1,53 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('join helper', function() {
-    var context = {
+    const context = {
         list: ['Mario', 'Chris', 'Mick', 'Hau', 'Cody']
     };
 
+    const runTestCases = testRunner({context});
+
     it('should print a list of names', function(done) {
-
-        expect(renderString('{{join list " "}}', context))
-            .to.be.equal('Mario Chris Mick Hau Cody');
-
-        expect(renderString('{{join list ", "}}', context))
-            .to.be.equal('Mario, Chris, Mick, Hau, Cody');
-
-        done();
+        runTestCases([
+            {
+                input: '{{join list " "}}',
+                output: 'Mario Chris Mick Hau Cody',
+            },
+            {
+                input: '{{join list ", "}}',
+                output: 'Mario, Chris, Mick, Hau, Cody',
+            },
+        ], done);
     });
 
     it('should print a list of names and limit to 3', function(done) {
-        expect(renderString('{{join list " " limit=3}}', context))
-            .to.be.equal('Mario Chris Mick');
-
-        done();
+        runTestCases([
+            {
+                input: '{{join list " " limit=3}}',
+                output: 'Mario Chris Mick',
+            },
+        ], done);
     });
 
     it('should print a list of names and use "and" for the last name', function(done) {
-        expect(renderString('{{join list ", " lastSeparator=" and "}}', context))
-            .to.be.equal('Mario, Chris, Mick, Hau and Cody');
-
-        done();
+        runTestCases([
+            {
+                input: '{{join list ", " lastSeparator=" and "}}',
+                output: 'Mario, Chris, Mick, Hau and Cody',
+            },
+        ], done);
     });
 
     it('should print a list of names and limit to 3 and use "and" for the last name', function(done) {
-        expect(renderString('{{join list ", " limit=3 lastSeparator=" and "}}', context))
-            .to.be.equal('Mario, Chris and Mick');
-
-        done();
+        runTestCases([
+            {
+                input: '{{join list ", " limit=3 lastSeparator=" and "}}',
+                output: 'Mario, Chris and Mick',
+            },
+        ], done);
     });
 });

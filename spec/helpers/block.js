@@ -17,10 +17,10 @@ describe('partial and block helpers', function () {
                 content: 'World',
             };
 
-        expect(render('template', context, {}, {}, templates))
-            .to.contain('<html><body><h1>Hello</h1><p>World</p></body>/<html>');
-
-        done();
+        render('template', context, {}, {}, templates).then(result => {
+            expect(result).to.contain('<html><body><h1>Hello</h1><p>World</p></body>/<html>');
+            done();
+        });
     });
 
     it('should not trigger an error if partial name is empty', function (done) {
@@ -29,9 +29,10 @@ describe('partial and block helpers', function () {
             layout: 'Hello{{#block "page"}}{{/block}}',
         };
 
-        expect(render('template', {}, {}, {}, templates)).to.be.equal('Hello');
-
-        done();
+        render('template', {}, {}, {}, templates).then(result => {
+            expect(result).to.be.equal('Hello');
+            done();
+        });
     });
 
     it('should not trigger an error if block name is empty', function (done) {
@@ -40,8 +41,9 @@ describe('partial and block helpers', function () {
             layout: 'Hello{{#block}}{{/block}}',
         };
 
-        expect(render('template', {}, {}, {}, templates)).to.be.equal('Hello');
-
-        done();
+        render('template', {}, {}, {}, templates).then(result => {
+            expect(result).to.be.equal('Hello');
+            done();
+        });
     });
 });

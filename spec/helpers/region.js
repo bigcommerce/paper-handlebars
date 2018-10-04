@@ -1,21 +1,17 @@
 'use strict';
 
-const Code = require('code');
 const Lab = require('lab');
 const lab = exports.lab = Lab.script();
 const before = lab.before;
 const describe = lab.experiment;
-const expect = Code.expect;
 const it = lab.it;
 
-const buildRenderer = require('../spec-helpers').buildRenderer;
-
-function renderString(renderer, template, context) {
-    return renderer.renderString(template, context);
-}
+const specHelpers = require('../spec-helpers');
+const buildRenderer = specHelpers.buildRenderer;
+const testRunner = specHelpers.testRunner;
 
 describe('Region Helper', () => {
-    let context, renderer;
+    let context, renderer, runTestCases;
 
     before(done => {
         context = {
@@ -25,29 +21,36 @@ describe('Region Helper', () => {
         renderer = buildRenderer();
         renderer.setContent(context);
 
+        runTestCases = testRunner({context, renderer});
+
         done();
     });
 
     it('should return an empty string if no content service data (missing contentServiceContext) on page context', done => {
-        const noContent = buildRenderer();
-        expect(renderString(noContent, '{{region name="banner-bottom"}}', context))
-            .to.be.equal('');
-
-        done();
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom"}}',
+                output: '',
+                renderer: buildRenderer(),
+            },
+        ], done);
     });
 
     it('should return an empty container if no matching region on context object', done => {
-        expect(renderString(renderer, '{{region name="banner-bottom"}}', context))
-            .to.be.equal('<div data-content-region="banner-bottom"></div>');
-
-        done();
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom"}}',
+                output: '<div data-content-region="banner-bottom"></div>',
+            },
+        ], done);
     });
 
     it('should return Hello World', done => {
-        expect(renderString(renderer, '{{region name="banner-top"}}', context))
-            .to.be.equal('<div data-content-region="banner-top">hello world</div>');
-
-        done();
+        runTestCases([
+            {
+                input: '{{region name="banner-top"}}',
+                output: '<div data-content-region="banner-top">hello world</div>',
+            },
+        ], done);
     });
-
 });

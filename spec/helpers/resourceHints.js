@@ -1,14 +1,12 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('resourceHints', function () {
     it('should return the expected resource links', function (done) {
-        var themeSettings = {
+        const themeSettings = {
             'test1-font': 'Google_Open+Sans',
             'test2-font': 'Google_Open+Sans_400italic',
             'test3-font': 'Google_Open+Sans_700',
@@ -20,11 +18,13 @@ describe('resourceHints', function () {
             'random-property': 'not a font'
         };
 
-        const template = "{{resourceHints}}";
+        const runTestCases = testRunner({themeSettings});
 
-        expect(renderString(template, {}, {}, themeSettings))
-            .to.be.equal('<link rel="dns-prefetch preconnect" href="//ajax.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.gstatic.com" crossorigin>');
-
-        done();
+        runTestCases([
+            {
+                input: '{{resourceHints}}',
+                output: '<link rel="dns-prefetch preconnect" href="//ajax.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.gstatic.com" crossorigin>',
+            },
+        ], done);
     });
 });

@@ -1,23 +1,23 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('inject helper', function() {
-    var context = {
+    const context = {
         value1: "Big",
         value2: "Commerce",
     };
 
+    const runTestCases = testRunner({context});
+
     it('should inject variables', function(done) {
-        var template = "{{inject 'data1' value1}}{{inject 'data2' value2}}{{jsContext}}";
-
-        expect(renderString(template, context))
-            .to.be.equal('"{\\"data1\\":\\"Big\\",\\"data2\\":\\"Commerce\\"}"');
-
-        done();
+        runTestCases([
+            {
+                input: "{{inject 'data1' value1}}{{inject 'data2' value2}}{{jsContext}}",
+                output: '"{\\"data1\\":\\"Big\\",\\"data2\\":\\"Commerce\\"}"',
+            },
+        ], done);
     });
 });

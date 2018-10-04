@@ -1,14 +1,12 @@
-var Code = require('code'),
-    Lab = require('lab'),
-    lab = exports.lab = Lab.script(),
-    describe = lab.experiment,
-    expect = Code.expect,
-    it = lab.it,
-    renderString = require('../spec-helpers').renderString;
+const Lab = require('lab'),
+      lab = exports.lab = Lab.script(),
+      describe = lab.experiment,
+      it = lab.it,
+      testRunner = require('../spec-helpers').testRunner;
 
 describe('getFontsCollection', function () {
     it('should return the expected font link', function (done) {
-        var themeSettings = {
+        const themeSettings = {
             'test1-font': 'Google_Open+Sans',
             'test2-font': 'Google_Open+Sans_400italic',
             'test3-font': 'Google_Open+Sans_700',
@@ -20,25 +18,28 @@ describe('getFontsCollection', function () {
             'random-property': 'not a font'
         };
 
-        var template = "{{getFontsCollection}}";
-
-        expect(renderString(template, {}, {}, themeSettings))
-            .to.be.equal('<link href="//fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|' +
-            'Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700" rel="stylesheet">');
-        done();
+        const runTestCases = testRunner({themeSettings});
+        runTestCases([
+            {
+                input: '{{getFontsCollection}}',
+                output: '<link href="//fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700" rel="stylesheet">',
+            },
+        ], done);
     });
 
     it('should not crash if a malformed Google font is passed', function (done) {
-        var themeSettings = {
+        const themeSettings = {
             'test1-font': 'Google_Open+Sans',
             'test2-font': 'Google_',
             'test3-font': 'Google'
         };
 
-        var template = "{{getFontsCollection}}";
-
-        expect(renderString(template, {}, {}, themeSettings))
-            .to.be.equal('<link href="//fonts.googleapis.com/css?family=Open+Sans:" rel="stylesheet">');
-        done();
+        const runTestCases = testRunner({themeSettings});
+        runTestCases([
+            {
+                input: '{{getFontsCollection}}',
+                output: '<link href="//fonts.googleapis.com/css?family=Open+Sans:" rel="stylesheet">',
+            },
+        ], done);
     });
 });
