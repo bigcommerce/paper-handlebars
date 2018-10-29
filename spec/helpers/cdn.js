@@ -209,4 +209,13 @@ describe('cdn helper', function () {
             },
         ], done);
     });
+
+    it('should avoid double slash in path', function (done) {
+        runTestCases([
+            {
+                input: '{{cdn "img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            }
+        ], done);
+    });
 });
