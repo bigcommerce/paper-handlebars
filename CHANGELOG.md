@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1
+- Fix cdnify to avoid double slash in the genrated url.
+
 ## 4.0.0
 - Change render and renderString to return Promises instead of synchronous results.
 
