@@ -22,7 +22,7 @@ describe('getFontsCollection', function () {
         runTestCases([
             {
                 input: '{{getFontsCollection}}',
-                output: '<link href="//fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700" rel="stylesheet">',
+                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700" rel="stylesheet">',
             },
         ], done);
     });
@@ -38,7 +38,7 @@ describe('getFontsCollection', function () {
         runTestCases([
             {
                 input: '{{getFontsCollection}}',
-                output: '<link href="//fonts.googleapis.com/css?family=Open+Sans:" rel="stylesheet">',
+                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:" rel="stylesheet">',
             },
         ], done);
     });
