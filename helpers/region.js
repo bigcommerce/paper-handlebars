@@ -1,13 +1,11 @@
 'use strict';
 
-const _ = require('lodash');
-
 const factory = globals => {
     return function(params) {
         let regionId = params.hash.name;
         let contentRegions = globals.getContent();
 
-        if (_.keys(contentRegions).length === 0) {
+        if (!contentRegions) {
             return '';
         }
 
