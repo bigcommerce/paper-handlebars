@@ -26,11 +26,11 @@ describe('Region Helper', () => {
         done();
     });
 
-    it('should return an empty string if no content service data (missing contentServiceContext) on page context', done => {
+    it('should return an empty container if using empty content context', done => {
         runTestCases([
             {
                 input: '{{region name="banner-bottom"}}',
-                output: '',
+                output: '<div data-content-region="banner-bottom"></div>',
                 renderer: buildRenderer(),
             },
         ], done);
