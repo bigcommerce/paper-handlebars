@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.2
+- Fix region helper not rendering with an empty page content
+
 ## 4.0.1
 - Fix cdnify to avoid double slash in the genrated url.
 
