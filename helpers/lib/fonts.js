@@ -52,7 +52,7 @@ const fontProviders = {
         },
 
         buildLink: function(fonts) {
-            return '<link href="//fonts.googleapis.com/css?family=' + fonts.join('|') + '" rel="stylesheet">';
+            return '<link href="https://fonts.googleapis.com/css?family=' + fonts.join('|') + '" rel="stylesheet">';
         },
 
         buildFontLoaderConfig: function(fonts) {
