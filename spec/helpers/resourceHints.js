@@ -23,7 +23,7 @@ describe('resourceHints', function () {
         runTestCases([
             {
                 input: '{{resourceHints}}',
-                output: '<link rel="dns-prefetch preconnect" href="//ajax.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="//fonts.gstatic.com" crossorigin>',
+                output: '<link rel="dns-prefetch preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com" crossorigin>',
             },
         ], done);
     });
