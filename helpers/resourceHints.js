@@ -5,9 +5,8 @@ const getFonts = require('./lib/fonts');
 
 const fontResources = {
     'Google': [
-        '//ajax.googleapis.com',
-        '//fonts.googleapis.com',
-        '//fonts.gstatic.com',
+        'https://fonts.googleapis.com',
+        'https://fonts.gstatic.com',
     ],
 };
 
