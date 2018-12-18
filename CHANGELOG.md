@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.3
+- Fix resourceHints to use https for font providers
+
 ## 4.0.2
 - Fix region helper not rendering with an empty page content
 
