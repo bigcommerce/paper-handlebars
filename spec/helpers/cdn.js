@@ -110,6 +110,26 @@ describe('cdn helper', function () {
                 input: '{{cdn "../../../456IMG/icon-sprite.svg"}}',
                 output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg',
             },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg/"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg/',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg."}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg.',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg./"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg./',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg../"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg../',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg../../"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg../../',
+            },
         ], done);
     });
 

@@ -31,13 +31,7 @@ module.exports = globals => {
         }
 
         if (['.', '/'].includes(path[0])) {
-            for (var i = 0; i < path.length; i++) {
-                if (['.', '/'].includes(path[0])) {
-                    path = path.substr(1);
-                } else {
-                    break;
-                }
-            }
+            path = path.replace(/^[\.\/]+/, '');
         }
 
         if (protocolMatch.test(path)) {
