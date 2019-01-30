@@ -30,6 +30,10 @@ module.exports = globals => {
             return path;
         }
 
+        if (['.', '/'].includes(path[0])) {
+            path = path.replace(/^[^a-z\d]*/gi, '');
+        }
+
         if (protocolMatch.test(path)) {
             var match = path.match(protocolMatch);
             path = path.slice(match[0].length, path.length);
