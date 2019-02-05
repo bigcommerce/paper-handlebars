@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.4
+- Added trimming of all '.' and '/' from begginig of cdn path (not full paths)
+
 ## 4.0.3
 - Fix resourceHints to use https for font providers
 

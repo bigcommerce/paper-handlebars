@@ -80,6 +80,59 @@ describe('cdn helper', function () {
         ], done);
     });
 
+    it('should delete any . and / from the begining of the path if this is not a full path', function (done) {
+        runTestCases([
+            {
+                input: '{{cdn "../img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "./img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "/img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "../../img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "../../../img/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "../../../IMG/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/IMG/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg/"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg/',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg."}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg.',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg./"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg./',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg../"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg../',
+            },
+            {
+                input: '{{cdn "../../../456IMG/icon-sprite.svg../../"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/456IMG/icon-sprite.svg../../',
+            },
+        ], done);
+    });
+
     it('should return an empty string if no path is provided', function (done) {
         runTestCases([
             {
