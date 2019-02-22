@@ -2,6 +2,9 @@
 
 const factory = () => {
     return function(data) {
+        if(typeof data === 'undefined') {
+            throw new Error("Handlebars Helper 'json' does not allow value of 'undefined'");
+        }
         return JSON.stringify(data);
     };
 };
