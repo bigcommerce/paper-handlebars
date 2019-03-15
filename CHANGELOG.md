@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.6
+- Bump handlebars-helpers.
+
 ## 4.0.5
 - Fix regex performance to match precompiled templates.
 
