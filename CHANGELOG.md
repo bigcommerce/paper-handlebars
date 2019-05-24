@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.6
+- Change default behavior of {{getFontsCollection}} to use font-display: swap for Google Fonts and allow configuration
+
 ## 4.0.5
 - Fix regex performance to match precompiled templates.
 
