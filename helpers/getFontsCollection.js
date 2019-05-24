@@ -4,7 +4,9 @@ const getFonts = require('./lib/fonts');
 
 const factory = globals => {
     return function() {
-        return getFonts('linkElements', globals.getThemeSettings(), globals.handlebars);
+        const options = arguments.length === 1 ? arguments[arguments.length - 1] : null;
+        const fontDisplay = options && options.hash['font-display'] ? options.hash['font-display'] : null;
+        return getFonts('linkElements', globals.getThemeSettings(), globals.handlebars, {fontDisplay});
     };
 };
 

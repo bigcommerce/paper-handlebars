@@ -51,8 +51,10 @@ const fontProviders = {
             return collection;
         },
 
-        buildLink: function(fonts) {
-            return '<link href="https://fonts.googleapis.com/css?family=' + fonts.join('|') + '" rel="stylesheet">';
+        buildLink: function(fonts, fontDisplay) {
+            const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
+            fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
+            return `<link href="https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}" rel="stylesheet">`;
         },
 
         buildFontLoaderConfig: function(fonts) {
@@ -78,10 +80,11 @@ const fontProviders = {
  *   object that can be used to configure Web Font Loader.
  * @param {Object} themeSettings Object containing theme settings.
  * @param {Object} handlebars The handlebars instance.
+ * @param {Object} options an optional object for additional configuration details
  * @returns {Object.<string, Array>|string}
  */
-module.exports = function(format, themeSettings, handlebars) {
-    // Collect font strings from theme settings
+module.exports = function(format, themeSettings, handlebars, options) {
+    
     const collectedFonts = {};
     _.each(themeSettings, function(value, key) {
         if (!fontKeyFormat.test(key)) {
@@ -110,8 +113,9 @@ module.exports = function(format, themeSettings, handlebars) {
     // Format output based on requested format
     switch(format) {
     case 'linkElements':
+        
         const formattedFonts = _.mapValues(parsedFonts, function(value, key) {
-            return fontProviders[key].buildLink(value);
+            return fontProviders[key].buildLink(value, options.fontDisplay);
         });
         return new handlebars.SafeString(_.values(formattedFonts).join(''));
 
