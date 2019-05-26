@@ -3,24 +3,19 @@
 const _ = require('lodash');
 
 /**
- * Yield block only if all arguments are valid
+ * Yield block only if all args are valid
  *
  * @example
  * {{#all items theme_settings.optionA theme_settings.optionB}} ... {{/all}}
  */
 const factory = () => {
-    return function() {
-        var args = [], opts, result;
+    return function(...args) {
+        var opts, result;
 
-        // Translate arguments to array safely
-        for (var i = 0; i < arguments.length; i++) {
-            args.push(arguments[i]);
-        }
-
-        // Take the last argument (content) out of testing array
+        // Take the last arg (content) out of testing array
         opts = args.pop();
 
-        // Check if all the arguments are valid / truthy
+        // Check if all the args are valid / truthy
         result = _.all(args, function (arg) {
             if (_.isArray(arg)) {
                 return !!arg.length;

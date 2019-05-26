@@ -1,16 +1,17 @@
 'use strict';
 
 const factory = () => {
-    return function(lvalue, rvalue) {
-        const options = arguments[arguments.length - 1];
+    return function(lvalue, rvalue, ...args) {
+
+        
         var operator;
         var operators;
         var result;
 
-        if (arguments.length < 3) {
+        if (!args.length) {
             throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
         }
-
+        const options = args[args.length - 1];
         operator = options.hash.operator || "==";
 
         operators = {

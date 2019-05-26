@@ -1,8 +1,8 @@
 'use strict';
 
 const factory = () => {
-    return function(array, separator) {
-        const options = arguments[arguments.length - 1];
+    return function(array, separator, ...args) {
+        const options = args[args.length - 1];
         var config = options.hash || {};
 
         array = array.slice();

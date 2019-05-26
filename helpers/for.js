@@ -3,8 +3,15 @@
 const _ = require('lodash');
 
 const factory = () => {
-    return function(from, to, context) {
-        const options = arguments[arguments.length - 1];
+    return function(from, to, context, ...args) {
+        let options;
+        if (args.length) {
+            options = args[args.length - 1];
+        } else if (context) { 
+            options = context;
+        } else {
+            options = to;
+        }
         const maxIterations = 100;
         var output = '';
 

@@ -9,27 +9,21 @@ const _ = require('lodash');
  * {{#any items selected=true}} ... {{/any}}
  */
 const factory = () => {
-    return function() {
-        var args = [],
-            opts,
+    return function(...args) {
+        var opts,
             predicate,
             any;
 
-        // Translate arguments to array safely
-        for (var i = 0; i < arguments.length; i++) {
-            args.push(arguments[i]);
-        }
-
-        // Take the last argument (content) out of testing array
+        // Take the last arg (content) out of testing array
         opts = args.pop();
         predicate = opts.hash;
 
         if (!_.isEmpty(predicate)) {
-            // With options hash, we check the contents of first argument
+            // With options hash, we check the contents of first arg
             any = _.any(args[0], predicate);
         } else {
             // DEPRECATED: Moved to #or helper
-            // Without options hash, we check all the arguments
+            // Without options hash, we check all the args
             any = _.any(args, function (arg) {
                 if (_.isArray(arg)) {
                     return !!arg.length;

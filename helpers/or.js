@@ -9,20 +9,14 @@ const _ = require('lodash');
  * {{#or 1 0 0 0 0 0}} ... {{/or}}
  */
 const factory = () => {
-    return function() {
-        var args = [],
-            opts,
+    return function(...args) {
+        var opts,
             any;
 
-        // Translate arguments to array safely
-        for (var i = 0; i < arguments.length; i++) {
-            args.push(arguments[i]);
-        }
-
-        // Take the last argument (content) out of testing array
+        // Take the last arg (content) out of testing array
         opts = args.pop();
 
-        // Without options hash, we check all the arguments
+        // Without options hash, we check all the args
         any = _.any(args, function (arg) {
             if (_.isArray(arg)) {
                 return !!arg.length;

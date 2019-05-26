@@ -4,8 +4,8 @@
  * @deprecate Use {{#for start end (context)}}...{{/for}}
  */
 const factory = () => {
-    return function(start, end) {
-        const options = arguments[arguments.length - 1];
+    return function(start, end, ...args) {
+        const options = args[args.length - 1];
         var out = '';
         var i = start;
 

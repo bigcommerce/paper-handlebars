@@ -1,8 +1,8 @@
 'use strict';
 
 const factory = globals => {
-    return function(name) {
-        const options = arguments[arguments.length - 1];
+    return function(name, ...args) {
+        const options = args.length ? args[args.length - 1] : name;
 
         /* Look for partial by name. */
         const partial = globals.handlebars.partials[name] || options.fn;

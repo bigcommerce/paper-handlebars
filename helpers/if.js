@@ -3,8 +3,17 @@
 const _ = require('lodash');
 
 const factory = globals => {
-    return function(lvalue, operator, rvalue) {
-        const options = arguments[arguments.length - 1];
+    return function(lvalue, operator, rvalue, ...args) {
+        let options; 
+        if (args.length) {
+            options = args[args.length - 1];
+        } else if (rvalue) {
+            options = rvalue;
+        } else if (operator) {
+            options = operator;
+        } else {
+            options=lvalue;
+        }
         let result;
 
         function isOptions(obj) {

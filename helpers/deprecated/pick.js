@@ -6,8 +6,8 @@ const factory = () => {
     /**
      * @deprecate
      */
-    return function() {
-        return _.pick.apply(null, arguments);
+    return function(...args) {
+        return _.pick.apply(null, args);
     };
 };
 
