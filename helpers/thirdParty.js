@@ -73,6 +73,10 @@ const whitelist = [
         include: ['markdown'],
     },
     {
+        name: 'match',
+        include: ['match', 'isMatch'],
+    },
+    {
         name: 'math',
         include: ['add', 'subtract', 'divide', 'multiply', 'floor', 'ceil', 'round', 'sum', 'avg'],
     },
@@ -109,6 +113,10 @@ const whitelist = [
             'JSONparse',
             'JSONstringify',
         ],
+    },
+    {
+        name: 'regex',
+        include: ['toRegex', 'test'],
     },
     {
         name: 'string',
