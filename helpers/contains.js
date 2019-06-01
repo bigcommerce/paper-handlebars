@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
-
+const common = require('./lib/common.js');
 /**
  * Is any value included in a collection or a string?
  *
@@ -10,10 +9,14 @@ const _ = require('lodash');
  * {{#contains font_path "Roboto"}} ... {{/contains}}
  */
 const factory = () => {
-    return function() {
-        var args = Array.prototype.slice.call(arguments, 0, -1),
-            options = _.last(arguments),
-            contained = _.contains.apply(_, args);
+    return function(container, value, options) {
+        let contained;
+
+        if (Array.isArray(container) || common.isString(container)) {
+            contained = container.includes(value);
+        } else if (common.isObject(container)) {
+            contained = Object.values(container).includes(value);
+        }
 
         // Yield block if true
         if (contained) {
