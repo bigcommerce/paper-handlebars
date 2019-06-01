@@ -30,6 +30,7 @@ describe('helper registration', () => {
             'getFontLoaderConfig',
             'getFontsCollection',
             'getImage',
+            'getImageSrcset',
             'helperMissing',
             'if',
             'inject',
