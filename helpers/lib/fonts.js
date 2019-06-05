@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const fontKeyFormat = new RegExp(/\w+(-\w*)*-font$/);
+
 const fontProviders = {
     'Google': {
         /**
@@ -87,7 +87,9 @@ module.exports = function(format, themeSettings, handlebars, options) {
     
     const collectedFonts = {};
     _.each(themeSettings, function(value, key) {
-        if (!fontKeyFormat.test(key)) {
+        //check that -font is on end of string but not start of string
+        const fontKeySuffix = '-font';
+        if (!key.endsWith(fontKeySuffix)) {
             return;
         }
 
