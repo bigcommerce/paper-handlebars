@@ -25,7 +25,7 @@ describe('stylesheet helper', () => {
     it('should render a link tag and all extra attributes with no cdn url', done => {
         runTestCases([
             {
-                input: '{{{stylesheet "assets/css/style.css" blah rel="something" class="myStyle"}}}',
+                input: '{{{stylesheet "assets/css/style.css" rel="something" class="myStyle"}}}',
                 output: '<link data-stencil-stylesheet href="/assets/css/style.css" rel="something" class="myStyle">',
                 siteSettings: {},
             },

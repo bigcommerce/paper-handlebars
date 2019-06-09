@@ -9,19 +9,12 @@ const _ = require('lodash');
  * {{#all items theme_settings.optionA theme_settings.optionB}} ... {{/all}}
  */
 const factory = () => {
-    return function() {
-        var args = [], opts, result;
-
-        // Translate arguments to array safely
-        for (var i = 0; i < arguments.length; i++) {
-            args.push(arguments[i]);
-        }
-
-        // Take the last argument (content) out of testing array
-        opts = args.pop();
+    return function(...args) {
+        // Take the last arg (which is a Handlebars options object) out of args array
+        const opts = args.pop();
 
         // Check if all the arguments are valid / truthy
-        result = _.all(args, function (arg) {
+        const result = _.all(args, function (arg) {
             if (_.isArray(arg)) {
                 return !!arg.length;
             }
