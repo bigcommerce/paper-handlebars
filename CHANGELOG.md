@@ -1,6 +1,7 @@
 # Changelog
 ## Unreleased
-- remove regex in fonts.js for better performance
+- Remove regex in cdnify.js to improve performance
+- Remove regex in fonts.js for better performance
 
 ## 4.0.6
 - Change default behavior of {{getFontsCollection}} to use font-display: swap for Google Fonts and allow configuration

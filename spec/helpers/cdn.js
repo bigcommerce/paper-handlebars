@@ -152,6 +152,10 @@ describe('cdn helper', function () {
                 input: '{{cdn "webdav:/img/image.jpg"}}',
                 output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
             },
+            {
+                input: '{{cdn "webdav://img/image.jpg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
+            },
         ], done);
     });
 
