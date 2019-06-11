@@ -16,8 +16,6 @@ module.exports = globals => {
         const editSessionId = siteSettings.theme_session_id;
         const cdnSettings = themeSettings.cdn;
 
-        const protocolMatch = /(.*!?:)/;
-
         if (path instanceof globals.handlebars.SafeString) {
             path = path.string;
         }
@@ -26,28 +24,43 @@ module.exports = globals => {
             return '';
         }
 
-        if (/^(?:https?:)?\/\//.test(path)) {
+        if (path.startsWith('https://') || path.startsWith('http://') || path.startsWith('//')) {
             return path;
         }
-
+        // This block is to strip leading . and / from path
         if (['.', '/'].includes(path[0])) {
-            path = path.replace(/^[\.\/]+/, '');
+            for (let i = 0; i < path.length; i++) {
+                if (path[i] !== '.' && path[i] !== '/') {
+                    path = path.slice(i);
+                    break;
+                }
+            }
         }
 
-        if (protocolMatch.test(path)) {
-            var match = path.match(protocolMatch);
-            path = path.slice(match[0].length, path.length);
+        let colonIndex = path.indexOf(':');
 
+        if (colonIndex !== -1) {
+            while (colonIndex + 1 < path.length && path[colonIndex + 1] === ':') {
+                colonIndex++;
+            }
+            const protocol = path.slice(0, colonIndex + 1);
+            path = path.slice(colonIndex + 1);
+            //This block is to strip leading / from path
             if (path[0] === '/') {
-                path = path.slice(1, path.length);
+                for (let i = 1; i < path.length; i++) {
+                    if (path[i] !== '/') {
+                        path = path.slice(i);
+                        break;
+                    }
+                }
             }
 
-            if (match[0] === 'webdav:') {
+            if (protocol === 'webdav:') {
                 return [cdnUrl, 'content', path].join('/');
             }
 
             if (cdnSettings) {
-                var endpointKey = match[0].substr(0, match[0].length - 1);
+                const endpointKey = protocol.slice(0, protocol.length - 1);
                 if (cdnSettings.hasOwnProperty(endpointKey)) {
                     if (cdnUrl) {
                         return [cdnSettings[endpointKey], path].join('/');
@@ -64,7 +77,6 @@ module.exports = globals => {
             return path;
         }
 
-
         if (!versionId) {
             if (path[0] !== '/') {
                 path = '/' + path;
@@ -73,11 +85,11 @@ module.exports = globals => {
         }
 
         if (path[0] === '/') {
-            path = path.slice(1, path.length);
+            path = path.slice(1);
         }
 
-        if (path.match(/^assets\//)) {
-            path = path.substr(7, path.length);
+        if (path.startsWith('assets/')) {
+            path = path.slice(7);
         }
 
         if (editSessionId) {
