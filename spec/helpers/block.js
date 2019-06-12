@@ -37,7 +37,7 @@ describe('partial and block helpers', function () {
 
     it('should not trigger an error if block name is empty', function (done) {
         var templates = {
-            template: '{{#partial "page" "2134"}}World{{/partial}}{{> layout}}',
+            template: '{{#partial "page"}}World{{/partial}}{{> layout}}',
             layout: 'Hello{{#block}}{{/block}}',
         };
 

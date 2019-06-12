@@ -3,8 +3,7 @@
 const _ = require('lodash');
 
 const factory = globals => {
-    return function(lvalue, operator, rvalue) {
-        const options = arguments[arguments.length - 1];
+    return function(lvalue, operator, rvalue, options) {
         let result;
 
         function isOptions(obj) {
@@ -14,6 +13,7 @@ const factory = globals => {
         // Only parameter
         if (isOptions(operator)) {
             // If an array is passed as the only parameter
+            options = operator;
             if (_.isArray(lvalue)) {
                 result = !!lvalue.length;
             }
@@ -30,6 +30,7 @@ const factory = globals => {
             if (isOptions(rvalue)) {
                 // @TODO: this block is for backwards compatibility with 'compare' helper
                 // Remove after operator='==' is removed from stencil theme
+                options = rvalue;
                 rvalue = operator;
                 operator = options.hash.operator || "==";
             }

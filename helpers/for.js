@@ -3,21 +3,22 @@
 const _ = require('lodash');
 
 const factory = () => {
-    return function(from, to, context) {
-        const options = arguments[arguments.length - 1];
+    return function(from, to, context, options) {
         const maxIterations = 100;
-        var output = '';
+        let output = '';
 
         function isOptions(obj) {
             return _.isObject(obj) && obj.fn;
         }
 
         if (isOptions(to)) {
+            options = to;
             context = {};
             to = from;
             from = 1;
 
         } else if (isOptions(context)) {
+            options = context;
             if (_.isObject(to)) {
                 context = to;
                 to = from;
@@ -36,11 +37,10 @@ const factory = () => {
             to = from + maxIterations - 1;
         }
 
-        for (var i = from; i <= to; i++) {
+        for (let i = from; i <= to; i++) {
             context.$index = i;
             output += options.fn(context);
         }
-
         return output;
     };
 };
