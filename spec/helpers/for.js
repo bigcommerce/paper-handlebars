@@ -10,6 +10,27 @@ describe('for helper', function() {
     // Build a test runner
     const runTestCases = testRunner({context});
 
+    it('should iterate once.', function(done) {
+        runTestCases([
+            {
+                input: '{{#for 1 this}}{{$index}}:{{name}} {{/for}}',
+                output: '1:Joe ',
+            },
+            {
+                input: '{{#for 1 1 this}}{{$index}}:{{name}} {{/for}}',
+                output: '1:Joe ',
+            },
+            {
+                input: '{{#for 0 0 this}}{{$index}}:{{name}} {{/for}}',
+                output: '0:Joe ',
+            },
+            {
+                input: '{{#for 1000 1000 this}}{{$index}}:{{name}} {{/for}}',
+                output: '1000:Joe ',
+            },
+        ], done);
+    });
+
     it('should iterate 10 times', function(done) {
         runTestCases([
             {

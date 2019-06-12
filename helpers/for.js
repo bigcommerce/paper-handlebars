@@ -26,7 +26,7 @@ const factory = () => {
             }
         }
 
-        if (to <= from) {
+        if (to < from) {
             return;
         }
 
