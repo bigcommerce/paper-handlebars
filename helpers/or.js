@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
-
+const common = require('./lib/common.js');
 /**
  * Yield block if any object within a collection matches supplied predicate
  *
@@ -12,21 +11,14 @@ const factory = () => {
     return function(...args) {
         // Take the last arg (which is a Handlebars options object) out of args array
         const opts = args.pop();
+        let any;
 
-        // Without options hash, we check all the arguments
-        const any = _.any(args, function (arg) {
-            if (_.isArray(arg)) {
-                return !!arg.length;
+        for (let i = 0; i < args.length; i++) {
+            any = common.isTruthy(args[i]);
+            if (any) {
+                break;
             }
-            // If an empty object is passed, arg is false
-            else if (_.isEmpty(arg) && _.isObject(arg)) {
-                return false;
-            }
-            // Everything else
-            else {
-                return !!arg;
-            }
-        });
+        }
 
         if (any) {
             return opts.fn(this);
@@ -34,7 +26,7 @@ const factory = () => {
 
         return opts.inverse(this);
     };
-};
+}
 
 module.exports = [{
     name: 'or',

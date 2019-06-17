@@ -1,7 +1,5 @@
 'use strict';
-
-const _ = require('lodash');
-
+const common = require('./lib/common.js');
 /**
  * Yield block only if all arguments are valid
  *
@@ -12,22 +10,14 @@ const factory = () => {
     return function(...args) {
         // Take the last arg (which is a Handlebars options object) out of args array
         const opts = args.pop();
-
         // Check if all the arguments are valid / truthy
-        const result = _.all(args, function (arg) {
-            if (_.isArray(arg)) {
-                return !!arg.length;
+        let result;
+        for (let i = 0; i < args.length; i++) {
+            result = common.isTruthy(args[i]);
+            if (!result) {
+                break;
             }
-            // If an empty object is passed, arg is false
-            else if (_.isEmpty(arg) && _.isObject(arg)) {
-                return false;
-            }
-            // Everything else
-            else {
-                return !!arg;
-            }
-        });
-
+        }
         // If everything was valid, then "all" condition satisfied
         if (result) {
             return opts.fn(this);
