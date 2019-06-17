@@ -1,7 +1,5 @@
 'use strict';
-
-const _ = require('lodash');
-
+const common = require('./lib/common.js');
 /**
  * Limit an array to the second argument
  *
@@ -10,10 +8,10 @@ const _ = require('lodash');
  */
 const factory = () => {
     return function(data, limit) {
-        if (_.isString(data)) {
+        if (common.isString(data)) {
             return data.substring(0, limit);
         }
-        if (!_.isArray(data)) {
+        if (!Array.isArray(data)) {
             return [];
         }
 

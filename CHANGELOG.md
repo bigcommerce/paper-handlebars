@@ -4,6 +4,7 @@
 - Remove regex in fonts.js for better performance
 - Refactor functions away from arguments pattern for better performance
 - Fix for helper to allow for one iteration
+- Reduce usage of Lodash to improve performance
 
 ## 4.0.6
 - Change default behavior of {{getFontsCollection}} to use font-display: swap for Google Fonts and allow configuration

@@ -1,25 +1,21 @@
 'use strict';
 
-const _ = require('lodash');
+const common = require('./lib/common.js');
 
 const factory = () => {
     return function(from, to, context, options) {
         const maxIterations = 100;
         let output = '';
 
-        function isOptions(obj) {
-            return _.isObject(obj) && obj.fn;
-        }
-
-        if (isOptions(to)) {
+        if (common.isOptions(to)) {
             options = to;
             context = {};
             to = from;
             from = 1;
 
-        } else if (isOptions(context)) {
+        } else if (common.isOptions(context)) {
             options = context;
-            if (_.isObject(to)) {
+            if (common.isObject(to)) {
                 context = to;
                 to = from;
                 from = 1;

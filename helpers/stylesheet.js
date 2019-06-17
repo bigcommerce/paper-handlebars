@@ -1,6 +1,6 @@
+
 'use strict';
 
-const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
 
 const factory = globals => {
@@ -16,16 +16,15 @@ const factory = globals => {
 
         const url = cdnify(path);
 
-        let attrs = { rel: 'stylesheet' };
+        const attrs = Object.assign({ rel: 'stylesheet' }, options.hash);
+        const attributeKeys = Object.keys(attrs);
+        const attributes = [];
 
-        // check if there is any extra attribute
-        if (_.isObject(options.hash)) {
-            attrs = _.merge(attrs, options.hash);
+        for (let i = 0; i < attributeKeys.length; i++) {
+            attributes.push(`${attributeKeys[i]}="${attrs[attributeKeys[i]]}"`);
         }
 
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
-
-        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
+        return `<link data-stencil-stylesheet href="${url}" ${attributes.join(' ')}>`;
     };
 };
 
