@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
-
+const common = require('./lib/common.js');
 /**
  * Yield block if any object within a collection matches supplied predicate
  *
@@ -15,25 +14,47 @@ const factory = () => {
         const opts = args.pop();
         const predicate = opts.hash;
 
-        if (!_.isEmpty(predicate)) {
+        if (!common.isEmptyObject(predicate)) {
             // With options hash, we check the contents of first argument
-            any = _.any(args[0], predicate);
+            const predicateKeys = Object.keys(predicate);
+            const arg = args[0];
+
+            function matchesPredicate(element, predicate) {
+                for (let i = 0; i < predicateKeys.length; i++) {
+                    if (!Object.is(element[predicateKeys[i]], predicate[predicateKeys[i]])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            if (Array.isArray(arg)) {
+                for (let i = 0; i < arg.length; i++) {
+                    const element = arg[i];
+                    any = matchesPredicate(element, predicate);
+                    if (any) {
+                        break;
+                    } 
+                }
+            } else if (common.isObject(arg)) {
+                const argIndices = Object.keys(arg);
+                for (let i = 0; i < argIndices.length; i++) {
+                    const element = arg[argIndices[i]];
+                    any = matchesPredicate(element, predicate);
+                    if (any) {
+                        break;
+                    }
+                }
+            }
         } else {
             // DEPRECATED: Moved to #or helper
             // Without options hash, we check all the arguments
-            any = _.any(args, function (arg) {
-                if (_.isArray(arg)) {
-                    return !!arg.length;
+            for (let i = 0; i < args.length; i++) {
+                any = common.isTruthy(args[i]);
+                if (any) {
+                    break;
                 }
-                // If an empty object is passed, arg is false
-                else if (_.isEmpty(arg) && _.isObject(arg)) {
-                    return false;
-                }
-                // Everything else
-                else {
-                    return !!arg;
-                }
-            });
+            }
         }
 
         if (any) {
