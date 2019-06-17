@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const helpers = require('handlebars-helpers');
 
 const whitelist = [
@@ -145,16 +144,15 @@ const whitelist = [
 
 // Construct the data structure the caller expects: an array of { name, factory }
 const exportedHelpers = [];
-whitelist.forEach(whitelistSpec => {
+for (let i = 0; i < whitelist.length; i++) {
+    const whitelistSpec = whitelist[i];
     // Pluck whitelisted functions from each helper module.
-    const whitelistedHelpers = _.pick(helpers[whitelistSpec.name](), whitelistSpec.include);
-    _.each(whitelistedHelpers, (fn, name) => {
-        // Wrap with what the caller expects
-        exportedHelpers.push({
-            name: name,
-            factory: () => fn,
-        });
-    });
-});
+    const includelist = whitelistSpec.include;
+    const whitelistHelpers = helpers[whitelistSpec.name]();
+
+    for (let i = 0; i < includelist.length; i++) {
+        exportedHelpers.push({name: includelist[i], factory: () => whitelistHelpers[includelist[i]]});
+    }
+}
 
 module.exports = exportedHelpers;

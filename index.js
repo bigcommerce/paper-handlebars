@@ -1,6 +1,4 @@
 'use strict';
-
-const _ = require('lodash');
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
@@ -66,9 +64,10 @@ class HandlebarsRenderer {
         };
 
         // Register helpers with Handlebars
-        helpers.forEach(spec => {
+        for (let i = 0; i < helpers.length; i++) {
+            const spec = helpers[i];
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
-        });
+        }
     }
 
     /**
@@ -166,22 +165,25 @@ class HandlebarsRenderer {
      * @param {Object} A set of templates to register with handlebars
      */
     addTemplates(templates) {
-        _.each(templates, (template, path) => {
-            // Don't do this work twice, first one wins.
+        const paths = Object.keys(templates);
+
+        for (let i = 0; i < paths.length; i++) {
+            const path = paths[i];
+
             if (typeof this.handlebars.partials[path] !== 'undefined') {
                 return;
             }
 
-            // Check if it is a precompiled template
             try {
-                template = this._tryRestoringPrecompiled(template);
+                // Check if it is a precompiled template
+                const template = this._tryRestoringPrecompiled(templates[path]);
+
+                // Register it with handlebars
+                this.handlebars.registerPartial(path, template);
             } catch(e) {
                 throw new FormatError(e.message);
             }
-
-            // Register it with handlebars
-            this.handlebars.registerPartial(path, template);
-        });
+        }
     };
 
     _tryRestoringPrecompiled(precompiled) {
@@ -221,14 +223,17 @@ class HandlebarsRenderer {
      */
     getPreProcessor() {
         return templates => {
+            const paths = Object.keys(templates);
             const processed = {};
-            _.each(templates, (template, path) => {
+
+            for (let i = 0; i < paths.length; i++) {
+                const path = paths[i];
                 try {
-                    processed[path] = this.handlebars.precompile(template, handlebarsOptions);
+                    processed[path] = this.handlebars.precompile(templates[path], handlebarsOptions);
                 } catch(e) {
                     throw new CompileError(e.message, { path });
                 }
-            });
+            }
             return processed;
         };
     }
@@ -267,9 +272,9 @@ class HandlebarsRenderer {
 
             // Apply decorators
             try {
-                _.each(this._decorators, fn => {
-                    result = fn(result);
-                });
+                for (let i = 0; i < this._decorators.length; i++) {
+                    result = this._decorators[i](result);
+                }
             } catch(e) {
                 return reject(new DecoratorError(e.message));
             }
