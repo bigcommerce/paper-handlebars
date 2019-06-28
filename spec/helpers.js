@@ -24,6 +24,7 @@ describe('helper registration', () => {
             'cdn',
             'compare',
             'concat',
+            'configureImage',
             'contains',
             'dynamicComponent',
             'for',
