@@ -49,6 +49,7 @@ describe('helper registration', () => {
             'region',
             'replace',
             'resourceHints',
+            'setURLQueryParam',
             'snippet',
             'stripQuerystring',
             'stylesheet',
