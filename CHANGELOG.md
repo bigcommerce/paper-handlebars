@@ -1,5 +1,8 @@
 # Changelog
+
 ## Unreleased
+
+## 4.0.7
 - Remove regex in cdnify.js to improve performance
 - Remove regex in fonts.js for better performance
 - Refactor functions away from arguments pattern for better performance
