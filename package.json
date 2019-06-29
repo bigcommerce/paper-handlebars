@@ -1,6 +1,6 @@
 {
   "name": "@bigcommerce/stencil-paper-handlebars",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "A paper plugin to render pages using Handlebars.js",
   "main": "index.js",
   "author": "Bigcommerce",
@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/bigcommerce/paper-handlebars",
   "dependencies": {
-    "@bigcommerce/handlebars-v4": "bigcommerce/handlebars-v4#v4.0.11",
-    "handlebars": "3.0.3",
+    "@bigcommerce/handlebars-v4": "bigcommerce/handlebars-v4#v4.0.14",
+    "handlebars": "3.0.7",
     "handlebars-helpers": "0.8.4",
     "lodash": "^3.6.0",
     "stringz": "^0.1.1"
