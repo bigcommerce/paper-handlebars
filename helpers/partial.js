@@ -1,8 +1,8 @@
 'use strict';
 
 const factory = globals => {
-    return function(name, options) {
-        options = options ? options : name;
+    return function(name) {
+        const options = arguments[arguments.length - 1];
         globals.handlebars.registerPartial(name, options.fn);
     };
 };

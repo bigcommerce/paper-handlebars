@@ -1,13 +1,15 @@
-
 'use strict';
 
+const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
 
 const factory = globals => {
-    return function(assetPath, options) {
+    return function(assetPath) {
         const cdnify = buildCDNHelper(globals);
         const siteSettings = globals.getSiteSettings();
         const configId = siteSettings.theme_config_id;
+
+        const options = arguments[arguments.length - 1];
 
         // append the configId only if the asset path starts with assets/css/
         const path = configId && assetPath.match(/^\/?assets\/css\//)
@@ -16,15 +18,16 @@ const factory = globals => {
 
         const url = cdnify(path);
 
-        const attrs = Object.assign({ rel: 'stylesheet' }, options.hash);
-        const attributeKeys = Object.keys(attrs);
-        const attributes = [];
+        let attrs = { rel: 'stylesheet' };
 
-        for (let i = 0; i < attributeKeys.length; i++) {
-            attributes.push(`${attributeKeys[i]}="${attrs[attributeKeys[i]]}"`);
+        // check if there is any extra attribute
+        if (_.isObject(options.hash)) {
+            attrs = _.merge(attrs, options.hash);
         }
 
-        return `<link data-stencil-stylesheet href="${url}" ${attributes.join(' ')}>`;
+        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
+
+        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
     };
 };
 

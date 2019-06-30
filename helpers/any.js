@@ -9,11 +9,20 @@ const _ = require('lodash');
  * {{#any items selected=true}} ... {{/any}}
  */
 const factory = () => {
-    return function(...args) {
-        let any;
-        // Take the last arg (which is a Handlebars options object) out of args array
-        const opts = args.pop();
-        const predicate = opts.hash;
+    return function() {
+        var args = [],
+            opts,
+            predicate,
+            any;
+
+        // Translate arguments to array safely
+        for (var i = 0; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+
+        // Take the last argument (content) out of testing array
+        opts = args.pop();
+        predicate = opts.hash;
 
         if (!_.isEmpty(predicate)) {
             // With options hash, we check the contents of first argument
