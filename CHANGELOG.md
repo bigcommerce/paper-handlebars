@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.0.9
+- Revert "Refactor functions away from arguments pattern for better performance" from 4.0.7
+- Revert "Reduce usage of Lodash to improve performance" from 4.0.7
+
 ## 4.0.8
 - Update handlebars v4 to latest
 - Update handlebars v3 to latest
@@ -9,7 +13,9 @@
 ## 4.0.7
 - Remove regex in cdnify.js to improve performance
 - Remove regex in fonts.js for better performance
+- Refactor functions away from arguments pattern for better performance
 - Fix for helper to allow for one iteration
+- Reduce usage of Lodash to improve performance
 
 ## 4.0.6
 - Change default behavior of {{getFontsCollection}} to use font-display: swap for Google Fonts and allow configuration
