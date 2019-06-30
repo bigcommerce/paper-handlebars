@@ -1,8 +1,9 @@
 'use strict';
 
 const factory = () => {
-    return function(array, separator, options) {
-        const config = options.hash || {};
+    return function(array, separator) {
+        const options = arguments[arguments.length - 1];
+        var config = options.hash || {};
 
         array = array.slice();
 
@@ -13,8 +14,8 @@ const factory = () => {
 
         // Use lastSeparator between last and second last item, if provided
         if (config.lastSeparator) {
-            const truncatedArray = array.slice(0, -1);
-            const lastItem = array.slice(-1);
+            var truncatedArray = array.slice(0, -1),
+                lastItem = array.slice(-1);
 
             return truncatedArray.join(separator) + config.lastSeparator + lastItem;
         }

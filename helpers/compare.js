@@ -1,14 +1,19 @@
 'use strict';
 
 const factory = () => {
-    return function(lvalue, rvalue, options) {
-        if (typeof options === 'undefined') {
-            throw new Error("Handlerbars Helper 'compare' needs 2 parameters and a block.");
+    return function(lvalue, rvalue) {
+        const options = arguments[arguments.length - 1];
+        var operator;
+        var operators;
+        var result;
+
+        if (arguments.length < 3) {
+            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
         }
 
-        const operator = options.hash.operator || "==";
+        operator = options.hash.operator || "==";
 
-        const operators = {
+        operators = {
             '==': function (l, r) { return l == r; },
             '===': function (l, r) { return l === r; },
             '!=': function (l, r) { return l != r; },
@@ -27,7 +32,7 @@ const factory = () => {
             throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
         }
 
-        const result = operators[operator](lvalue, rvalue);
+        result = operators[operator](lvalue, rvalue);
 
         if (result) {
             return options.fn(this);

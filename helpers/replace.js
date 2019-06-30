@@ -1,7 +1,9 @@
 'use strict';
 
 const factory = () => {
-    return function(needle, haystack, options) {
+    return function(needle, haystack) {
+        const options = arguments[arguments.length - 1];
+
         if (typeof needle !== 'string') {
             return options.inverse(this);
         }
