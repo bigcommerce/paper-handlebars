@@ -1,20 +1,24 @@
 'use strict';
 
-const common = require('./lib/common.js');
+const _ = require('lodash');
 
 const factory = globals => {
     return function(lvalue, operator, rvalue, options) {
         let result;
 
+        function isOptions(obj) {
+            return _.isObject(obj) && obj.fn;
+        }
+
         // Only parameter
-        if (common.isOptions(operator)) {
+        if (isOptions(operator)) {
             // If an array is passed as the only parameter
             options = operator;
-            if (Array.isArray(lvalue)) {
+            if (_.isArray(lvalue)) {
                 result = !!lvalue.length;
             }
             // If an empty object is passed, treat as false
-            else if (common.isEmptyObject(lvalue)) {
+            else if (_.isEmpty(lvalue) && _.isObject(lvalue)) {
                 result = false;
             }
             // Everything else
@@ -23,7 +27,7 @@ const factory = globals => {
             }
         } else {
 
-            if (common.isOptions(rvalue)) {
+            if (isOptions(rvalue)) {
                 // @TODO: this block is for backwards compatibility with 'compare' helper
                 // Remove after operator='==' is removed from stencil theme
                 options = rvalue;
@@ -98,4 +102,3 @@ module.exports = [{
     name: 'if',
     factory: factory,
 }];
-
