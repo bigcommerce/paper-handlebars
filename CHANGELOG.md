@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.0.8
+- Update handlebars v4 to latest
+- Update handlebars v3 to latest
+
 ## 4.0.7
 - Remove regex in cdnify.js to improve performance
 - Remove regex in fonts.js for better performance
