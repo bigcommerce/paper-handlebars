@@ -10,10 +10,9 @@ const _ = require('lodash');
  * {{#contains font_path "Roboto"}} ... {{/contains}}
  */
 const factory = () => {
-    return function() {
-        var args = Array.prototype.slice.call(arguments, 0, -1),
-            options = _.last(arguments),
-            contained = _.contains.apply(_, args);
+    return function(container, value) {
+        const options = arguments[arguments.length - 1];
+        const contained = _.contains(container, value);
 
         // Yield block if true
         if (contained) {
