@@ -12,7 +12,7 @@ const _ = require('lodash');
 const factory = () => {
     return function(container, value) {
         const options = arguments[arguments.length - 1];
-        const contained = _.contains(container, value);
+        const contained = _.includes(container, value);
 
         // Yield block if true
         if (contained) {

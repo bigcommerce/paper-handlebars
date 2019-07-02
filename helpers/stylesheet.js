@@ -20,10 +20,7 @@ const factory = globals => {
 
         let attrs = { rel: 'stylesheet' };
 
-        // check if there is any extra attribute
-        if (_.isObject(options.hash)) {
-            attrs = _.merge(attrs, options.hash);
-        }
+        Object.assign(attrs, options.hash);
 
         attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
 

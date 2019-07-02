@@ -64,7 +64,7 @@ const fontProviders = {
 
             return {
                 google: {
-                    families: _.map(fonts, replaceSpaces),
+                    families: fonts.map(font => replaceSpaces(font)),
                 }
             };
         },

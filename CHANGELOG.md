@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Upgrade Lodash to 4.17.13
 - Reduce usage of arguments
 
 ## 4.0.9

@@ -17,12 +17,12 @@ const factory = () => {
         const predicate = opts.hash;
 
         if (!_.isEmpty(predicate)) {
-            // With options hash, we check the contents of first arg
-            any = _.any(args[0], predicate);
+            // With options hash, we check the contents of first argument
+            any = _.some(args[0], predicate);
         } else {
             // DEPRECATED: Moved to #or helper
-            // Without options hash, we check all the args
-            any = _.any(args, function (arg) {
+            // Without options hash, we check all the arguments
+            any = _.some(args, function (arg) {
                 if (_.isArray(arg)) {
                     return !!arg.length;
                 }
