@@ -22,12 +22,16 @@ const themeSettings = {
 };
 
 describe('getImage helper', function() {
-    const urlData = 'https://cdn.example.com/path/to/{:size}/image.png';
+    const urlData = 'https://cdn.example.com/path/to/{:size}/image.png?c=2';
+    const urlData_2_qs = 'https://cdn.example.com/path/to/{:size}/image.png?c=2&imbypass=on';
     const context = {
         image_url: 'http://example.com/image.png',
         not_an_image: null,
         image: {
             data: urlData
+        },
+        image_with_2_qs: {
+            data: urlData_2_qs
         },
         logoPreset: 'logo',
     };
@@ -39,10 +43,6 @@ describe('getImage helper', function() {
             {
                 input: '{{getImage "http://example.com/image.jpg"}}',
                 output: 'http://example.com/image.jpg',
-            },
-            {
-                input: '{{getImage "https://example.com/image.jpg"}}',
-                output: 'https://example.com/image.jpg',
             },
         ], done);
     });
@@ -67,8 +67,16 @@ describe('getImage helper', function() {
                 output: urlData.replace('{:size}', '250x100'),
             },
             {
+                input: '{{getImage image_with_2_qs "logo"}}',
+                output: urlData_2_qs.replace('{:size}', '250x100'),
+            },
+            {
                 input: '{{getImage image "gallery"}}',
                 output: urlData.replace('{:size}', '300x300'),
+            },
+            {
+                input: '{{getImage image_with_2_qs "gallery"}}',
+                output: urlData_2_qs.replace('{:size}', '300x300'),
             },
         ], done);
     });
@@ -109,11 +117,11 @@ describe('getImage helper', function() {
         runTestCases([
             {
                 input: '{{getImage image "missing_values"}}',
-                output: urlData.replace('{:size}', '4096x4096'),
+                output: urlData.replace('{:size}', '5120x5120'),
             },
             {
                 input: '{{getImage image "missing_width"}}',
-                output: urlData.replace('{:size}', '4096x100'),
+                output: urlData.replace('{:size}', '5120x100'),
             },
         ], done);
     });
