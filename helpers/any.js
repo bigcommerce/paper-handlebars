@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const utils = require('handlebars-utils');
 
 /**
  * Yield block if any object within a collection matches supplied predicate
@@ -16,18 +17,18 @@ const factory = () => {
         const opts = args.pop();
         const predicate = opts.hash;
 
-        if (!_.isEmpty(predicate)) {
+        if (!utils.isEmpty(predicate)) {
             // With options hash, we check the contents of first argument
             any = _.some(args[0], predicate);
         } else {
             // DEPRECATED: Moved to #or helper
             // Without options hash, we check all the arguments
             any = _.some(args, function (arg) {
-                if (_.isArray(arg)) {
+                if (utils.isArray(arg)) {
                     return !!arg.length;
                 }
                 // If an empty object is passed, arg is false
-                else if (_.isEmpty(arg) && _.isObject(arg)) {
+                else if (utils.isEmpty(arg) && utils.isObject(arg)) {
                     return false;
                 }
                 // Everything else

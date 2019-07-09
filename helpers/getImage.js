@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
+const utils = require('handlebars-utils');
 const SafeString = require('handlebars').SafeString;
 const common = require('./lib/common.js');
 
@@ -13,14 +13,14 @@ const factory = globals => {
         var width;
         var height;
 
-        if (!_.isPlainObject(image) || !_.isString(image.data)
+        if (!utils.isObject(image) || !utils.isString(image.data)
             || !common.isValidURL(image.data) || image.data.indexOf('{:size}') === -1) {
             // return empty string if not a valid image object
             defaultImageUrl = defaultImageUrl ? defaultImageUrl : '';
-            return _.isString(image) ? image : defaultImageUrl;
+            return utils.isString(image) ? image : defaultImageUrl;
         }
 
-        if (_.isPlainObject(presets) && _.isPlainObject(presets[presetName])) {
+        if (utils.isObject(presets) && utils.isObject(presets[presetName])) {
             // If preset is one of the given presets in _images
             width = parseInt(presets[presetName].width, 10) || 5120;
             height = parseInt(presets[presetName].height, 10) || 5120;
