@@ -1,8 +1,14 @@
 # Changelog
 
 ## Unreleased
+
+## 4.1.0
 - Upgrade Lodash to 4.17.13
-- Reduce usage of arguments
+- Reduce arguments usage where possible
+- Refactor helper functions to use Handlebars utils type checks instead of Lodash type checks
+- Add getImageSrcset helper
+- Refactor getImage helper to return image URL as SafeString instead of string
+
 
 ## 4.0.9
 - Revert "Refactor functions away from arguments pattern for better performance" from 4.0.7
