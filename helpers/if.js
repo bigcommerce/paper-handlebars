@@ -1,24 +1,20 @@
 'use strict';
 
-const _ = require('lodash');
+const utils = require('handlebars-utils');
 
 const factory = globals => {
     return function(lvalue, operator, rvalue) {
         const options = arguments[arguments.length - 1];
         let result;
 
-        function isOptions(obj) {
-            return _.isObject(obj) && obj.fn;
-        }
-
         // Only parameter
-        if (isOptions(operator)) {
+        if (utils.isOptions(operator)) {
             // If an array is passed as the only parameter
-            if (_.isArray(lvalue)) {
+            if (utils.isArray(lvalue)) {
                 result = !!lvalue.length;
             }
             // If an empty object is passed, treat as false
-            else if (_.isEmpty(lvalue) && _.isObject(lvalue)) {
+            else if (utils.isEmpty(lvalue) && utils.isObject(lvalue)) {
                 result = false;
             }
             // Everything else
@@ -27,7 +23,7 @@ const factory = globals => {
             }
         } else {
 
-            if (isOptions(rvalue)) {
+            if (utils.isOptions(rvalue)) {
                 // @TODO: this block is for backwards compatibility with 'compare' helper
                 // Remove after operator='==' is removed from stencil theme
                 rvalue = operator;

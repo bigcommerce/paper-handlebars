@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const utils = require('handlebars-utils');
 
 const factory = () => {
     return function(from, to, context) {
@@ -8,17 +8,13 @@ const factory = () => {
         const maxIterations = 100;
         var output = '';
 
-        function isOptions(obj) {
-            return _.isObject(obj) && obj.fn;
-        }
-
-        if (isOptions(to)) {
+        if (utils.isOptions(to)) {
             context = {};
             to = from;
             from = 1;
 
-        } else if (isOptions(context)) {
-            if (_.isObject(to)) {
+        } else if (utils.isOptions(context)) {
+            if (utils.isObject(to)) {
                 context = to;
                 to = from;
                 from = 1;

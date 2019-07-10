@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const utils = require('handlebars-utils');
 
 /**
  * Limit an array to the second argument
@@ -10,10 +10,10 @@ const _ = require('lodash');
  */
 const factory = () => {
     return function(data, limit) {
-        if (_.isString(data)) {
+        if (utils.isString(data)) {
             return data.substring(0, limit);
         }
-        if (!_.isArray(data)) {
+        if (!utils.isArray(data)) {
             return [];
         }
 
