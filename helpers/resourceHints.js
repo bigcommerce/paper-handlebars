@@ -33,7 +33,7 @@ const factory = globals => {
             }
         });
 
-        return new globals.handlebars.SafeString(_.map(hosts, format).join(''));
+        return new globals.handlebars.SafeString(hosts.map(host => format(host)).join(''));
     };
 };
 
