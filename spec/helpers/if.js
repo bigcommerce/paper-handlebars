@@ -166,6 +166,23 @@ describe('if helper', () => {
         ], done);
     });
 
+    it('should ignore additional arguments and process only the first three arguments', done => {
+        runTestCases([
+            {
+                input: '{{#if "1" "<" "2" ">" "3"}}big{{/if}}',
+                output: 'big'
+            },
+            {
+                input: '{{#if "1" "<" "-1" ">" "3"}}big{{/if}}',
+                output: ''
+            },
+            {
+                input: '{{#if "1" "<" "1" ">" "3"}}big{{/if}}',
+                output: ''
+            }
+        ], done)
+    });
+
     it('should throw an exeption when non string value sent to gtnum', function (done) {
         renderString('{{#if num1 "gtnum" "2"}}big{{/if}}').catch(e => {
             renderString('{{#if "2" "gtnum" num2}}big{{/if}}').catch(e => {

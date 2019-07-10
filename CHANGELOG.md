@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Reduce usage of arguments
 
 ## 4.0.9
 - Revert "Refactor functions away from arguments pattern for better performance" from 4.0.7
