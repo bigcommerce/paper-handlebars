@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.1.1
+- Revert usage of SafeString on getImage
+
 ## 4.1.0
 - Upgrade Lodash to 4.17.13
 - Reduce arguments usage where possible

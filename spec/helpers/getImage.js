@@ -67,7 +67,7 @@ describe('getImage helper', function() {
                 output: urlData.replace('{:size}', '250x100'),
             },
             {
-                input: '{{getImage image_with_2_qs "logo"}}',
+                input: '{{{getImage image_with_2_qs "logo"}}}',
                 output: urlData_2_qs.replace('{:size}', '250x100'),
             },
             {
@@ -75,7 +75,7 @@ describe('getImage helper', function() {
                 output: urlData.replace('{:size}', '300x300'),
             },
             {
-                input: '{{getImage image_with_2_qs "gallery"}}',
+                input: '{{{getImage image_with_2_qs "gallery"}}}',
                 output: urlData_2_qs.replace('{:size}', '300x300'),
             },
         ], done);
