@@ -7,7 +7,7 @@
   "license": "BSD-4-Clause",
   "scripts": {
     "linter": "eslint .",
-    "test": "npm run linter && lab -v -t 98 --ignore WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams spec",
+    "test": "npm run linter && lab -v -t 98 --ignore WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {
