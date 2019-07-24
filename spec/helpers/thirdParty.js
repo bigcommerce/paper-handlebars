@@ -230,18 +230,4 @@ describe('third party handlebars-helpers', function() {
         });
 
     });
-
-    describe('url helpers', function() {
-
-        describe('contains stripQuerystring', function() {
-            it('strips the query string from a given url', function(done) {
-                runTestCases([
-                    {
-                        input: `{{stripQuerystring 'http://www.example.com?foo=1&bar=2&baz=3'}}`,
-                        output: 'http://www.example.com',
-                    },
-                ], done);
-            });
-        });
-    });
 });
