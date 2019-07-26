@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.1.2
+- Allow stripQuerystring to accept a Safestring as an argument
+- Refactor getImage helper to return image URL as SafeString instead of string
+
 ## 4.1.1
 - Revert usage of SafeString on getImage
 
@@ -11,7 +15,6 @@
 - Refactor helper functions to use Handlebars utils type checks instead of Lodash type checks
 - Add getImageSrcset helper
 - Refactor getImage helper to return image URL as SafeString instead of string
-
 
 ## 4.0.9
 - Revert "Refactor functions away from arguments pattern for better performance" from 4.0.7
