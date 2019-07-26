@@ -138,7 +138,7 @@ const whitelist = [
     },
     {
         name: 'url',
-        include: ['encodeURI', 'decodeURI', 'urlResolve', 'urlParse', 'stripQuerystring', 'stripProtocol'],
+        include: ['encodeURI', 'decodeURI', 'urlResolve', 'urlParse', 'stripProtocol'],
     },
 ];
 
