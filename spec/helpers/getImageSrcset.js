@@ -14,7 +14,14 @@ describe('getImageSrcset helper', function() {
             data: urlData
         },
         image_with_2_qs: {
-            data: urlData_2_qs
+            data: urlData_2_qs,
+            width: null,
+            height: null,
+        },
+        image_with_dimensions: {
+            data: urlData,
+            width: 1400,
+            height: 900,
         },
     };
 
@@ -42,6 +49,15 @@ describe('getImageSrcset helper', function() {
             {
                 input: '{{getImageSrcset image use_default_sizes=true}}',
                 output: 'https://cdn.example.com/path/to/80w/image.png?c=2 80w, https://cdn.example.com/path/to/160w/image.png?c=2 160w, https://cdn.example.com/path/to/320w/image.png?c=2 320w, https://cdn.example.com/path/to/640w/image.png?c=2 640w, https://cdn.example.com/path/to/960w/image.png?c=2 960w, https://cdn.example.com/path/to/1280w/image.png?c=2 1280w, https://cdn.example.com/path/to/1920w/image.png?c=2 1920w, https://cdn.example.com/path/to/2560w/image.png?c=2 2560w',
+            },
+        ], done);
+    });
+
+    it('should return a srcset made of default sizes up to the width of the image if known', function(done) {
+        runTestCases([
+            {
+                input: '{{getImageSrcset image_with_dimensions use_default_sizes=true}}',
+                output: 'https://cdn.example.com/path/to/80w/image.png?c=2 80w, https://cdn.example.com/path/to/160w/image.png?c=2 160w, https://cdn.example.com/path/to/320w/image.png?c=2 320w, https://cdn.example.com/path/to/640w/image.png?c=2 640w, https://cdn.example.com/path/to/960w/image.png?c=2 960w, https://cdn.example.com/path/to/1280w/image.png?c=2 1280w, https://cdn.example.com/path/to/1400w/image.png?c=2 1400w',
             },
         ], done);
     });

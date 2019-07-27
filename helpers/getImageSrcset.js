@@ -26,16 +26,29 @@ const factory = () => {
         let srcsets = {};
 
         if (options.hash['use_default_sizes']) {
-            srcsets = {
-                '2560w': '2560w',
-                '1920w': '1920w',
-                '1280w': '1280w',
-                '960w': '960w',
-                '640w': '640w',
-                '320w': '320w',
-                '160w': '160w',
-                '80w': '80w',
-            };
+            if (Number.isInteger(image.width) && Number.isInteger(image.height)){
+                /* If we know the image dimensions, don't generate srcset sizes larger than the image  */
+                srcsets[`${image.width}w`] = `${image.width}w`;
+                const defaultSrcsetSizes = [2560, 1920, 1280, 960, 640, 320, 160, 80];
+                defaultSrcsetSizes.forEach(width => {
+                    if (width < image.width) {
+                        srcsets[`${width}w`] = `${width}w`;
+                    }
+                });
+            } else {
+                /* If we DON'T know the image dimensions, generate a default set of srcsets
+                *  This will upsize images */
+                srcsets = {
+                    '2560w': '2560w',
+                    '1920w': '1920w',
+                    '1280w': '1280w',
+                    '960w': '960w',
+                    '640w': '640w',
+                    '320w': '320w',
+                    '160w': '160w',
+                    '80w': '80w',
+                };
+            }
         } else {
             srcsets = options.hash;
             if (!utils.isObject(srcsets) || Object.keys(srcsets).some(descriptor => {
