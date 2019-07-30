@@ -24,14 +24,20 @@ const factory = globals => {
             // If preset is one of the given presets in _images
             width = parseInt(presets[presetName].width, 10) || 5120;
             height = parseInt(presets[presetName].height, 10) || 5120;
-            size = width + 'x' + height;
-
+            size = `${width}x${height}`;
         } else if (sizeRegex.test(settings[presetName])) {
             // If preset name is a setting and match the NNNxNNN format
             size = settings[presetName];
+            width = parseInt(size.split('x')[0], 10);
+            height = parseInt(size.split('x')[1], 10);
         } else {
             // Use the original image size
             size = 'original';
+        }
+
+        if (Number.isInteger(image.width) && Number.isInteger(image.height)
+            && Number.isInteger(width) && Number.isInteger(height)) {
+            size = `${Math.min(image.width, width)}x${Math.min(image.height, height)}`
         }
 
         return new SafeString(image.data.replace('{:size}', size));
