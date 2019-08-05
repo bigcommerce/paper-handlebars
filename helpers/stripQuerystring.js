@@ -1,12 +1,10 @@
 'use strict';
-const SafeString = require('handlebars').SafeString;
 const utils = require('handlebars-utils');
+const common = require('./lib/common.js');
 
 const factory = () => {
     return function(url) {
-        if (url instanceof SafeString) {
-            url = url.toString();
-        }
+        url = common.unwrapIfSafeString(url);
         if (utils.isString(url)) {
             return url.split('?')[0];
         }
