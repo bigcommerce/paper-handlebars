@@ -1,5 +1,6 @@
 'use strict';
 const URL = require('url').URL;
+const SafeString = require('handlebars').SafeString;
 
 function isValidURL(val) {
     try {
@@ -10,6 +11,14 @@ function isValidURL(val) {
     }
 }
 
+function unwrapIfSafeString(val) {
+    if (val instanceof SafeString) {
+        val = val.toString();
+    }
+    return val;
+}
+
 module.exports = {
     isValidURL,
+    unwrapIfSafeString
 };

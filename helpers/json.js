@@ -1,11 +1,9 @@
 'use strict';
-const SafeString = require('handlebars').SafeString;
+const common = require('./lib/common.js');
 
 const factory = () => {
     return function(data) {
-        if (data instanceof SafeString) {
-            data = data.toString();
-        }
+        data = common.unwrapIfSafeString(data);
         return JSON.stringify(data);
     };
 };
