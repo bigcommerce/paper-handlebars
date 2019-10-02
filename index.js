@@ -171,7 +171,7 @@ class HandlebarsRenderer {
             const path = paths[i];
 
             if (typeof this.handlebars.partials[path] !== 'undefined') {
-                return;
+                continue;
             }
 
             try {

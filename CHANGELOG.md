@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.2.2
+- Fix addTemplates logic in order to not lose templates on renderTheme function for Stencil CLI
+
 ## 4.2.1
 - Allow json helper to accept a SafeString as an argument
 - Move SafeString unwrapping to common module
