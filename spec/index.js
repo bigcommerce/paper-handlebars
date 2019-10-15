@@ -137,7 +137,7 @@ describe('addTemplates', () => {
     };
 
     beforeEach(done => {
-        sandbox = Sinon.sandbox.create();
+        sandbox = Sinon.createSandbox();
         renderer = new HandlebarsRenderer();
         done();
     });
@@ -239,7 +239,7 @@ describe('render', () => {
     };
 
     beforeEach(done => {
-        sandbox = Sinon.sandbox.create();
+        sandbox = Sinon.createSandbox();
         renderer = new HandlebarsRenderer();
         const processor = renderer.getPreProcessor();
         renderer.addTemplates(processor(templates));
@@ -334,7 +334,7 @@ describe('renderString', () => {
     };
 
     beforeEach(done => {
-        sandbox = Sinon.sandbox.create();
+        sandbox = Sinon.createSandbox();
         renderer = new HandlebarsRenderer();
         done();
     });
@@ -384,7 +384,7 @@ describe('errors', () => {
     let sandbox;
 
     beforeEach(done => {
-        sandbox = Sinon.sandbox.create();
+        sandbox = Sinon.createSandbox();
         done();
     });
 
@@ -401,5 +401,33 @@ describe('errors', () => {
         expect(HandlebarsRenderer.errors.DecoratorError.prototype instanceof Error).to.be.true();
         expect(HandlebarsRenderer.errors.TemplateNotFoundError.prototype instanceof Error).to.be.true();
         done();
+    });
+});
+
+describe('logging', () => {
+    let renderer, logger, sandbox;
+    const context = {
+        bar: 'baz'
+    };
+
+    beforeEach(done => {
+        sandbox = Sinon.createSandbox();
+        logger = {
+            log: Sinon.fake(),
+        };
+        renderer = new HandlebarsRenderer({}, {}, 'v3', logger);
+        done();
+    });
+
+    afterEach(done => {
+        sandbox.restore();
+        done();
+    });
+
+    it('log helper uses given logger', done => {
+        renderer.renderString('{{log bar}}', context).then(result => {
+            expect(logger.log.calledWith('baz')).to.equal(true);
+            done();
+        });
     });
 });
