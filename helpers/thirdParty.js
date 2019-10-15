@@ -58,6 +58,12 @@ const whitelist = [
     {
         name: 'date',
         include: ['moment'],
+        init: () => {
+            // date-helper uses moment under the hood, so we can hook in to supress
+            // error messages that are not actionable
+            const moment = require('moment');
+            moment.suppressDeprecationWarnings = true;
+        },
     },
     {
         name: 'html',
@@ -145,13 +151,22 @@ const whitelist = [
 // Construct the data structure the caller expects: an array of { name, factory }
 const exportedHelpers = [];
 for (let i = 0; i < whitelist.length; i++) {
-    const whitelistSpec = whitelist[i];
-    // Pluck whitelisted functions from each helper module.
-    const includelist = whitelistSpec.include;
-    const whitelistHelpers = helpers[whitelistSpec.name]();
+    const spec = whitelist[i];
 
-    for (let i = 0; i < includelist.length; i++) {
-        exportedHelpers.push({name: includelist[i], factory: () => whitelistHelpers[includelist[i]]});
+    // Initialize module
+    const module = helpers[spec.name]();
+    if (typeof spec.init === 'function') {
+        spec.init(module);
+    }
+
+    // Pluck whitelisted functions from each helper module and wrap in object of expected format
+    const moduleWhitelist = spec.include;
+    for (let i = 0; i < moduleWhitelist.length; i++) {
+        const name = moduleWhitelist[i];
+        exportedHelpers.push({
+            name: name,
+            factory: () => module[name],
+        });
     }
 }
 
