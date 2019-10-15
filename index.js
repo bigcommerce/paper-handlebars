@@ -34,8 +34,9 @@ class HandlebarsRenderer {
     * @param {Object} siteSettings - Global site settings, passed to helpers
     * @param {Object} themeSettings - Theme settings (configuration), passed to helpers
     * @param {String} hbVersion - Which version of handlebars to use. One of ['v3', 'v4'] - defaults to 'v3'.
+    * @param {Object} logger - A console-like object to use for logging
     */
-    constructor(siteSettings, themeSettings, hbVersion) {
+    constructor(siteSettings, themeSettings, hbVersion, logger = console) {
         // Figure out which version of Handlebars to use.
         switch(hbVersion) {
             case 'v4':
@@ -47,6 +48,7 @@ class HandlebarsRenderer {
                 break;
         }
 
+        this._setHandlebarsLogger(logger);
         this.setSiteSettings(siteSettings || {});
         this.setThemeSettings(themeSettings || {});
         this.setTranslator(null);
@@ -312,6 +314,27 @@ class HandlebarsRenderer {
 
             resolve(result);
         });
+    }
+
+    /**
+     * Set the Handlebars logger to use the given console alternative. This is an override
+     * of https://github.com/wycats/handlebars.js/blob/148b19182d70278237a62d8293db540483a0c46c/lib/handlebars/logger.js#L22
+     *
+     * @param {Object} logger A console-like object used for logging
+     */
+    _setHandlebarsLogger(logger) {
+        // Override handlebars logger to use the given console alternative
+        this.handlebars.logger.log = (level, ...message) => {
+            level = this.handlebars.logger.lookupLevel(level);
+
+            if (this.handlebars.logger.lookupLevel(this.handlebars.logger.level) <= level) {
+                let method = this.handlebars.logger.methodMap[level];
+                if (typeof logger[method] !== 'function') {
+                    method = 'log';
+                }
+                logger[method](...message);
+            }
+        };
     }
 }
 
