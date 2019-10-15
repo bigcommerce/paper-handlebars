@@ -48,7 +48,8 @@ class HandlebarsRenderer {
                 break;
         }
 
-        this._setHandlebarsLogger(logger);
+        this.logger = logger;
+        this._setHandlebarsLogger();
         this.setSiteSettings(siteSettings || {});
         this.setThemeSettings(themeSettings || {});
         this.setTranslator(null);
@@ -317,22 +318,23 @@ class HandlebarsRenderer {
     }
 
     /**
-     * Set the Handlebars logger to use the given console alternative. This is an override
+     * Internal method. Set the Handlebars logger to use the given console alternative. This is an override
      * of https://github.com/wycats/handlebars.js/blob/148b19182d70278237a62d8293db540483a0c46c/lib/handlebars/logger.js#L22
-     *
-     * @param {Object} logger A console-like object used for logging
      */
-    _setHandlebarsLogger(logger) {
-        // Override handlebars logger to use the given console alternative
-        this.handlebars.logger.log = (level, ...message) => {
+    _setHandlebarsLogger() {
+        // Normalize on the v4 implementation
+        this.handlebars.logger = HandlebarsV4.logger;
+
+        // Override logger.log to use the given console alternative
+        this.handlebars.log = this.handlebars.logger.log = (level, ...message) => {
             level = this.handlebars.logger.lookupLevel(level);
 
             if (this.handlebars.logger.lookupLevel(this.handlebars.logger.level) <= level) {
                 let method = this.handlebars.logger.methodMap[level];
-                if (typeof logger[method] !== 'function') {
+                if (typeof this.logger[method] !== 'function') {
                     method = 'log';
                 }
-                logger[method](...message);
+                this.logger[method](...message);
             }
         };
     }
