@@ -1,5 +1,5 @@
 'use strict';
-const URL = require('url').URL;
+const URL = require('url').Url;
 const SafeString = require('handlebars').SafeString;
 
 function isValidURL(val) {
