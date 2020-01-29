@@ -5,9 +5,10 @@ const Lab = require('lab'),
       specHelpers = require('../spec-helpers'),
       testRunner = specHelpers.testRunner;
 
-describe('setURLQueryParam helper', function() {
+describe('encodeHtmlEntities helper', function() {
     const context = {
         string: 'foo © bar ≠ baz 𝌆 qux',
+        quotes: '"some" \'quotes\'',
     };
 
     const runTestCases = testRunner({context});
@@ -25,6 +26,14 @@ describe('setURLQueryParam helper', function() {
             {
                 input: '{{encodeHtmlEntities "string"}}',
                 output: `string`,
+            },
+            {
+                input: '{{encodeHtmlEntities quotes}}',
+                output: `&#x22;some&#x22; &#x27;quotes&#x27;`,
+            },
+            {
+                input: '{{encodeHtmlEntities "an ampersand: &"}}',
+                output: `an ampersand: &#x26;`,
             },
         ], done);
     });
