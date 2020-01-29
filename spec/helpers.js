@@ -26,6 +26,7 @@ describe('helper registration', () => {
             'concat',
             'contains',
             'dynamicComponent',
+            'encodeHtmlEntities',
             'for',
             'getFontLoaderConfig',
             'getFontsCollection',
