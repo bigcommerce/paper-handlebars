@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.3.0
+- Add encodeHtmlEntities helper
+
 ## 4.2.3
 - Add ability to pass logger. Will be used for library as well as handlebars. Must conform to console interface (info, error, log, etc). Defaults to console object.
 
