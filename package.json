@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "code": "~4.0.0",
-    "eslint": "~4.10.0",
+    "eslint": "~6.8.0",
     "lab": "~13.0.4",
     "sinon": "~7.5.0"
   },
