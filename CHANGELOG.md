@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.3.1
+- Add support for arguments on encodeHtmlEntities helper
+
 ## 4.3.0
 - Add encodeHtmlEntities helper
 
