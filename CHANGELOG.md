@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.3.2
+- Allow replace helper to accept a SafeString as an argument
+
 ## 4.3.1
 - Add support for arguments on encodeHtmlEntities helper
 
