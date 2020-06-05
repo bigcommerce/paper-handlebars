@@ -12,6 +12,7 @@ describe('replace helper', function() {
     const context = {
         content: "Either you run the %%var%% or the  %%var%% runs you",
         price: '$49.99',
+        facet: 'brand',
     };
 
     const runTestCases = testRunner({context, templates});
@@ -48,6 +49,15 @@ describe('replace helper', function() {
             {
                 input: "{{#replace '$' '$10.00'}}USD {{/replace}}",
                 output: 'USD 10.00',
+            },
+        ], done);
+    });
+
+    it('should work nicely with other helpers that use safestring', function(done) {
+        runTestCases([
+            {
+                input: "Replace+Concat+Hyphenated: fifth-{{#replace '&' (concat '&' (hyphenate facet)) }}{{/replace}}",
+                output: "Replace+Concat+Hyphenated: fifth-brand",
             },
         ], done);
     });
