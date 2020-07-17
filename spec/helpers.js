@@ -41,6 +41,7 @@ describe('helper registration', () => {
             'lang',
             'langJson',
             'limit',
+            'localizePrice',
             'money',
             'nl2br',
             'or',
