@@ -25,6 +25,7 @@ describe('helper registration', () => {
             'compare',
             'concat',
             'contains',
+            'decodeHtmlEntities',
             'dynamicComponent',
             'encodeHtmlEntities',
             'for',
