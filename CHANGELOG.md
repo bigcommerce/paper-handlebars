@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.4.0
+- Add "assignVar", "getVar", "incrementVar", "decrementVar" helpers
+- Add "getContentImage, "getContentImageSrcset", "getImageManagerImage", "getImageManagerImageSrcset" helpers
+
 ## 4.3.2
 - Allow replace helper to accept a SafeString as an argument
 
