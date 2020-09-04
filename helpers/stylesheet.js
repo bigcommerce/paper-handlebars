@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
 
 const factory = globals => {
@@ -22,9 +21,10 @@ const factory = globals => {
 
         Object.assign(attrs, options.hash);
 
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
+        const dataAttributes = Object.entries(attrs)
+            .map(([key, value]) => `${key}="${value}"`);
 
-        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
+        return `<link data-stencil-stylesheet href="${url}" ${dataAttributes.join(' ')}>`;
     };
 };
 

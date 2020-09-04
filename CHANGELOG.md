@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Refactor helpers to drop lodash dependency
 
 ## 4.4.1
 - Update handlebars 3.x and 4.x to latest
