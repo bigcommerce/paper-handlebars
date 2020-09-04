@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
-
 const fontProviders = {
     'Google': {
         /**
@@ -21,30 +19,30 @@ const fontProviders = {
             var collection = [],
                 familyHash = {};
 
-            _.each(fonts, function fontsIterator(font) {
+            fonts.forEach(font => {
                 var split = font.split('_'),
                     familyKey = split[1],  // Eg: Open+Sans
                     weights = split[2];    // Eg: 400,700italic
 
-                if (_.isEmpty(familyKey)) {
+                if (!familyKey) {
                     return;
                 }
 
-                if (_.isUndefined(weights)) {
+                if (typeof weights === 'undefined') {
                     weights = '';
                 }
 
-                if (!_.isArray(familyHash[familyKey])) {
+                if (!Array.isArray(familyHash[familyKey])) {
                     familyHash[familyKey] = [];
                 }
 
                 weights = weights.split(',');
 
                 familyHash[familyKey].push(weights);
-                familyHash[familyKey] = _.uniq(_.flatten(familyHash[familyKey]));
+                familyHash[familyKey] = Array.from(new Set([].concat.apply([], familyHash[familyKey])));
             });
 
-            _.each(familyHash, function fontHashIterator(weights, family) {
+            Object.entries(familyHash).forEach(([family, weights]) => {
                 collection.push(family + ':' + weights.join(','));
             });
 
@@ -84,58 +82,90 @@ const fontProviders = {
  * @returns {Object.<string, Array>|string}
  */
 module.exports = function(format, themeSettings, handlebars, options) {
-    
-    const collectedFonts = {};
-    _.each(themeSettings, function(value, key) {
-        //check that -font is on end of string but not start of string
-        const fontKeySuffix = '-font';
-        if (!key.endsWith(fontKeySuffix)) {
-            return;
-        }
+    const collectedFonts = Object.entries(themeSettings)
+        .reduce(
+            (
+                collectedFonts,
+                [key, value]
+            ) => {
+                //check that -font is on end of string but not start of string
+                const fontKeySuffix = '-font';
+                if (!key.endsWith(fontKeySuffix)) {
+                    return collectedFonts;
+                }
 
-        const splits = value.split('_');
-        const provider = splits[0];
+                const splits = value.split('_');
+                const provider = splits[0];
 
-        if (typeof fontProviders[provider] === 'undefined') {
-            return;
-        }
+                if (typeof fontProviders[provider] === 'undefined') {
+                    return collectedFonts;
+                }
 
-        if (typeof collectedFonts[provider] === 'undefined') {
-            collectedFonts[provider] = [];
-        }
+                if (typeof collectedFonts[provider] === 'undefined') {
+                    collectedFonts[provider] = [];
+                }
 
-        collectedFonts[provider].push(value);
-    });
+                collectedFonts[provider].push(value);
+
+                return collectedFonts;
+            },
+            {}
+        );
 
     // Parse font strings based on provider
-    const parsedFonts = _.mapValues(collectedFonts, function(value, key) {
-        return fontProviders[key].parser(value);
-    });
+    const parsedFonts = Object.entries(collectedFonts).reduce(
+        (
+            parsedFonts,
+            [key, value]
+        ) => {
+            parsedFonts[key] = fontProviders[key].parser(value);
+
+            return parsedFonts;
+        },
+        {}
+    );
 
     // Format output based on requested format
     switch(format) {
     case 'linkElements':
-        
-        const formattedFonts = _.mapValues(parsedFonts, function(value, key) {
-            return fontProviders[key].buildLink(value, options.fontDisplay);
-        });
-        return new handlebars.SafeString(_.values(formattedFonts).join(''));
+        const formattedFonts = Object.entries(parsedFonts).reduce(
+            (
+                formattedFonts,
+                [key, value]
+            ) => {
+                formattedFonts[key] = fontProviders[key].buildLink(value, options.fontDisplay);
+
+                return formattedFonts;
+            },
+            {}
+        );
+
+        return new handlebars.SafeString(Object.entries(formattedFonts).map(([key, value]) => value).join(''));
 
     case 'webFontLoaderConfig':
         // Build configs
-        const configs = _.mapValues(parsedFonts, function(value, key) {
-            return fontProviders[key].buildFontLoaderConfig(value);
-        });
+        return Object.entries(parsedFonts).reduce(
+            (
+                configs,
+                [key, value]
+            ) => {
+                configs[key] = fontProviders[key].buildFontLoaderConfig(value);
 
-        // Merge them
-        const fontLoaderConfig = {};
-        _.each(configs, function(config) {
-            return Object.assign(fontLoaderConfig, config);
-        });
-        return fontLoaderConfig;
+                return Object.entries(configs).reduce(
+                    (
+                        fontLoaderConfig,
+                        [key, config]
+                    ) => {
+                        return Object.assign(fontLoaderConfig, config);
+                    },
+                    {}
+                );
+            },
+            {}
+        );
 
     case 'providerLists':
     default:
         return parsedFonts;
     }
-}
+};
