@@ -14,7 +14,7 @@ const factory = () => {
         let any;
         // Take the last arg which is a Handlebars options object out of args array
         const opts = args.pop();
-        const collection = args[0];
+        const collection = args[0] || [];
         const predicate = opts.hash;
 
         if (!utils.isEmpty(predicate)) {
