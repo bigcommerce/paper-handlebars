@@ -27,7 +27,7 @@
   "dependencies": {
     "@bigcommerce/handlebars-v4": "4.7.6",
     "handlebars": "3.0.8",
-    "handlebars-helpers": "0.8.4",
+    "handlebars-helpers": "0.10.0",
     "handlebars-utils": "^1.0.6",
     "he": "^1.2.0",
     "stringz": "^0.1.1"

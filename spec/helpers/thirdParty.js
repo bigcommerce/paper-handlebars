@@ -36,6 +36,30 @@ describe('third party handlebars-helpers', function() {
             });
         });
 
+        describe('pluck helper', function() {
+            const context = {
+                users: [
+                    { 'user': 'barney', 'age': 36 },
+                    { 'user': 'fred',   'age': 40 }
+                ]
+            };
+
+            const runTestCases = testRunner({context});
+
+            it('should get the values from all elements in collection', function(done) {
+                runTestCases([
+                    {
+                        input: '{{pluck users "age"}}',
+                        output: '36,40',
+                    },
+                    {
+                        input: '{{#each (pluck users "user")}}hello {{this}} {{/each}}',
+                        output: 'hello barney hello fred ',
+                    },
+                ], done);
+            });
+        });
+
     });
 
     describe('collection helpers', function() {
@@ -73,6 +97,245 @@ describe('third party handlebars-helpers', function() {
                     },
                 ], done);
             });
+
+            it('should evaluate inner expression when haystack contains needle', function(done) {
+                runTestCases([
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: 'FOUND',
+                        context: {
+                            needle: "hello",
+                            haystack: "hello world"
+                        },
+                    },
+                    // {
+                    //     input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                    //     output: 'FOUND',
+                    //     context: {
+                    //         needle: { key: 'value' },
+                    //         haystack: {
+                    //             foo: { key: 'value' }
+                    //         }
+                    //     },
+                    // },
+                    // {
+                    //     input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                    //     output: 'FOUND',
+                    //     context: {
+                    //         needle: 'bar',
+                    //         haystack: {
+                    //             foo: 'bar'
+                    //         }
+                    //     },
+                    // },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: 'FOUND',
+                        context: {
+                            needle: 1,
+                            haystack: [1, 2, 3]
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack "world"}}FOUND{{/contains}}',
+                        output: 'FOUND',
+                        context: {
+                            haystack: "hello world"
+                        },
+                    }
+                ], done)
+            });
+
+            it('should not evaluate inner expression when haystack does not include the needle', function(done) {
+
+                runTestCases([
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: "work",
+                            haystack: "hello world"
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: null,
+                            haystack: null
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle.one}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: {},
+                            haystack: undefined
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: undefined,
+                            haystack: undefined
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: 'oops',
+                            haystack: undefined
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: null,
+                            haystack: {
+                                key: null
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: null,
+                            haystack: {
+                                foo: {
+                                    key: null
+                                }
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: 'foo',
+                            haystack: {
+                                foo: 'bar'
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: { key: 'value' },
+                            haystack: {
+                                foo: { key: 'wrong value' }
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: 'bar',
+                            haystack: {
+                                bar: 'baz'
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: [],
+                            haystack: {
+                                foo: 'bar'
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: null,
+                            haystack: {
+                                foo: 'bar'
+                            }
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: 4,
+                            haystack: [1, 2, 3]
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack "work"}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            haystack: "hello world"
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: null,
+                            haystack: "hello world"
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: undefined,
+                            haystack: [1, 2, 3]
+                        },
+                    }
+                ], done)
+            });
+
+            it('when we have malformed input should not evaluate inner expression', function(done) {
+
+                runTestCases([
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            haystack: {}
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            haystack: null
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack "work"}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            haystack: undefined
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack "work"}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            haystack: 42
+                        },
+                    },
+                    {
+                        input: '{{#contains haystack needle}}FOUND{{/contains}}',
+                        output: '',
+                        context: {
+                            needle: [1,2,3],
+                            haystack: undefined
+                        },
+                    }
+                ], done)
+            });
         });
 
     });
@@ -94,17 +357,6 @@ describe('third party handlebars-helpers', function() {
     });
 
     describe('html helpers', function() {
-
-        describe('contains ellipsis', function() {
-            it('truncates a string to the specified length and appends an ellipsis', function(done) {
-                runTestCases([
-                    {
-                        input: `{{ellipsis "<span>foo bar baz</span>" 7}}`,
-                        output: 'foo bar…',
-                    },
-                ], done);
-            });
-        });
 
         describe('contains thumbnailImage', function() {
             it('creates a <figure> with a thumbnail linked to an image', function(done) {
@@ -229,5 +481,15 @@ describe('third party handlebars-helpers', function() {
             });
         });
 
+        describe('contains ellipsis', function() {
+            it('truncates a string to the specified length and appends an ellipsis', function(done) {
+                runTestCases([
+                    {
+                        input: `{{ellipsis "foo bar baz" 7}}`,
+                        output: 'foo bar…',
+                    },
+                ], done);
+            });
+        });
     });
 });

@@ -26,6 +26,7 @@ const whitelist = [
             'withFirst',
             'withLast',
             'withSort',
+            'pluck'
         ],
     },
     {
@@ -53,6 +54,7 @@ const whitelist = [
             'unlessLt',
             'unlessGteq',
             'unlessLteq',
+            'contains'
         ],
     },
     {
@@ -67,7 +69,7 @@ const whitelist = [
     },
     {
         name: 'html',
-        include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
+        include: ['sanitize', 'ul', 'ol', 'thumbnailImage']
     },
     {
         name: 'inflection',
@@ -139,7 +141,8 @@ const whitelist = [
             'startsWith',
             'titleize',
             'trim',
-            'uppercase'
+            'uppercase',
+            'ellipsis'
         ],
     },
     {
