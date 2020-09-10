@@ -44,6 +44,27 @@ describe('any helper (with option hash)', function() {
                 input: '{{#any arrayWithObjs num=2}}{{big}}{{/any}}',
                 output: '',
             },
+            {
+                input: '{{#any foobar num=2}}{{big}}{{/any}}',
+                output: '',
+                context: {
+                    foobar: null
+                }
+            },
+            {
+                input: '{{#any foobar num=2}}{{big}}{{/any}}',
+                output: '',
+                context: {
+                    foobar: undefined
+                }
+            },
+            {
+                input: '{{#any undefined num=1}}{{big}}{{/any}}',
+                output: '',
+                context: {
+                    foobar: undefined
+                }
+            },
         ], done);
     });
 });
@@ -97,6 +118,22 @@ describe('any helper (with multiple arguments)', function() {
             },
             {
                 input: '{{#any "" false}}{{big}}{{/any}}',
+                output: '',
+            },
+            {
+                input: '{{#any fooBar}}{{big}}{{/any}}',
+                output: '',
+                context: {
+                    fooBar: null
+                }
+            },
+            {
+                input: '{{#any fooBar}}{{big}}{{/any}}',
+                output: '',
+                context: {}
+            },
+            {
+                input: '{{#any undefined}}{{big}}{{/any}}',
                 output: '',
             },
         ], done);
