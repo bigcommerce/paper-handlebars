@@ -9,8 +9,13 @@ const factory = globals => {
             if (typeof value === 'string') {
                 result = globals.handlebars.escapeExpression(value);
             }
-            if (typeof value === 'object' && value !== null) {
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                 result = filterObjectValues(value);
+            }
+            if (Array.isArray(value)) {
+                result = value.map(item => {
+                    return filterValues(item);
+                });
             }
         }
         return result;
@@ -18,16 +23,7 @@ const factory = globals => {
     function filterObjectValues(obj) {
         let filteredObject = {};
         Object.keys(obj).forEach(key => {
-            if (typeof obj[key] === 'string') {
-                filteredObject[key] = globals.handlebars.escapeExpression(obj[key]);
-                return;
-            }
-            if (typeof obj[key] === 'object' && obj[key] !== null) {
-                filteredObject[key] = filterObjectValues(obj[key]);
-                return;
-            } else {
-                filteredObject[key] = obj[key];
-            }
+            filteredObject[key] = filterValues(obj[key]);
         });
         return filteredObject;
     }
