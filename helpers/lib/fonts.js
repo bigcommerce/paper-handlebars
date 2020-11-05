@@ -144,7 +144,7 @@ module.exports = function(format, themeSettings, handlebars, options) {
 
     case 'webFontLoaderConfig':
         // Build configs
-        return Object.entries(parsedFonts).reduce(
+        return Object.assign(Object.entries(parsedFonts).reduce(
             (
                 configs,
                 [key, value]
@@ -162,7 +162,7 @@ module.exports = function(format, themeSettings, handlebars, options) {
                 );
             },
             {}
-        );
+        ), {classes: options.classes});
 
     case 'providerLists':
     default:
