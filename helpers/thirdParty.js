@@ -56,16 +56,6 @@ const whitelist = [
         ],
     },
     {
-        name: 'date',
-        include: ['moment'],
-        init: () => {
-            // date-helper uses moment under the hood, so we can hook in to supress
-            // error messages that are not actionable
-            const moment = require('moment');
-            moment.suppressDeprecationWarnings = true;
-        },
-    },
-    {
         name: 'html',
         include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
     },
