@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const utils = require('handlebars-utils');
 
 /**
@@ -14,15 +15,15 @@ const factory = () => {
         let any;
         // Take the last arg which is a Handlebars options object out of args array
         const opts = args.pop();
-        const collection = args[0] || [];
         const predicate = opts.hash;
 
         if (!utils.isEmpty(predicate)) {
-            any = Object.entries(predicate).some(([key, value]) => collection.some(arg => arg[key] === value));
+            // With options hash, we check the contents of first argument
+            any = _.some(args[0], predicate);
         } else {
             // DEPRECATED: Moved to #or helper
             // Without options hash, we check all the arguments
-            any = args.some(arg => {
+            any = _.some(args, function (arg) {
                 if (utils.isArray(arg)) {
                     return !!arg.length;
                 }

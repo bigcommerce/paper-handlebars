@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 /**
  * Format numbers
  *
@@ -19,7 +21,7 @@ const factory = globals => {
         const siteSettings = globals.getSiteSettings();
         const money = siteSettings.money;
 
-        if (typeof value !== 'number') {
+        if (!_.isNumber(value)) {
             return '';
         }
 

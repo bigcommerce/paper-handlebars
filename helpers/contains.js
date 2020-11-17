@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 /**
  * Is any value included in a collection or a string?
  *
@@ -10,7 +12,7 @@
 const factory = () => {
     return function(container, value) {
         const options = arguments[arguments.length - 1];
-        const contained = container.includes(value);
+        const contained = _.includes(container, value);
 
         // Yield block if true
         if (contained) {
