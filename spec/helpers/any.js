@@ -59,10 +59,6 @@ describe('any helper (with option hash)', function() {
                 }
             },
             {
-                input: '{{#any num=1}}{{big}}{{/any}}',
-                output: '',
-            },
-            {
                 input: '{{#any undefined num=1}}{{big}}{{/any}}',
                 output: '',
                 context: {
