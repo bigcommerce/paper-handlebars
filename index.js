@@ -202,14 +202,15 @@ class HandlebarsRenderer {
             return precompiled;
         }
 
-        // We need to take the string representation and turn it into a
-        // valid JavaScript object. eval is evil, but necessary in this case.
-        let template;
-        eval(`template = ${precompiled}`);
+        // We need to take the string representation of the precompiled template
+        // object and turn it into a valid JavaScript object. We use `new Function`
+        // rather than `eval` based on this advice:
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#Never_use_eval!
+        const template = Function(`"use strict";return (${precompiled});`);
 
-        // Take the precompiled object and get the actual function out of it,
+        // Take the precompiled template object and get the actual function out of it,
         // after first testing for runtime version compatibility.
-        return this.handlebars.template(template);
+        return this.handlebars.template(template());
     }
 
     /**
