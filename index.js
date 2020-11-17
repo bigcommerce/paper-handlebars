@@ -195,7 +195,7 @@ class HandlebarsRenderer {
         // be a string representation of an object containing a `main`
         // function and a `compiler` array. We do this because the next
         // step is a potentially dangerous eval.
-        const re = /"compiler":\[.*\],"main":function/;
+        const re = /"compiler":\[.+?\],"main":function/;
         if (!re.test(precompiled)) {
             // This is not a valid precompiled template, so this is
             // a raw template that can be registered directly.
