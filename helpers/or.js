@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const utils = require('handlebars-utils');
 
 /**
@@ -15,7 +16,7 @@ const factory = () => {
         const opts = args.pop();
 
         // Evaluate all args in args array to see if any are truthy
-        const any = args.some(arg => {
+        const any = _.some(args, function (arg) {
             if (utils.isArray(arg)) {
                 return !!arg.length;
             }
