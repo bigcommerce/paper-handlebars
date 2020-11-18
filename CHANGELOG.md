@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.4.2
+- Revert all the lodash removal changes to clear the pipeline
+
 ## 4.4.1
 - Update handlebars 3.x and 4.x to latest
 
