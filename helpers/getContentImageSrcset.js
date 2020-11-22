@@ -6,8 +6,9 @@ const factory = globals => {
         const siteSettings = globals.getSiteSettings();
 
         const cdnUrl = siteSettings.cdn_url || '';
+        const contentFolderFingerprint = siteSettings.content_folder_fingerprint || '';
 
-        return getObjectStorageImageSrcset(cdnUrl, 'content', path);
+        return getObjectStorageImageSrcset(cdnUrl, 'content', path, contentFolderFingerprint);
     };
 };
 
