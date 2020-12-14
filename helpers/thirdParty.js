@@ -128,7 +128,6 @@ const whitelist = [
             'hyphenate',
             'isString',
             'lowercase',
-            'occurrences',
             'pascalcase',
             'pathcase',
             'plusify',
