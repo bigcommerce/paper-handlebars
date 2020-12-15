@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.4.3
+- Lift `occurrences` helper from handlebars-helpers
+
 ## 4.4.2
 - Rollback loadash removal PR's to have a clean pipeline
 
