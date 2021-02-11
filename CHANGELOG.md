@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.4.4
+- Escape injected values
+
 ## 4.4.3
 - Lift `occurrences` helper from handlebars-helpers
 
