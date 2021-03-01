@@ -1,4 +1,5 @@
 'use strict';
+const SafeString = require('handlebars').SafeString;
 
 /**
  * Concats two values, primarily used as a subhelper
@@ -7,7 +8,7 @@
  */
 const factory = globals => {
     return function(value, otherValue) {
-        return new globals.handlebars.SafeString(value + otherValue);
+        return new SafeString(value + otherValue);
     };
 };
 

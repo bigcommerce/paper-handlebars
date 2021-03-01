@@ -31,4 +31,13 @@ describe('json helper', function() {
             },
         ], done);
     });
+
+    it('should work together with concat', function(done) {
+        runTestCases([
+            {
+                input: '{{{json (concat \'Hello \' \'World\')}}}',
+                output: '"Hello World"',
+            },
+        ], done);
+    });
 });
