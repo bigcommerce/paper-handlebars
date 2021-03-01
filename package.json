@@ -1,13 +1,14 @@
 {
   "name": "@bigcommerce/stencil-paper-handlebars",
-  "version": "4.5.0-rc.1",
+  "version": "4.4.4",
   "description": "A paper plugin to render pages using Handlebars.js",
   "main": "index.js",
   "author": "Bigcommerce",
   "license": "BSD-4-Clause",
   "scripts": {
-    "linter": "eslint .",
-    "test": "npm run linter && lab -v -t 98 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
+    "lint": "eslint .",
+    "lint-and-fix": "eslint . --fix",
+    "test": "lab -v -t 98 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {
@@ -29,15 +30,16 @@
     "handlebars-helpers": "0.8.4",
     "handlebars-utils": "^1.0.6",
     "he": "^1.2.0",
+    "lodash": "^4.17.13",
     "stringz": "^0.1.1"
   },
   "devDependencies": {
     "code": "~4.0.0",
-    "eslint": "~4.10.0",
+    "eslint": "^7.8.1",
     "lab": "~13.0.4",
     "sinon": "~7.5.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   }
 }

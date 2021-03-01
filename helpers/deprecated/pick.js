@@ -1,23 +1,13 @@
 'use strict';
 
+const _ = require('lodash');
+
 const factory = () => {
     /**
      * @deprecate
      */
-    return function(obj, ...args) {
-        return args.reduce(
-            (
-                pickedElements,
-                element
-            ) => {
-                if (obj && obj.hasOwnProperty(element)) {
-                    pickedElements[element] = obj[element];
-                }
-
-                return pickedElements;
-            },
-            {}
-        );
+    return function() {
+        return _.pick.apply(null, arguments);
     };
 };
 
