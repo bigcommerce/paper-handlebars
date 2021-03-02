@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.4.5
+- Reverted escaping injected values
+- Fix concat function to return SafeString object
+
 ## 4.4.4
 - Escape injected values
 
