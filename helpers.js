@@ -1,23 +1,71 @@
-'use strict';
+const helpersList = [
+    'all',
+    'any',
+    'assignVar',
+    'block',
+    'cdn',
+    'compare',
+    'concat',
+    'contains',
+    'decrementVar',
+    'dynamicComponent',
+    'encodeHtmlEntities',
+    'for',
+    'getContentImage',
+    'getContentImageSrcset',
+    'getFontLoaderConfig',
+    'getFontsCollection',
+    'getImage',
+    'getImageManagerImage',
+    'getImageManagerImageSrcset',
+    'getImageSrcset',
+    'getVar',
+    'helperMissing',
+    'if',
+    'incrementVar',
+    'inject',
+    'join',
+    'jsContext',
+    'json',
+    'lang',
+    'langJson',
+    'limit',
+    'money',
+    'nl2br',
+    'occurrences',
+    'or',
+    'partial',
+    'pluck',
+    'pre',
+    'region',
+    'replace',
+    'resourceHints',
+    'setURLQueryParam',
+    'snippets',
+    'stripQuerystring',
+    'stylesheet',
+    'thirdParty',
+    'toLowerCase',
+    'truncate',
+    'unless',
+];
 
-const fs = require('fs');
-const Path = require('path');
+const deprecatedHelpersList = [
+    'enumerate',
+    'equals',
+    'getShortMonth',
+    'pick'
+];
 
 let helpers = [];
 
-// Load helpers
-fs.readdirSync(Path.join(__dirname, 'helpers')).forEach(filename => {
-    if (!fs.lstatSync(Path.join(__dirname, 'helpers', filename)).isDirectory()) {
-        helpers = helpers.concat(require('./helpers/' + filename));
-    }
-});
+helpersList.forEach(helper => {
+    helpers = [...helpers, ...require(`./helpers/${helper}.js`)];
+})
 
-// Load deprecated helpers
-fs.readdirSync(Path.join(__dirname, 'helpers', 'deprecated')).forEach(filename => {
-    if (!fs.lstatSync(Path.join(__dirname, 'helpers', 'deprecated', filename)).isDirectory()) {
-        helpers = helpers.concat(require('./helpers/deprecated/' + filename));
-    }
-});
+deprecatedHelpersList.forEach(helper => {
+    helpers = [...helpers, ...require(`./helpers/deprecated/${helper}.js`)];
+})
 
 // Export full list of helpers
 module.exports = helpers;
