@@ -1,5 +1,4 @@
 'use strict';
-const URL = require('url').URL;
 const utils = require('handlebars-utils');
 const common = require('./lib/common.js');
 const SafeString = require('handlebars').SafeString;
