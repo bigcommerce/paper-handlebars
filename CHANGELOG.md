@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.4.7
+- Replaced URL constructor with url.parse
+
 ## 4.4.6
 - Removed path and fs modules from helpers.js, so it can be run on non-Nodejs environment
 
