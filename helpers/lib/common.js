@@ -1,12 +1,11 @@
 'use strict';
-const URL = require('url').URL;
+const url = require('url');
 const SafeString = require('handlebars').SafeString;
 
 function isValidURL(val) {
     try {
-        new URL(val);
-        return true;
-    } catch (_) {
+        return url.parse(val).hostname !== null;
+    } catch (e) {
         return false;
     }
 }
