@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.4.8
+- Add support for region translations data attribute
+
 ## 4.4.7
 - Replaced URL constructor with url.parse
 
