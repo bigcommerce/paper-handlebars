@@ -29,14 +29,23 @@ describe('Region Helper', () => {
     it('should return an empty container if using empty content context', done => {
         runTestCases([
             {
-                input: '{{region name="banner-bottom"}}',
-                output: '<div data-content-region="banner-bottom"></div>',
+                input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation"}}',
+                output: '<div data-content-region="banner-bottom" data-content-region-translation="i18n.RegionName.TestingTranslation"></div>',
                 renderer: buildRenderer(),
             },
         ], done);
     });
 
     it('should return an empty container if no matching region on context object', done => {
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation"}}',
+                output: '<div data-content-region="banner-bottom" data-content-region-translation="i18n.RegionName.TestingTranslation"></div>',
+            },
+        ], done);
+    });
+
+    it('should return without region translation data attribute if no translation is provided', done => {
         runTestCases([
             {
                 input: '{{region name="banner-bottom"}}',
@@ -48,8 +57,8 @@ describe('Region Helper', () => {
     it('should return Hello World', done => {
         runTestCases([
             {
-                input: '{{region name="banner-top"}}',
-                output: '<div data-content-region="banner-top">hello world</div>',
+                input: '{{region name="banner-top" translation="i18n.RegionName.TestingTranslation"}}',
+                output: '<div data-content-region="banner-top" data-content-region-translation="i18n.RegionName.TestingTranslation">hello world</div>',
             },
         ], done);
     });
