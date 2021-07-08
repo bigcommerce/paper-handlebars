@@ -6,8 +6,9 @@ const factory = globals => {
         const siteSettings = globals.getSiteSettings();
 
         const cdnUrl = siteSettings.cdn_url || '';
+        const imageManagerFingerprint = siteSettings.image_manager_fingerprint || '';
 
-        return getObjectStorageImageSrcset(cdnUrl, 'image-manager', path);
+        return getObjectStorageImageSrcset(cdnUrl, 'image-manager', path, imageManagerFingerprint);
     };
 };
 

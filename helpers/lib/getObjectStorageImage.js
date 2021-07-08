@@ -2,6 +2,7 @@
 const utils = require('handlebars-utils');
 const common = require('./common');
 const SafeString = require('handlebars').SafeString;
+const URL = require('url').URL;
 
 const srcsets = {
     '80w': '80w',
@@ -14,7 +15,16 @@ const srcsets = {
     '2560w': '2560w',
 };
 
-function getObjectStorageImage(cdnUrl, source, path, options) {
+function generateUrl(cdnUrl, size, source, path, fingerprint) {
+    // Build sized image URL, appending fingerprint if known
+    let assetUrl = new URL(`${cdnUrl}/images/stencil/${size}/${source}/${path}`)
+    if (fingerprint) {
+        assetUrl.searchParams.set('t', contentFolderFingerprint);
+    }
+    return assetUrl.toString()
+}
+
+function getObjectStorageImage(cdnUrl, source, path, options, fingerprint) {
     if (!utils.isString (path) || common.isValidURL(path)) {
         throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
@@ -32,16 +42,16 @@ function getObjectStorageImage(cdnUrl, source, path, options) {
         }
     }
 
-    return new SafeString(`${cdnUrl}/images/stencil/${size}/${source}/${path}`);
+    return new SafeString(generateUrl(cdnUrl, size, source, path, fingerprint));
 }
 
-function getObjectStorageImageSrcset(cdnUrl, source, path) {
+function getObjectStorageImageSrcset(cdnUrl, source, path, fingerprint) {
     if (!utils.isString (path) || common.isValidURL(path)) {
         throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
     return new SafeString(Object.keys(srcsets).map(descriptor => {
-        return ([`${cdnUrl}/images/stencil/${srcsets[descriptor]}/${source}/${path} ${descriptor}`].join(' '));
+        return ([`${generateUrl(cdnUrl, srcsets[descriptor], source, path, fingerprint)} ${descriptor}`].join(' '));
     }).join(', '));
 }
 

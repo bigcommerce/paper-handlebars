@@ -6,10 +6,11 @@ const factory = globals => {
         const siteSettings = globals.getSiteSettings();
 
         const cdnUrl = siteSettings.cdn_url || '';
+        const imageManagerFingerprint = siteSettings.image_manager_fingerprint || '';
 
         const options = arguments[arguments.length - 1];
 
-        return getObjectStorageImage(cdnUrl, 'image-manager', path, options);
+        return getObjectStorageImage(cdnUrl, 'image-manager', path, options, imageManagerFingerprint);
     };
 };
 
