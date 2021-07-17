@@ -4,7 +4,7 @@
 *paper-handlebars* is a plugin for [Paper](http://github.com/bigcommerce/paper). Its duty is to render pages and strings using the [Handlebars](http://handlebarsjs.com/) template engine.
 
 ### Helpers Reference
-See the [Stencil API Reference](https://stencil.bigcommerce.com/docs/handlebars-helpers-reference) for documentation on the available helpers.
+See the [Stencil API Reference](https://developer.bigcommerce.com/stencil-docs/reference-docs/handlebars-helpers-reference) for documentation on the available helpers.
 
 ### License
 
