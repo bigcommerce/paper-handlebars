@@ -2,10 +2,11 @@ const Crypto = require('crypto');
 const Renderer = require('../index');
 const expect = require('code').expect;
 
-function buildRenderer(siteSettings, themeSettings, templates) {
+function buildRenderer(siteSettings, themeSettings, templates, hbVersion) {
     siteSettings = siteSettings || {};
     themeSettings = themeSettings || {};
-    const renderer = new Renderer(siteSettings, themeSettings);
+    hbVersion = hbVersion || 'v3';
+    const renderer = new Renderer(siteSettings, themeSettings, hbVersion);
 
     // Register templates
     if (typeof templates !== 'undefined') {
@@ -27,14 +28,15 @@ function render(template, context, siteSettings, themeSettings, templates) {
 }
 
 // Return a function that is used to run through a set of test cases using renderString
-function testRunner({context, siteSettings, themeSettings, templates, renderer}) {
+function testRunner({context, siteSettings, themeSettings, templates, renderer, hbVersion}) {
     return (testCases, done) => {
         const promises = testCases.map(testCase => {
             const render = testCase.renderer ||
                            renderer ||
                            buildRenderer(testCase.siteSettings || siteSettings, 
                                          testCase.themeSettings || themeSettings,
-                                         testCase.templates || templates);
+                                         testCase.templates || templates,
+                                         testCase.hbVersion || hbVersion);
 
             return render.renderString(testCase.input, testCase.context || context).then(result => {
                 expect(result).to.be.equal(testCase.output);
