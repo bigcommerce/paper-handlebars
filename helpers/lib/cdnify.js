@@ -1,4 +1,5 @@
 'use strict';
+const URL = require('url').URL;
 
 // Return a function that can be used to translate paths to cdn paths
 module.exports = globals => {
@@ -14,6 +15,7 @@ module.exports = globals => {
         const cdnUrl = siteSettings.cdn_url || '';
         const versionId = siteSettings.theme_version_id;
         const editSessionId = siteSettings.theme_session_id;
+        const contentFolderFingerprint = siteSettings.content_folder_fingerprint || '';
         const cdnSettings = themeSettings.cdn;
 
         if (path instanceof globals.handlebars.SafeString) {
@@ -56,7 +58,11 @@ module.exports = globals => {
             }
 
             if (protocol === 'webdav:') {
-                return [cdnUrl, 'content', path].join('/');
+                let assetUrl = new URL([cdnUrl, 'content', path].join('/'))
+                if (contentFolderFingerprint) {
+                    assetUrl.searchParams.set('t', contentFolderFingerprint);
+                }
+                return assetUrl.toString();
             }
 
             if (cdnSettings) {
