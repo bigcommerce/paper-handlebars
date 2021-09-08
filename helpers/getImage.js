@@ -1,7 +1,6 @@
 'use strict';
 
 const utils = require('handlebars-utils');
-const SafeString = require('handlebars').SafeString;
 const common = require('./lib/common.js');
 
 const factory = globals => {
@@ -40,7 +39,7 @@ const factory = globals => {
             size = `${Math.min(image.width, width)}x${Math.min(image.height, height)}`
         }
 
-        return new SafeString(image.data.replace('{:size}', size));
+        return new globals.handlebars.SafeString(image.data.replace('{:size}', size));
     };
 };
 

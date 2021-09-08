@@ -1,10 +1,10 @@
 'use strict';
 const common = require('./lib/common.js');
 
-const factory = () => {
+const factory = globals => {
     return function(needle, haystack) {
-        needle = common.unwrapIfSafeString(needle);
-        haystack = common.unwrapIfSafeString(haystack);
+        needle = common.unwrapIfSafeString(globals.handlebars, needle);
+        haystack = common.unwrapIfSafeString(globals.handlebars, haystack);
         const options = arguments[arguments.length - 1];
 
         if (typeof needle !== 'string') {

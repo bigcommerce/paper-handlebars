@@ -2,11 +2,10 @@
 const he = require('he');
 const utils = require('handlebars-utils');
 const common = require('./lib/common.js');
-const SafeString = require('handlebars').SafeString;
 
-const factory = () => {
+const factory = globals => {
     return function(string) {
-        string = common.unwrapIfSafeString(string);
+        string = common.unwrapIfSafeString(globals.handlebars, string);
         if (!utils.isString(string)){
             throw new TypeError("Non-string passed to encodeHtmlEntities");
         }
@@ -33,7 +32,7 @@ const factory = () => {
             }
         }
 
-        return new SafeString(he.encode(string, args));
+        return new globals.handlebars.SafeString(he.encode(string, args));
     };
 };
 
