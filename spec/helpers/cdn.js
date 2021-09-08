@@ -16,9 +16,10 @@ describe('cdn helper', function () {
             customcdn2: 'http://cdn.mystore.com',
         }
     };
+    const hbVersion = 'v4';
 
     // Build a test runner that uses a default context
-    const runTestCases = testRunner({context, siteSettings, themeSettings});
+    const runTestCases = testRunner({context, siteSettings, themeSettings, hbVersion});
 
     it('should render the css cdn url', function (done) {
         runTestCases([
@@ -210,6 +211,15 @@ describe('cdn helper', function () {
             {
                 input: '{{cdn (concat "customcdn2:" "/img/image.jpg")}}',
                 output: 'http://cdn.mystore.com/img/image.jpg',
+            },
+        ], done);
+    });
+
+    it('should return a custom CDN asset when using nested concat helper', function (done) {
+        runTestCases([
+            {
+                input: '{{cdn (concat (concat "customcdn2:" "/img/image.jpg") "?test")}}',
+                output: 'http://cdn.mystore.com/img/image.jpg?test',
             },
         ], done);
     });
