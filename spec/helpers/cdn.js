@@ -5,7 +5,9 @@ const Lab = require('lab'),
       testRunner = require('../spec-helpers').testRunner;
 
 describe('cdn helper', function () {
-    const context = {};
+    const context = {
+        brand: 'visa',
+    };
     const siteSettings = {
         cdn_url: 'https://cdn.bcapp/3dsf74g',
         theme_version_id: '123',
@@ -236,6 +238,10 @@ describe('cdn helper', function () {
                 output: '/assets/cdn/customcdn2/img/image.jpg',
                 siteSettings: {},
             },
+            {
+                input: "{{cdn (concat (concat 'img/payment-methods/' brand) '.svg')}}",
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/img/payment-methods/visa.svg',
+            }
         ], done);
     });
 
