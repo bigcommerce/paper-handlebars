@@ -9,7 +9,7 @@ const factory = globals => {
 
         const options = arguments[arguments.length - 1];
 
-        return getObjectStorageImage(cdnUrl, 'image-manager', path, options);
+        return getObjectStorageImage(globals.handlebars, cdnUrl, 'image-manager', path, options);
     };
 };
 

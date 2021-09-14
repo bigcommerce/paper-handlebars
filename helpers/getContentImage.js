@@ -9,7 +9,7 @@ const factory = globals => {
 
         const options = arguments[arguments.length - 1];
 
-        return getObjectStorageImage(cdnUrl, 'content', path, options);
+        return getObjectStorageImage(globals.handlebars, cdnUrl, 'content', path, options);
     };
 };
 

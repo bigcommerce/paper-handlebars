@@ -7,7 +7,7 @@ const factory = globals => {
 
         const cdnUrl = siteSettings.cdn_url || '';
 
-        return getObjectStorageImageSrcset(cdnUrl, 'content', path);
+        return getObjectStorageImageSrcset(globals.handlebars, cdnUrl, 'content', path);
     };
 };
 

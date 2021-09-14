@@ -1,9 +1,8 @@
 'use strict';
 const utils = require('handlebars-utils');
-const SafeString = require('handlebars').SafeString;
 const common = require('./lib/common');
 
-const factory = () => {
+const factory = globals => {
     return function(image, defaultImageUrl) {
         // Regex to test size string is of the form 123x123 or 100w
         const sizeRegex = /(^\d+w$)|(^(\d+?)x(\d+?)$)/;
@@ -61,10 +60,10 @@ const factory = () => {
 
         // If there's only one argument, return a `src` only (also works for `srcset`)
         if (Object.keys(srcsets).length === 1) {
-            return new SafeString((image.data.replace('{:size}', srcsets[Object.keys(srcsets)[0]])));
+            return new globals.handlebars.SafeString((image.data.replace('{:size}', srcsets[Object.keys(srcsets)[0]])));
         }
 
-        return new SafeString(Object.keys(srcsets).reverse().map(descriptor => {
+        return new globals.handlebars.SafeString(Object.keys(srcsets).reverse().map(descriptor => {
             return ([image.data.replace('{:size}', srcsets[descriptor]), descriptor].join(' '));
         }).join(', '));
     };

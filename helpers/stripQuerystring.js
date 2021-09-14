@@ -2,9 +2,9 @@
 const utils = require('handlebars-utils');
 const common = require('./lib/common.js');
 
-const factory = () => {
+const factory = globals => {
     return function(url) {
-        url = common.unwrapIfSafeString(url);
+        url = common.unwrapIfSafeString(globals.handlebars, url);
         if (utils.isString(url)) {
             return url.split('?')[0];
         }

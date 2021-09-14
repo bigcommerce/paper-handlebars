@@ -1,13 +1,12 @@
 'use strict';
 const utils = require('handlebars-utils');
 const common = require('./lib/common.js');
-const SafeString = require('handlebars').SafeString;
 
-const factory = () => {
+const factory = globals => {
     return function(string, key, value) {
-        string = common.unwrapIfSafeString(string);
-        key = common.unwrapIfSafeString(key);
-        value = common.unwrapIfSafeString(value);
+        string = common.unwrapIfSafeString(globals.handlebars, string);
+        key = common.unwrapIfSafeString(globals.handlebars, key);
+        value = common.unwrapIfSafeString(globals.handlebars, value);
         if (!utils.isString(string) || !common.isValidURL(string)){
             throw new TypeError("Invalid URL passed to setURLQueryParam");
         } else if (!utils.isString(key)){
@@ -20,7 +19,7 @@ const factory = () => {
 
         url.searchParams.set(encodeURIComponent(key), encodeURIComponent(value));
 
-        return new SafeString(url.toString());
+        return new globals.handlebars.SafeString(url.toString());
     };
 };
 
