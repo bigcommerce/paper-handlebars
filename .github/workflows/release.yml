@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '10.x'
-      - run: npm ci
+      - run: npm i
       # Setup .npmrc file to publish to npm registry
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
       - run: npm publish
