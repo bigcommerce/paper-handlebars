@@ -42,6 +42,10 @@ describe('getImageSrcset1x2x helper', function() {
                 output: 'https://cdn.example.com/path/to/123x456/image.png?c=2 1x, https://cdn.example.com/path/to/246x912/image.png?c=2 2x',
             },
             {
+                input: '{{getImageSrcset1x2x image_with_dimensions "123x556"}}',
+                output: 'https://cdn.example.com/path/to/123x556/image.png?c=2 1x, https://cdn.example.com/path/to/210x950/image.png?c=2 1.7086x',
+            },
+            {
                 input: '{{getImageSrcset1x2x image_with_dimensions image_size_small}}',
                 output: 'https://cdn.example.com/path/to/123x456/image.png?c=2 1x, https://cdn.example.com/path/to/246x912/image.png?c=2 2x',
             },
