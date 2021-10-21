@@ -21,8 +21,8 @@ const factory = globals => {
 
         if (utils.isObject(presets) && utils.isObject(presets[presetName])) {
             // If preset is one of the given presets in _images
-            width = parseInt(presets[presetName].width, 10) || 5120;
-            height = parseInt(presets[presetName].height, 10) || 5120;
+            width = parseInt(presets[presetName].width, 10) || common.maximumPixelSize;
+            height = parseInt(presets[presetName].height, 10) || common.maximumPixelSize;
             size = `${width}x${height}`;
         } else if (sizeRegex.test(settings[presetName])) {
             // If preset name is a setting and match the NNNxNNN format

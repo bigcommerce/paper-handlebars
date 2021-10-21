@@ -16,7 +16,10 @@ function unwrapIfSafeString(handlebars, val) {
     return val;
 }
 
+const maximumPixelSize = 5120;
+
 module.exports = {
     isValidURL,
-    unwrapIfSafeString
+    unwrapIfSafeString,
+    maximumPixelSize
 };
