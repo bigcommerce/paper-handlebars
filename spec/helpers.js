@@ -38,6 +38,7 @@ describe('helper registration', () => {
             'getImageManagerImage',
             'getImageManagerImageSrcset',
             'getImageSrcset',
+            'getImageSrcset1x2x',
             'getVar',
             'helperMissing',
             'if',
