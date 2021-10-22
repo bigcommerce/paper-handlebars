@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.5.0
+- Add getImageSrcset1x2x helper ([#149](https://github.com/bigcommerce/paper-handlebars/pull/149))
+
 ## 4.4.9
 - Fix concat helper to have consistency with cdn helper ([#144](https://github.com/bigcommerce/paper-handlebars/pull/144))
 - Release stencil paper handlebars through github release ([#145](https://github.com/bigcommerce/paper-handlebars/pull/145))
