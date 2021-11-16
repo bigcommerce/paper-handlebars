@@ -11,9 +11,9 @@ const factory = globals => {
             throw new Error("assignVar helper key must be a string");
         }
 
-        // Validate that value is a string or integer
-        if (!utils.isString(value) && !Number.isInteger(value)) {
-            throw new Error("assignVar helper value must be a string or a number (integer)");
+        // Validate that value is a string or Number (int/float)
+        if (!utils.isString(value) && !Number.isFinite(value)) {
+            throw new Error("assignVar helper value must be a string or a number (integer/float)");
         }
 
         // Validate that string is not longer than the max length
