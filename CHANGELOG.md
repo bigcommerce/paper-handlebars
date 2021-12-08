@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.5.1
+- Support floats for assignVar/getVar ([#152](https://github.com/bigcommerce/paper-handlebars/pull/152))
+- Stop testing on node 10, start testing on node 14, release on 14 ([#151](https://github.com/bigcommerce/paper-handlebars/pull/151))
+
 ## 4.5.0
 - Add getImageSrcset1x2x helper ([#149](https://github.com/bigcommerce/paper-handlebars/pull/149))
 
