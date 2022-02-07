@@ -44,6 +44,7 @@ const helpersList = [
     'setURLQueryParam',
     'snippets',
     'stripQuerystring',
+    'strReplace',
     'stylesheet',
     'thirdParty',
     'toLowerCase',
