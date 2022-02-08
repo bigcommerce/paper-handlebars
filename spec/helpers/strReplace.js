@@ -27,11 +27,27 @@ describe('strReplace helper', function() {
         ], done);
     });
 
-    it('should replace one if given token', function(done) {
+    it('should replace multiple if given quantity', function(done) {
         runTestCases([
             {
-                input: '{{strReplace string substr newSubstr "i"}}',
-                output: 'My name is Alex Albe Albe',
+                input: '{{strReplace string substr newSubstr -5}}',
+                output: 'My name is Albe Albe Albe',
+            },
+            {
+                input: '{{strReplace string substr newSubstr 0}}',
+                output: 'My name is Albe Albe Albe',
+            },
+            {
+                input: '{{strReplace string substr newSubstr 2}}',
+                output: 'My name is Alex Alex Albe',
+            },
+            {
+                input: '{{strReplace string substr newSubstr 4}}',
+                output: 'My name is Alex Alex Alex',
+            },
+            {
+                input: '{{strReplace string substr newSubstr 100}}',
+                output: 'My name is Alex Alex Alex',
             },
         ], done);
     });
