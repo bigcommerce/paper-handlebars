@@ -1,9 +1,20 @@
 'use strict';
+const common = require('./lib/common.js');
+const utils = require('handlebars-utils');
 
-const factory = () => {
+const factory = globals => {
     return function(str, substr, newSubstr, iteration) {
-        if (typeof str !== 'string' || typeof substr !== 'string' || typeof newSubstr !== 'string') {
-            return 'Invalid Input';
+        str = common.unwrapIfSafeString(globals.handlebars, str);
+        substr = common.unwrapIfSafeString(globals.handlebars, substr);
+        newSubstr = common.unwrapIfSafeString(globals.handlebars, newSubstr);
+        iteration = common.unwrapIfSafeString(globals.handlebars, iteration);
+
+        if (!utils.isString(str)){
+            throw new TypeError("Invalid query parameter string passed to strReplace");
+        } else if (!utils.isString(substr)){
+            throw new TypeError("Invalid query paramter substring passed to strReplace");
+        } else if(!utils.isString(newSubstr)) {
+            throw new TypeError("Invalid query parameter new substring passed to strReplace");
         }
 
         if (typeof iteration !== 'number') {
