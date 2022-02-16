@@ -2,7 +2,9 @@ const Lab = require('lab'),
       lab = exports.lab = Lab.script(),
       describe = lab.experiment,
       it = lab.it,
-      testRunner = require('../spec-helpers').testRunner;
+      specHelpers = require('../spec-helpers'),
+      testRunner = require('../spec-helpers').testRunner,
+      renderString = specHelpers.renderString;;
 
 describe('strReplace helper', function() {
     const context = {
@@ -53,15 +55,14 @@ describe('strReplace helper', function() {
     });
 
     it('should only handle string', function(done) {
-         runTestCases([
-            {
-                input: '{{strReplace 5 5 5}}',
-                output: 'Invalid Input',
-            },
-            {
-                input: '{{strReplace object "none" "Bob"}}',
-                output: 'Invalid Input',
-            },
-        ], done);
+        renderString('{{strReplace object "none" "Bob"}}').catch(e => {
+            renderString('{{strReplace "none" 3 "Bob"}}').catch(e => {
+                renderString('{{strReplace "none" "Bob" object}}').catch(e => {
+                    renderString('{{strReplace string substr newSubstr "3"}}').catch(e => {
+                        done();
+                    });
+                });
+            });
+        });
     });
 });
