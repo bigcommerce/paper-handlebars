@@ -425,8 +425,24 @@ describe('logging', () => {
     });
 
     it('log helper uses given logger', done => {
-        renderer.renderString('{{log bar}}', context).then(result => {
+        renderer.renderString('{{log bar}}', context).then(() => {
             expect(logger.log.calledWith('baz')).to.equal(true);
+            done();
+        });
+    });
+
+    it('log helper should not be called, when log level = error', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'error');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(logger.log.called).to.equal(false);
+            done();
+        });
+    });
+
+    it('log helper should not be called, when log level = warning', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'warning');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(logger.log.called).to.equal(false);
             done();
         });
     });
