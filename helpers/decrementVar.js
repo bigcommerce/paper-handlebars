@@ -24,9 +24,6 @@ const factory = globals => {
             // Initialize or re-initialize value
             globals.storage.variables[key] = 0;
         }
-
-        // Return current value
-        return globals.storage.variables[key];
     };
 };
 
