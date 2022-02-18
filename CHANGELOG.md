@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.5.3
+- Bump lodash version to 4.17.21 ([#161](https://github.com/bigcommerce/paper-handlebars/pull/161))
+
+
 ## 4.5.2
 - Add log level variable to control log helper ([#158](https://github.com/bigcommerce/paper-handlebars/pull/158))
 
