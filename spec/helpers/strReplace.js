@@ -54,7 +54,7 @@ describe('strReplace helper', function() {
         ], done);
     });
 
-    it('should only handle string', function(done) {
+    it('should throw an exception if the parameters have an invalid type', function(done) {
         renderString('{{strReplace object "none" "Bob"}}').catch(e => {
             renderString('{{strReplace "none" 3 "Bob"}}').catch(e => {
                 renderString('{{strReplace "none" "Bob" object}}').catch(e => {
