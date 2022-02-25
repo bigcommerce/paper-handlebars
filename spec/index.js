@@ -406,6 +406,7 @@ describe('errors', () => {
 
 describe('logging', () => {
     let renderer, logger, sandbox;
+    let consoleCopy = console;
     const context = {
         bar: 'baz'
     };
@@ -415,18 +416,63 @@ describe('logging', () => {
         logger = {
             log: Sinon.fake(),
         };
+        console = {
+            log: Sinon.fake(),
+        };
         renderer = new HandlebarsRenderer({}, {}, 'v3', logger);
         done();
     });
 
     afterEach(done => {
+        console = consoleCopy;
         sandbox.restore();
         done();
     });
 
     it('log helper uses given logger', done => {
-        renderer.renderString('{{log bar}}', context).then(result => {
+        renderer.renderString('{{log bar}}', context).then(() => {
             expect(logger.log.calledWith('baz')).to.equal(true);
+            done();
+        });
+    });
+
+    it('log helper should not be called, when log level = error', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'error');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(logger.log.called).to.equal(false);
+            done();
+        });
+    });
+
+    it('log helper should not be called, when log level = warning', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'warning');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(logger.log.called).to.equal(false);
+            done();
+        });
+    });
+
+
+    it('console log helper uses given logger', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', console);
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(console.log.calledWith('baz')).to.equal(true);
+            done();
+        });
+    });
+
+    it('console log helper should not be called, when log level = error', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', console, 'error');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(console.log.called).to.equal(false);
+            done();
+        });
+    });
+
+    it('console log helper should not be called, when log level = warning', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', console, 'warning');
+        renderer.renderString('{{log bar}}', context).then(() => {
+            expect(console.log.called).to.equal(false);
             done();
         });
     });

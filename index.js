@@ -35,8 +35,9 @@ class HandlebarsRenderer {
     * @param {Object} themeSettings - Theme settings (configuration), passed to helpers
     * @param {String} hbVersion - Which version of handlebars to use. One of ['v3', 'v4'] - defaults to 'v3'.
     * @param {Object} logger - A console-like object to use for logging
+    * @param {String} logLevel - log level which will be overriden by renderer
     */
-    constructor(siteSettings, themeSettings, hbVersion, logger = console) {
+    constructor(siteSettings, themeSettings, hbVersion, logger = console, logLevel = 'info') {
         // Figure out which version of Handlebars to use.
         switch(hbVersion) {
             case 'v4':
@@ -55,6 +56,7 @@ class HandlebarsRenderer {
         this.setTranslator(null);
         this.setContent({});
         this.resetDecorators();
+        this.setLoggerLevel(logLevel);
 
         // Build global context for helpers
         this.helperContext = {
@@ -337,6 +339,14 @@ class HandlebarsRenderer {
                 this.logger[method](...message);
             }
         };
+    }
+
+    /**
+     * 
+     * @param {String} level 
+     */
+    setLoggerLevel(level) {
+        this.handlebars.logger.level = level;
     }
 }
 

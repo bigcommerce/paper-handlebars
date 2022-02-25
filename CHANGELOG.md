@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 4.5.3
+- Bump lodash version to 4.17.21 ([#161](https://github.com/bigcommerce/paper-handlebars/pull/161))
+
+
+## 4.5.2
+- Add log level variable to control log helper ([#158](https://github.com/bigcommerce/paper-handlebars/pull/158))
+
 ## 4.5.1
 - Support floats for assignVar/getVar ([#152](https://github.com/bigcommerce/paper-handlebars/pull/152))
 - Stop testing on node 10, start testing on node 14, release on 14 ([#151](https://github.com/bigcommerce/paper-handlebars/pull/151))
