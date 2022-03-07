@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.5.4
+- String replace helper with more options ([#156](https://github.com/bigcommerce/paper-handlebars/pull/156))
+
+
 ## 4.5.3
 - Bump lodash version to 4.17.21 ([#161](https://github.com/bigcommerce/paper-handlebars/pull/161))
 
