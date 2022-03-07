@@ -63,6 +63,7 @@ describe('helper registration', () => {
             'setURLQueryParam',
             'snippet',
             'stripQuerystring',
+            'strReplace',
             'stylesheet',
             'after',
             'arrayify',
