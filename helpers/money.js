@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
-
 /**
  * Format numbers
  *
@@ -17,19 +15,32 @@ function numberFormat(value, n, s, c) {
 }
 
 const factory = globals => {
-    return function(value) {
+    return function(...args) {
         const siteSettings = globals.getSiteSettings();
         const money = siteSettings.money;
 
-        if (!_.isNumber(value)) {
-            return '';
+        // remove options hash object
+        args.pop();
+
+        let value = args[0];
+
+        if (isNaN(value)) {
+            throw new TypeError("money helper accepts only Number's as first parameter");
         }
+
+        const decimalPlaces = args[1] || money.decimal_places;
+
+        if (isNaN(decimalPlaces)) {
+            throw new TypeError("money helper accepts only Number's for decimal places");
+        }
+        const thousandsToken = args[2] || money.thousands_token;
+        const decimalToken = args[3] || money.decimal_token;
 
         value = numberFormat(
             value,
-            money.decimal_places,
-            money.thousands_token,
-            money.decimal_token
+            decimalPlaces,
+            thousandsToken,
+            decimalToken
         );
 
         return money.currency_location === 'left'
