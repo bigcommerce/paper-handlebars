@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 4.5.5
+- feat: STRF-9707 Improve money helper to support input params ([#164](https://github.com/bigcommerce/paper-handlebars/pull/164))
+
+
 ## 4.5.4
 - String replace helper with more options ([#156](https://github.com/bigcommerce/paper-handlebars/pull/156))
 
