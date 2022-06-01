@@ -54,4 +54,17 @@ describe('decrementVar helper', function() {
             },
         ], done);
     });
+
+    it('should correctly return data accession object proto/constructor', function(done) {
+        runTestCases([
+            {
+                input: "{{decrementVar '__proto__'}}",
+                output: '',
+            },
+            {
+                input: "{{decrementVar 'constructor'}}",
+                output: '0',
+            },
+        ], done);
+    });
 });

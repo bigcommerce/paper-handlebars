@@ -83,4 +83,17 @@ describe('assignVar and getVar helpers', function() {
             done();
         });
     });
+
+    it('should return undefined accessing proto/constructor', function(done) {
+        runTestCases([
+            {
+                input: "{{getVar '__proto__'}}",
+                output: '',
+            },
+            {
+                input: "{{getVar 'constructor'}}",
+                output: '',
+            },
+        ], done);
+    });
 });
