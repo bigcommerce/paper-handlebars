@@ -26,4 +26,17 @@ describe('pluck helper', function() {
             },
         ], done);
     });
+
+    it('should return undefined when accessing proto/constructor', function(done) {
+        runTestCases([
+            {
+                input: '{{pluck users "__proto__"}}',
+                output: ',',
+            },
+            {
+                input: '{{pluck users "constructor"}}',
+                output: ',',
+            },
+        ], done);
+    });
 });

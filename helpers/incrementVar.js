@@ -13,7 +13,7 @@ const factory = globals => {
             globals.storage.variables = {};
         }
 
-        if (Number.isInteger(globals.storage.variables[key])) {
+        if (globals.storage.variables.hasOwnProperty(key) && Number.isInteger(globals.storage.variables[key])) {
             // Increment value if it already exists
             globals.storage.variables[key] += 1;
         } else {
@@ -26,7 +26,7 @@ const factory = globals => {
         }
 
         // Return current value
-        return globals.storage.variables[key];
+        return globals.storage.variables.hasOwnProperty(key) ? globals.storage.variables[key]: undefined;
     };
 };
 

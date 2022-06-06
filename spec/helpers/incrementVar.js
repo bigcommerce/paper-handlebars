@@ -54,4 +54,19 @@ describe('incrementVar helper', function() {
             },
         ], done);
     });
+
+
+
+    it('should correctly return data accession object proto/constructor', function(done) {
+        runTestCases([
+            {
+                input: "{{incrementVar '__proto__'}}",
+                output: '',
+            },
+            {
+                input: "{{incrementVar 'constructor'}}",
+                output: '0',
+            },
+        ], done);
+    });
 });
