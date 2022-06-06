@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 4.6.0
+- fix: STRF-9835 Reduce proto usage ([#167](https://github.com/bigcommerce/paper-handlebars/pull/167))
+
 ## 4.5.5
 - feat: STRF-9707 Improve money helper to support input params ([#164](https://github.com/bigcommerce/paper-handlebars/pull/164))
 
