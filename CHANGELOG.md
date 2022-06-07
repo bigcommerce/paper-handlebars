@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 5.0.0
+- feat: STRF-9791 drop node 12 support ([#169](https://github.com/bigcommerce/paper-handlebars/pull/169))
+
 ## 4.6.0
 - fix: STRF-9835 Reduce proto usage ([#167](https://github.com/bigcommerce/paper-handlebars/pull/167))
 
