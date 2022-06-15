@@ -1,10 +1,9 @@
 'use strict';
 
-const helpers = require('handlebars-helpers');
-
 const whitelist = [
     {
         name: 'array',
+        module: require('./3p/array'),
         include: [
             'after',
             'arrayify',
@@ -30,10 +29,12 @@ const whitelist = [
     },
     {
         name: 'collection',
+        module: require('./3p/collection'),
         include: ['isEmpty', 'iterate', 'length'],
     },
     {
         name: 'comparison',
+        module: require('./3p/comparison'),
         include: [
             'and',
             'gt',
@@ -57,6 +58,7 @@ const whitelist = [
     },
     {
         name: 'date',
+        module: require('./3p/date'),
         include: ['moment'],
         init: () => {
             // date-helper uses moment under the hood, so we can hook in to supress
@@ -67,26 +69,33 @@ const whitelist = [
     },
     {
         name: 'html',
+        module: require('./3p/html'),
         include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
     },
     {
         name: 'inflection',
+        module: require('./3p/inflection'),
         include: ['inflect', 'ordinalize'],
     },
-    {
-        name: 'markdown',
-        include: ['markdown'],
-    },
+    // FIXME: requires fs 
+    // {
+    //     name: 'markdown',
+    //     module: require('./3p/markdown'),
+    //     include: ['markdown'],
+    // },
     {
         name: 'math',
+        module: require('./3p/math'),
         include: ['add', 'subtract', 'divide', 'multiply', 'floor', 'ceil', 'round', 'sum', 'avg'],
     },
     {
         name: 'misc',
+        module: require('./3p/misc'),
         include: ['default', 'option', 'noop', 'withHash'],
     },
     {
         name: 'number',
+        module: require('./3p/number'),
         include: [
             'addCommas',
             'phoneNumber',
@@ -101,6 +110,7 @@ const whitelist = [
     },
     {
         name: 'object',
+        module: require('./3p/object'),
         include: [
             'extend',
             'forIn',
@@ -117,6 +127,7 @@ const whitelist = [
     },
     {
         name: 'string',
+        module: require('./3p/string'),
         include: [
             'camelcase',
             'capitalize',
@@ -143,6 +154,7 @@ const whitelist = [
     },
     {
         name: 'url',
+        module: require('./3p/url'),
         include: ['encodeURI', 'decodeURI', 'urlResolve', 'urlParse', 'stripProtocol'],
     },
 ];
@@ -153,7 +165,7 @@ for (let i = 0; i < whitelist.length; i++) {
     const spec = whitelist[i];
 
     // Initialize module
-    const module = helpers[spec.name]();
+    const module = spec.module;
     if (typeof spec.init === 'function') {
         spec.init(module);
     }

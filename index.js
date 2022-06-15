@@ -1,14 +1,14 @@
 'use strict';
 const HandlebarsV3 = require('handlebars');
-const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
+// const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
 
 const AppError = require('./lib/appError');
-class CompileError extends AppError {};          // Error compiling template
-class FormatError extends AppError {};           // Error restoring precompiled template
-class RenderError extends AppError {};           // Error rendering template
-class DecoratorError extends AppError {};        // Error applying decorator
-class TemplateNotFoundError extends AppError {}; // Template not registered
+class CompileError extends AppError { };          // Error compiling template
+class FormatError extends AppError { };           // Error restoring precompiled template
+class RenderError extends AppError { };           // Error rendering template
+class DecoratorError extends AppError { };        // Error applying decorator
+class TemplateNotFoundError extends AppError { }; // Template not registered
 
 const handlebarsOptions = {
     preventIndent: true
@@ -39,7 +39,7 @@ class HandlebarsRenderer {
     */
     constructor(siteSettings, themeSettings, hbVersion, logger = console, logLevel = 'info') {
         // Figure out which version of Handlebars to use.
-        switch(hbVersion) {
+        switch (hbVersion) {
             case 'v4':
                 this.handlebars = HandlebarsV4.create();
                 break;
@@ -69,10 +69,10 @@ class HandlebarsRenderer {
         };
 
         // Register helpers with Handlebars
-        for (let i = 0; i < helpers.length; i++) {
-            const spec = helpers[i];
-            this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
-        }
+        // for (let i = 0; i < helpers.length; i++) {
+        //     const spec = helpers[i];
+        //     this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
+        // }
     }
 
     /**
@@ -185,7 +185,7 @@ class HandlebarsRenderer {
 
                 // Register it with handlebars
                 this.handlebars.registerPartial(path, template);
-            } catch(e) {
+            } catch (e) {
                 throw new FormatError(e.message);
             }
         }
@@ -235,7 +235,7 @@ class HandlebarsRenderer {
                 const path = paths[i];
                 try {
                     processed[path] = this.handlebars.precompile(templates[path], handlebarsOptions);
-                } catch(e) {
+                } catch (e) {
                     throw new CompileError(e.message, { path });
                 }
             }
@@ -271,7 +271,7 @@ class HandlebarsRenderer {
             let result;
             try {
                 result = template(context);
-            } catch(e) {
+            } catch (e) {
                 return reject(new RenderError(e.message));
             }
 
@@ -280,7 +280,7 @@ class HandlebarsRenderer {
                 for (let i = 0; i < this._decorators.length; i++) {
                     result = this._decorators[i](result);
                 }
-            } catch(e) {
+            } catch (e) {
                 return reject(new DecoratorError(e.message));
             }
 
@@ -303,7 +303,7 @@ class HandlebarsRenderer {
             // Compile the template
             try {
                 template = this.handlebars.compile(template);
-            } catch(e) {
+            } catch (e) {
                 return reject(new CompileError(e.message));
             }
 
@@ -311,7 +311,7 @@ class HandlebarsRenderer {
             let result;
             try {
                 result = template(context);
-            } catch(e) {
+            } catch (e) {
                 return reject(new RenderError(e.message));
             }
 
@@ -325,7 +325,7 @@ class HandlebarsRenderer {
      */
     _setHandlebarsLogger() {
         // Normalize on the v4 implementation
-        this.handlebars.logger = HandlebarsV4.logger;
+        // this.handlebars.logger = HandlebarsV4.logger;
 
         // Override logger.log to use the given console alternative
         this.handlebars.log = this.handlebars.logger.log = (level, ...message) => {

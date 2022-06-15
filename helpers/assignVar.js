@@ -4,8 +4,7 @@ const max_length = 1024;
 const max_keys = 50;
 
 const factory = globals => {
-    return function(key, value) {
-
+    return function (key, value) {
         // Validate that key is a string
         if (!utils.isString(key)) {
             throw new Error("assignVar helper key must be a string");
