@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+## 5.0.1
 - fix: STRF-9873 use modified implementations of `get`, `getObject`, `moment`, `option` 3p helpers ([#171](https://github.com/bigcommerce/paper-handlebars/pull/171))
 
 ## 5.0.0
