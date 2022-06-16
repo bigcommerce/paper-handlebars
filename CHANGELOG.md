@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+- fix: STRF-9873 use modified implementations of `get`, `getObject`, `moment`, `option` 3p helpers ([#171](https://github.com/bigcommerce/paper-handlebars/pull/171))
+
+## 5.0.0
+- feat: STRF-9791 drop node 12 support ([#169](https://github.com/bigcommerce/paper-handlebars/pull/169))
 
 ## 5.0.0
 - feat: STRF-9791 drop node 12 support ([#169](https://github.com/bigcommerce/paper-handlebars/pull/169))
