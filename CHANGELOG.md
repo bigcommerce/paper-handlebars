@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- Fix replacement `get` and `option` helpers for backwards-compatibility ([#173](https://github.com/bigcommerce/paper-handlebars/pull/173))
+- `get` now fully supports property paths constructed using `concat`
+
 ## 5.0.1
 - fix: STRF-9873 use modified implementations of `get`, `getObject`, `moment`, `option` 3p helpers ([#171](https://github.com/bigcommerce/paper-handlebars/pull/171))
 

@@ -9,7 +9,7 @@ const { getValue } = require('./lib/common');
  * Get a value from the options object. Property paths (`a.b.c`) may be used
  * to get nested properties.
  */
-const factory = () => {
+const factory = (globals) => {
     return function (path, locals) {
         // preserve `option` behavior with missing args while ensuring the correct
         // options object is used
@@ -23,7 +23,7 @@ const factory = () => {
 
         let opts = util.options(this, locals, options);
 
-        return getValue(opts, path);
+        return getValue(globals, opts, path);
     };
 };
 

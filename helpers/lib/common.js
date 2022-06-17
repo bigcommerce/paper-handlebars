@@ -10,19 +10,25 @@ function isValidURL(val) {
 }
 
 /*
- * Based on https://github.com/jonschlinkert/get-value/blob/3.0.1/index.js, but
- * with configurability that was not used in handlebars-helpers removed.
+ * Based on https://github.com/jonschlinkert/get-value/blob/2.0.6/index.js with some enhancements.
+ * 
+ * - Performs "hasOwnProperty" checks for safety.
+ * - Now accepts Handlebars.SafeString paths.
  */
-function getValue(object, path) {
+function getValue(globals, object, path) {
     let parts;
+
+    // unwrap Handlebars.SafeString for compatibility with `concat` etc.
+    path = unwrapIfSafeString(globals.handlebars, path);
+
     // accept array or string for backwards compatibility
-    if (!Array.isArray(path)) {
-        if (typeof path !== 'string') {
-            return object;
-        }
-        parts = path.split(/[[.\]]/).filter(Boolean);
+    if (typeof path === 'string') {
+        parts = path.split('.');
+    } else if (Array.isArray(path)) {
+        parts = path;
     } else {
-        parts = path.map(v => String(v));
+        let key = String(path);
+        return Object.prototype.hasOwnProperty.call(object, key) ? object[key] : undefined;
     }
 
     let result = object;
