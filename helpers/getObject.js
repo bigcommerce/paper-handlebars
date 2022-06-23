@@ -9,7 +9,7 @@ const { getValue } = require('./lib/common');
  * Get an object or array containing a value from the given context object.
  * Property paths (`a.b.c`) may be used to get nested properties.
  */
-const factory = () => {
+const factory = (globals) => {
     return function (path, context) {
         // use an empty context if none was given
         // (expect 3 args: `path`, `context`, and the `options` object 
@@ -25,7 +25,9 @@ const factory = () => {
 
         path = String(path);
 
-        let value = getValue(context, path);
+        const parts = path.split(/[[.\]]/).filter(Boolean);
+
+        let value = getValue(globals, context, parts);
 
         // for backwards compatibility: `get-object` returns on empty object instead of
         // getting props with 'false' values (not just undefined)
@@ -34,7 +36,6 @@ const factory = () => {
         }
 
         // return an array if the final path part is numeric to mimic behavior of `get-object`
-        const parts = path.split(/[[.\]]/).filter(Boolean);
         const last = parts[parts.length - 1];
         if (Number.isFinite(Number(last))) {
             return [ value ];

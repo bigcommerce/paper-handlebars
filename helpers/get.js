@@ -8,7 +8,7 @@ const { getValue } = require('./lib/common');
  * Get a value from the given context object. Property paths (`a.b.c`) may be used
  * to get nested properties.
  */
-const factory = () => {
+const factory = (globals) => {
     return function (path, context) {
         let options = arguments[arguments.length - 1];
 
@@ -17,7 +17,7 @@ const factory = () => {
             context = {};
         }
 
-        let value = getValue(context, path);
+        let value = getValue(globals, context, path);
         if (options && options.fn) {
             return value ? options.fn(value) : options.inverse(context);
         }
