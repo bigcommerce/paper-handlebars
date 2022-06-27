@@ -30,4 +30,13 @@ describe('option helper', function () {
             },
         ], done);
     });
+
+    it('accepts SafeString paths', (done) => {
+        runTestCases([
+            {
+                input: `{{option (concat 'a.b.' 'c')}}`,
+                output: `d`,
+            },
+        ], done);
+    });
 });

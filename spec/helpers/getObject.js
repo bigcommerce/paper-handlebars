@@ -12,7 +12,9 @@ describe('getObject helper', function () {
                     c: 'd'
                 },
                 array: [1, 2, 3, 4, 5]
-            }
+            },
+            aa: 'a',
+            ab: 'b',
         }
     };
 
@@ -38,6 +40,19 @@ describe('getObject helper', function () {
                 input: `{{#with (getObject "x" obj)}}{{x}}{{/with}}`,
                 output: ``,
             },
+        ], done);
+    });
+
+    it('accepts SafeString paths', (done) => {
+        runTestCases([
+            {
+                input: `{{get 'aa' (getObject (concat 'a' 'a') obj)}}`,
+                output: `a`,
+            },
+            {
+                input: `{{get 'ab' (getObject (concat 'a' 'b') obj)}}`,
+                output: `b`,
+            }
         ], done);
     });
 });

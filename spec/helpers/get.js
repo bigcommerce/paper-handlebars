@@ -7,7 +7,9 @@ const Lab = require('lab'),
 describe('get helper', function () {
     const context = {
         array: [1, 2, 3, 4, 5],
-        options: { a: { b: { c: 'd' } } }
+        options: { a: { b: { c: 'd' } } },
+        aa: 'a',
+        ab: 'b',
     };
 
     const runTestCases = testRunner({ context });
@@ -27,6 +29,19 @@ describe('get helper', function () {
             {
                 input: `{{get "x" this}}`,
                 output: ``,
+            }
+        ], done);
+    });
+
+    it('accepts SafeString paths', (done) => {
+        runTestCases([
+            {
+                input: `{{get (concat 'a' 'a') this}}`,
+                output: `a`,
+            },
+            {
+                input: `{{get (concat 'a' 'b') this}}`,
+                output: `b`,
             }
         ], done);
     });
