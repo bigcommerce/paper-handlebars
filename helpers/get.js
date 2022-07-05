@@ -12,9 +12,19 @@ const factory = (globals) => {
     return function (path, context) {
         let options = arguments[arguments.length - 1];
 
+        // for backwards compatibility
+        if (context === null || (typeof context !== 'object' && typeof context !== 'function')) {
+            return context;
+        }
+
         // use an empty context if none was given
-        if (arguments.length < 2) {
+        if (!context) {
             context = {};
+        }
+
+        // for backwards compatibility: safely use options hash as context if no context was passed
+        if (arguments.length < 3) {
+            context = { hash: options.hash };
         }
 
         let value = getValue(globals, context, path);

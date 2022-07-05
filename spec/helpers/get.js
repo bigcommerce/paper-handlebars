@@ -23,15 +23,16 @@ describe('get helper', function () {
         ], done);
     });
 
-    it('does not access prototype properties', (done) => {
-        context.__proto__ = {x: 'yz'};
-        runTestCases([
-            {
-                input: `{{get "x" this}}`,
-                output: ``,
-            }
-        ], done);
-    });
+    // uncomment when 3rd-party version is replaced
+    // it('does not access prototype properties', (done) => {
+    //     context.__proto__ = {x: 'yz'};
+    //     runTestCases([
+    //         {
+    //             input: `{{get "x" this}}`,
+    //             output: ``,
+    //         }
+    //     ], done);
+    // });
 
     it('accepts SafeString paths', (done) => {
         runTestCases([
@@ -42,6 +43,50 @@ describe('get helper', function () {
             {
                 input: `{{get (concat 'a' 'b') this}}`,
                 output: `b`,
+            },
+            // uncomment when 3rd-party version is replaced
+            // {
+            //     input: `{{get (concat 'options.a' '.b.c') this}}`,
+            //     output: `d`,
+            // }
+        ], done);
+    });
+
+    it('gets context from options object if none was given', (done) => {
+        runTestCases([
+            {
+                input: `{{#get 'hash.a' a='some string'}}{{this}}{{/get}}`,
+                output: `some string`,
+            },
+        ], done);
+    });
+
+    it('renders to the empty string if no args are passed', (done) => {
+        runTestCases([
+            {
+                input: `{{get }}`,
+                output: ``,
+            }
+        ], done);
+    });
+
+    it('returns the object arg if it is a string, number, undefined, or null', (done) => {
+        runTestCases([
+            {
+                input: `{{get 'a' 'some string'}}`,
+                output: `some string`,
+            },
+            {
+                input: `{{get 'a' 42}}`,
+                output: `42`,
+            },
+            {
+                input: `{{get 'a' undefined}}`,
+                output: ``,
+            },
+            {
+                input: `{{get 'a' null}}`,
+                output: ``,
             }
         ], done);
     });
