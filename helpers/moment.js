@@ -14,15 +14,14 @@ const factory = () => {
     return function (str, pattern) {
         // always use the Handlebars-generated options object
         let options = arguments[arguments.length - 1];
-        if (arguments.length < 3) {
-            pattern = null;
-        }
-        if (arguments.length < 2) {
-            str = null;
-        }
+
+        // Ideally we'd check how many args were passed and set `str` and `pattern` to
+        // null if they weren't explicitly provided. However, doing so could break
+        // backwards compatibility since we previously depended on helper-date@0.2.3.
 
         // if no args are passed, return a formatted date
-        if (str === null && pattern === null) {
+        /* eslint no-eq-null: ["off"] */
+        if (str == null && pattern == null) {
             moment.locale('en');
             return moment().format('MMMM DD, YYYY');
         }
