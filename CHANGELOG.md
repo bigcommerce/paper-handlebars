@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+## 5.0.3
+- bugfix & setup to replace 3p helpers incrementally: `moment` and `option` ([#178](https://github.com/bigcommerce/paper-handlebars/pull/178))
+
 ## 5.0.2
 - Fix replacement `get` and `option` helpers for backwards-compatibility ([#173](https://github.com/bigcommerce/paper-handlebars/pull/173))
 - `get` now fully supports property paths constructed using `concat`
