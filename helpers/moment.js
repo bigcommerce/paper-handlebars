@@ -53,7 +53,7 @@ const factory = () => {
             var res = moment(str);
             for (var key in options.hash) {
                 // prevent access to prototype methods
-                if (res.hasOwnProperty(key) && typeof res[key] === 'function') {
+                if (Object.keys(moment.prototype).indexOf(key) !== -1 && typeof res[key] === 'function') {
                     return res[key](options.hash[key]);
                 } else {
                     console.error('moment.js does not support "' + key + '"');

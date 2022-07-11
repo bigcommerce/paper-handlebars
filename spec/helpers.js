@@ -181,9 +181,9 @@ describe('helper registration', () => {
             'equals',
             'getShortMonth',
             'pick',
-        ];
+        ].sort();
 
-        expect(helpers.map(helper => helper.name)).to.be.equal(expectedHelpers);
+        expect(helpers.map(helper => helper.name).sort()).to.be.equal(expectedHelpers);
         done();
     });
 });
