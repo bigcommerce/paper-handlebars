@@ -11,9 +11,18 @@ describe('moment helper', function () {
         const now = new Date();
         runTestCases([
             {
-                input: `{{#moment "1 year ago" "YYYY"}}{{/moment}}`,
+                input: `{{moment "1 year ago" "YYYY"}}`,
                 output: `${now.getFullYear() - 1}`,
             },
+        ], done);
+    });
+
+    it('permits use of moment.js functions', (done) => {
+        runTestCases([
+            {
+                input: `{{moment "2022-01-01" isAfter="1999-12-31"}}`,
+                output: `true`,
+            }
         ], done);
     });
 });

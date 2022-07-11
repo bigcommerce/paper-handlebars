@@ -95,6 +95,8 @@ const whitelist = [
             'extend',
             'forIn',
             'forOwn',
+            'get', // to be replaced
+            'getObject', // to be replaced
             'toPath',
             'hasOwn',
             'isObject',

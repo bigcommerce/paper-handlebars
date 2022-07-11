@@ -51,8 +51,8 @@ describe('common utils', function () {
         });
 
         it('should return obj[String(path)] or undefined if path is not a string or array', (done) => {
-            expect(getValue(globals, obj, {})).to.equal(undefined);
-            expect(getValue(globals, obj)).to.equal(undefined);
+            expect(getValue(globals, obj, {a: 1})).to.equal(undefined);
+            expect(getValue(globals, obj, ()=>1)).to.equal(undefined);
             expect(getValue(globals, obj, 42)).to.equal(42);
             done();
         });
@@ -62,9 +62,10 @@ describe('common utils', function () {
             done();
         });
 
-        it('should get empty string key if path is \'\'', (done) => {
-            expect(getValue(globals, obj, '')).to.equal(undefined);
-            expect(getValue(globals, {'': 0}, '')).to.equal(0);
+        it('should return obj if path is falsey', (done) => {
+            expect(getValue(globals, obj, '')).to.equal(obj);
+            expect(getValue(globals, obj, false)).to.equal(obj);
+            expect(getValue(globals, obj, 0)).to.equal(obj);
             done();
         });
 

@@ -18,6 +18,11 @@ function isValidURL(val) {
 function getValue(globals, object, path) {
     let parts;
 
+    // for backwards compatibility
+    if (!path) {
+        return object;
+    }
+
     // unwrap Handlebars.SafeString for compatibility with `concat` etc.
     path = unwrapIfSafeString(globals.handlebars, path);
 
@@ -28,7 +33,7 @@ function getValue(globals, object, path) {
         parts = path;
     } else {
         let key = String(path);
-        return Object.prototype.hasOwnProperty.call(object, key) ? object[key] : undefined;
+        return Object.keys(object).indexOf(key) !== -1 ? object[key] : undefined;
     }
 
     let result = object;
@@ -40,7 +45,7 @@ function getValue(globals, object, path) {
             continue;
         }
         key = prefix + key;
-        if (Object.prototype.hasOwnProperty.call(result, key)) {
+        if (Object.keys(result).indexOf(key) !== -1) {
             result = result[key];
             prefix = '';
         } else {
