@@ -74,6 +74,8 @@ describe('common utils', function () {
             expect(getValue(globals, obj, 'a.c.23')).to.equal(undefined);
             expect(getValue(globals, obj, 'ab')).to.equal(undefined);
             expect(getValue(globals, obj, 'nonexistent')).to.equal(undefined);
+            expect(getValue(globals, [ undefined ], '0.x')).to.equal(undefined);
+            expect(getValue(globals, [ null ], '0.x')).to.equal(undefined);
             done();
         });
 

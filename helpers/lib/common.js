@@ -39,6 +39,9 @@ function getValue(globals, object, path) {
     let result = object;
     let prefix = '';
     for (let key of parts) {
+        if (result === undefined || result === null) {
+            return undefined;
+        }
         // preserve handling of trailing backslashes for backwards compatibility
         if (key.slice(-1) === '\\') {
             prefix = prefix + key.slice(0, -1) + '.';
