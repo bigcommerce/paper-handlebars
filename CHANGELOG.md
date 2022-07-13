@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-- setup to replace `get` & `getObject` helpers ([#180](https://github.com/bigcommerce/paper-handlebars/pull/180))
+## 5.0.5
+- setup to replace `get` & `getObject` helpers ([#183](https://github.com/bigcommerce/paper-handlebars/pull/183))
 ## 5.0.4
 - patch for helper-date 0.2.3 compatibility ([#180](https://github.com/bigcommerce/paper-handlebars/pull/180))
 
