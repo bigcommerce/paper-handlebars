@@ -23,16 +23,15 @@ describe('get helper', function () {
         ], done);
     });
 
-    // uncomment when 3rd-party version is replaced
-    // it('does not access prototype properties', (done) => {
-    //     context.__proto__ = {x: 'yz'};
-    //     runTestCases([
-    //         {
-    //             input: `{{get "x" this}}`,
-    //             output: ``,
-    //         }
-    //     ], done);
-    // });
+    it('does not access prototype properties', (done) => {
+        context.__proto__ = {x: 'yz'};
+        runTestCases([
+            {
+                input: `{{get "x" this}}`,
+                output: ``,
+            }
+        ], done);
+    });
 
     it('accepts SafeString paths', (done) => {
         runTestCases([
@@ -44,11 +43,10 @@ describe('get helper', function () {
                 input: `{{get (concat 'a' 'b') this}}`,
                 output: `b`,
             },
-            // uncomment when 3rd-party version is replaced
-            // {
-            //     input: `{{get (concat 'options.a' '.b.c') this}}`,
-            //     output: `d`,
-            // }
+            {
+                input: `{{get (concat 'options.a' '.b.c') this}}`,
+                output: `d`,
+            }
         ], done);
     });
 
@@ -86,6 +84,19 @@ describe('get helper', function () {
             },
             {
                 input: `{{get 'a' null}}`,
+                output: ``,
+            }
+        ], done);
+    });
+
+    it('returns undefined if prop path does not exist', (done) => {
+        runTestCases([
+            { // a key does not exist
+                input: `{{get 'z.z' options}}`,
+                output: ``,
+            },
+            { // first key exists, but its value is `undefined`
+                input:`{{get '0.zyx' (pluck (arrayify options) 'b')}}`, // array: [ undefined ]
                 output: ``,
             }
         ], done);
