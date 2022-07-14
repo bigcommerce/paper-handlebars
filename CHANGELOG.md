@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-- bugfix for edge case affecting `get`, `getObject`, and `option`
+## 5.0.6
+- bugfix for edge case affecting `get`, `getObject`, and `option` ([#185](https://github.com/bigcommerce/paper-handlebars/pull/185))
 
 ## 5.0.5
 - setup to replace `get` & `getObject` helpers ([#183](https://github.com/bigcommerce/paper-handlebars/pull/183))
