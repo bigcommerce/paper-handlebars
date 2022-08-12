@@ -66,6 +66,7 @@ class HandlebarsRenderer {
             getTranslator: this.getTranslator.bind(this),
             getContent: this.getContent.bind(this),
             storage: {}, // global storage used by helpers to keep state
+            resourceHints: []
         };
 
         // Register helpers with Handlebars
@@ -73,6 +74,10 @@ class HandlebarsRenderer {
             const spec = helpers[i];
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
         }
+    }
+
+    getResourceHints() {
+        return this.helperContext.resourceHints;
     }
 
     /**
@@ -293,7 +298,7 @@ class HandlebarsRenderer {
      *
      * @param  {String} template
      * @param  {Object} context
-     * @return {String}
+     * @return {Promise}
      * @throws [CompileError|RenderError]
      */
     renderString(template, context) {
@@ -342,8 +347,8 @@ class HandlebarsRenderer {
     }
 
     /**
-     * 
-     * @param {String} level 
+     *
+     * @param {String} level
      */
     setLoggerLevel(level) {
         this.handlebars.logger.level = level;

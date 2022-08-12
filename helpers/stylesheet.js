@@ -2,9 +2,10 @@
 
 const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
+const ResourceHints = require('./lib/resourceHints');
 
 const factory = globals => {
-    return function(assetPath) {
+    return function (assetPath) {
         const cdnify = buildCDNHelper(globals);
         const siteSettings = globals.getSiteSettings();
         const configId = siteSettings.theme_config_id;
@@ -18,12 +19,19 @@ const factory = globals => {
 
         const url = cdnify(path);
 
-        let attrs = { rel: 'stylesheet' };
+        if (_.has(options.hash, 'resourceHint')) {
+            ResourceHints.addResourceHint(
+                globals,
+                url,
+                options.hash['resourceHint'],
+                ResourceHints.resourceHintAllowedTypes.resourceHintStyleType
+            );
+            delete options.hash.resourceHint;
+        }
 
+        let attrs = {rel: 'stylesheet'};
         Object.assign(attrs, options.hash);
-
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
-
+        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join(' ');
         return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
     };
 };
