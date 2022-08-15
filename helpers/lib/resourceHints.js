@@ -1,12 +1,10 @@
-/* eslint-disable curly */
-const _ = require("lodash");
 const utils = require("handlebars-utils");
 
 const resourceHintsLimit = 50;
 
-const defaultResourceHintSate = 'preload';
+const defaultResourceHintState = 'preload';
 
-const resourceHintStates = [defaultResourceHintSate, 'preconnect', 'prefetch'];
+const resourceHintStates = [defaultResourceHintState, 'preconnect', 'prefetch'];
 
 const resourceHintFontType = 'font';
 const resourceHintStyleType = 'style';
@@ -20,12 +18,18 @@ const resourceHintAllowedTypes = [resourceHintStyleType, resourceHintFontType, r
  */
 function addResourceHint(globals, path, state, type) {
 
-    path = _.trim(path);
+    if (typeof path !== 'string') {
+        throw new Error('resourceHint attribute require a valid URI');
+    }
+    path = path.trim();
     if (path === '') {
-        return;
+        throw new Error('resourceHint received an empty path');
     }
 
-    state = _.trim(state);
+    if (typeof state !== 'string') {
+        throw new Error(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
+    }
+    state = state.trim();
     if (!resourceHintStates.includes(state)) {
         return;
     }
@@ -44,13 +48,14 @@ function addResourceHint(globals, path, state, type) {
         return;
     }
 
-    let value = Object.create({});
-    Object.defineProperty(value, 'src', {value: path, writable: false});
-    Object.defineProperty(value, 'state', {value: state, writable: false});
+    let value = {src: path, state};
 
-    type = _.trim(type);
-    if (type !== '' && _.includes(resourceHintAllowedTypes, type)) {
-        Object.defineProperty(value, 'type', {value: type, writable: false});
+    if (typeof type !== 'string') {
+        type = '';
+    }
+    type = type.trim();
+    if (type !== '' && resourceHintAllowedTypes.includes(type)) {
+        value.type = type;
     }
 
     globals.resourceHints.push(value);
@@ -58,7 +63,7 @@ function addResourceHint(globals, path, state, type) {
 
 module.exports = {
     resourceHintsLimit,
-    defaultResourceHintSate,
+    defaultResourceHintSate: defaultResourceHintState,
     addResourceHint,
     resourceHintAllowedTypes: {resourceHintStyleType, resourceHintFontType, resourceHintScriptType}
 };

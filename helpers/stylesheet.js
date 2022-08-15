@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
-const ResourceHints = require('./lib/resourceHints');
+const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
 
 const factory = globals => {
     return function (assetPath) {
@@ -20,11 +20,11 @@ const factory = globals => {
         const url = cdnify(path);
 
         if (_.has(options.hash, 'resourceHint')) {
-            ResourceHints.addResourceHint(
+            addResourceHint(
                 globals,
                 url,
                 options.hash['resourceHint'],
-                ResourceHints.resourceHintAllowedTypes.resourceHintStyleType
+                resourceHintAllowedTypes.resourceHintStyleType
             );
             delete options.hash.resourceHint;
         }
