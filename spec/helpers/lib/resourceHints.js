@@ -1,12 +1,9 @@
 const Code = require('code'),
     expect = Code.expect;
-const Sinon = require('sinon');
 const Lab = require('lab'),
     lab = exports.lab = Lab.script(),
     describe = lab.experiment,
-    it = lab.it,
-    beforeEach = lab.beforeEach,
-    afterEach = lab.afterEach;
+    it = lab.it;
 const {
     addResourceHint,
     defaultResourceHintState,
@@ -17,22 +14,8 @@ describe('resource hints', function () {
 
     describe('addResourceHint', function () {
 
-        let sandbox;
-
-        beforeEach(done => {
-            sandbox = Sinon.createSandbox();
-            done();
-        });
-
-        afterEach(done => {
-            sandbox.restore();
-            done();
-        });
-
         it("creates resource hints when valid params are provided", (done) => {
-
             const globals = {resourceHints: []};
-            sandbox.spy(globals.resourceHints, 'push');
 
             const src = '/my/styles.css';
             const type = 'style';
@@ -41,7 +24,7 @@ describe('resource hints', function () {
 
             addResourceHint(globals, src, state, type);
 
-            expect(globals.resourceHints.push.calledOnce).to.equals(true);
+            expect(globals.resourceHints).to.have.length(1);
             expect(globals.resourceHints[0]).to.equals(expected);
 
             done();
@@ -49,7 +32,6 @@ describe('resource hints', function () {
 
         it('does not add a hint when provided path is invalid', (done) => {
             const globals = {resourceHints: []};
-            sandbox.spy(globals.resourceHints, 'push');
 
             const throws = [undefined, null, ''].map(s => {
                 return () => {
@@ -66,14 +48,13 @@ describe('resource hints', function () {
                 expect(t).to.throw();
             });
 
-            expect(globals.resourceHints.push.notCalled).to.equals(true);
+            expect(globals.resourceHints).to.have.length(0);
 
             done();
         });
 
         it('does create a hint when no type is provided', (done) => {
             const globals = {resourceHints: []};
-            sandbox.spy(globals.resourceHints, 'push');
 
             addResourceHint(
                 globals,
@@ -81,7 +62,7 @@ describe('resource hints', function () {
                 defaultResourceHintState
             );
 
-            expect(globals.resourceHints.push.calledOnce).to.equals(true);
+            expect(globals.resourceHints).to.have.length(1);
             expect(globals.resourceHints[0].type).to.not.exist();
 
             done();
@@ -89,13 +70,13 @@ describe('resource hints', function () {
 
         it('does not create a hint when provided state param is not supported', (done) => {
             const globals = {resourceHints: []};
-            sandbox.spy(globals.resourceHints, 'push');
 
             const f = () => addResourceHint(
                 globals,
                 '/styles.css',
                 'not-supported'
             );
+
             expect(f).to.throw();
 
             done();
@@ -103,7 +84,6 @@ describe('resource hints', function () {
 
         it('does not create duplicate, by src, hints', (done) => {
             const globals = {resourceHints: []};
-            sandbox.spy(globals.resourceHints, 'push');
 
             const src = '/my/styles.css';
             const type = 'style';
@@ -118,7 +98,6 @@ describe('resource hints', function () {
                 );
             }
 
-            expect(globals.resourceHints.push.calledOnce).to.equals(true);
             expect(globals.resourceHints).to.have.length(1);
 
             done();
@@ -127,7 +106,6 @@ describe('resource hints', function () {
         it('does not create any hint when the limit of allowed hints was reached', (done) => {
             const filled = Array(50).fill(1);
             const globals = {resourceHints: filled};
-            sandbox.spy(globals.resourceHints, 'push');
 
             addResourceHint(
                 globals,
@@ -136,7 +114,7 @@ describe('resource hints', function () {
                 'style'
             );
 
-            expect(globals.resourceHints.push.notCalled).to.equals(true);
+            expect(globals.resourceHints).to.have.length(filled.length);
 
             done();
         });
