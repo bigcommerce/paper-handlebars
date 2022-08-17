@@ -29,7 +29,7 @@ describe('resource hints', function () {
             done();
         });
 
-        it("does work as expected with valid params", (done) => {
+        it("creates resource hints when valid params are provided", (done) => {
 
             const globals = {resourceHints: []};
             sandbox.spy(globals.resourceHints, 'push');
