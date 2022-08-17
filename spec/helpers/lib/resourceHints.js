@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const Code = require('code'),
     expect = Code.expect;
 const Sinon = require('sinon');
@@ -10,7 +9,7 @@ const Lab = require('lab'),
     afterEach = lab.afterEach;
 const {
     addResourceHint,
-    defaultResourceHintSate,
+    defaultResourceHintState,
     resourceHintAllowedTypes
 } = require('../../../helpers/lib/resourceHints');
 
@@ -42,10 +41,8 @@ describe('resource hints', function () {
 
             addResourceHint(globals, src, state, type);
 
-            expect(globals.resourceHints.push.called).to.equals(true);
-            expect(globals.resourceHints).to.have.length(1);
-            const result = _.head(globals.resourceHints);
-            expect(result).to.equals(expected);
+            expect(globals.resourceHints.push.calledOnce).to.equals(true);
+            expect(globals.resourceHints[0]).to.equals(expected);
 
             done();
         });
@@ -55,15 +52,14 @@ describe('resource hints', function () {
             sandbox.spy(globals.resourceHints, 'push');
 
             const throws = [undefined, null, ''].map(s => {
-                const f = () => {
+                return () => {
                     addResourceHint(
                         global,
                         s,
-                        defaultResourceHintSate,
+                        defaultResourceHintState,
                         resourceHintAllowedTypes.resourceHintStyleType
                     );
-                }
-                return f;
+                };
             });
 
             throws.forEach(t => {
@@ -82,12 +78,11 @@ describe('resource hints', function () {
             addResourceHint(
                 globals,
                 'https://my.asset.css',
-                defaultResourceHintSate
+                defaultResourceHintState
             );
 
             expect(globals.resourceHints.push.calledOnce).to.equals(true);
-            const hint = _.head(globals.resourceHints);
-            expect(hint.type).to.not.exist();
+            expect(globals.resourceHints[0].type).to.not.exist();
 
             done();
         });
@@ -96,13 +91,12 @@ describe('resource hints', function () {
             const globals = {resourceHints: []};
             sandbox.spy(globals.resourceHints, 'push');
 
-            addResourceHint(
+            const f = () => addResourceHint(
                 globals,
                 '/styles.css',
                 'not-supported'
             );
-
-            expect(globals.resourceHints.push.notCalled).to.equals(true);
+            expect(f).to.throw();
 
             done();
         });
@@ -131,15 +125,15 @@ describe('resource hints', function () {
         });
 
         it('does not create any hint when the limit of allowed hints was reached', (done) => {
-            const filled = _.fill(Array(50), 1);
+            const filled = Array(50).fill(1);
             const globals = {resourceHints: filled};
             sandbox.spy(globals.resourceHints, 'push');
 
             addResourceHint(
                 globals,
                 '/my/styles.css',
-                'style',
-                'preload'
+                'preload',
+                'style'
             );
 
             expect(globals.resourceHints.push.notCalled).to.equals(true);

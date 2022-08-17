@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
 const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
 
@@ -19,20 +18,23 @@ const factory = globals => {
 
         const url = cdnify(path);
 
-        if (_.has(options.hash, 'resourceHint')) {
+        if (options.hash.resourceHint) {
             addResourceHint(
                 globals,
                 url,
-                options.hash['resourceHint'],
+                options.hash.resourceHint,
                 resourceHintAllowedTypes.resourceHintStyleType
             );
             delete options.hash.resourceHint;
         }
 
-        let attrs = {rel: 'stylesheet'};
-        Object.assign(attrs, options.hash);
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join(' ');
-        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
+        const attrs = Object.assign({rel: 'stylesheet'}, options.hash);
+        const keyValuePairs = [];
+        for (const attrsKey in attrs) {
+            keyValuePairs.push(`${attrsKey}="${attrs[attrsKey]}"`);
+        }
+
+        return `<link data-stencil-stylesheet href="${url}" ${keyValuePairs.join(' ')}>`;
     };
 };
 

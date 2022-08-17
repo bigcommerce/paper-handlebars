@@ -18,20 +18,13 @@ const resourceHintAllowedTypes = [resourceHintStyleType, resourceHintFontType, r
  */
 function addResourceHint(globals, path, state, type) {
 
-    if (typeof path !== 'string') {
-        throw new Error('resourceHint attribute require a valid URI');
+    if (!utils.isString(path)) {
+        throw new Error('Invalid path provided. path should be a non empty string');
     }
     path = path.trim();
-    if (path === '') {
-        throw new Error('resourceHint received an empty path');
-    }
 
-    if (typeof state !== 'string') {
+    if (!utils.isString(state) || !resourceHintStates.includes(state)) {
         throw new Error(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
-    }
-    state = state.trim();
-    if (!resourceHintStates.includes(state)) {
-        return;
     }
 
     if (typeof globals.resourceHints === 'undefined') {
@@ -63,7 +56,7 @@ function addResourceHint(globals, path, state, type) {
 
 module.exports = {
     resourceHintsLimit,
-    defaultResourceHintSate: defaultResourceHintState,
+    defaultResourceHintState,
     addResourceHint,
     resourceHintAllowedTypes: {resourceHintStyleType, resourceHintFontType, resourceHintScriptType}
 };
