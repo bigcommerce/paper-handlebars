@@ -1,10 +1,10 @@
 'use strict';
 
-const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
+const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
 
 const factory = globals => {
-    return function(assetPath) {
+    return function (assetPath) {
         const cdnify = buildCDNHelper(globals);
         const siteSettings = globals.getSiteSettings();
         const configId = siteSettings.theme_config_id;
@@ -18,13 +18,23 @@ const factory = globals => {
 
         const url = cdnify(path);
 
-        let attrs = { rel: 'stylesheet' };
+        if (options.hash.resourceHint) {
+            addResourceHint(
+                globals,
+                url,
+                options.hash.resourceHint,
+                resourceHintAllowedTypes.resourceHintStyleType
+            );
+            delete options.hash.resourceHint;
+        }
 
-        Object.assign(attrs, options.hash);
+        const attrs = Object.assign({rel: 'stylesheet'}, options.hash);
+        const keyValuePairs = [];
+        for (const attrsKey in attrs) {
+            keyValuePairs.push(`${attrsKey}="${attrs[attrsKey]}"`);
+        }
 
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
-
-        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
+        return `<link data-stencil-stylesheet href="${url}" ${keyValuePairs.join(' ')}>`;
     };
 };
 
