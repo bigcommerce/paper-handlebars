@@ -1,8 +1,9 @@
 const Lab = require('lab'),
-      lab = exports.lab = Lab.script(),
-      describe = lab.experiment,
-      it = lab.it,
-      testRunner = require('../spec-helpers').testRunner;
+    lab = exports.lab = Lab.script(),
+    describe = lab.experiment,
+    it = lab.it,
+    {testRunner, buildRenderer} = require('../spec-helpers');
+const {expect} = require("code");
 
 describe('cdn helper', function () {
     const context = {
@@ -22,6 +23,33 @@ describe('cdn helper', function () {
 
     // Build a test runner that uses a default context
     const runTestCases = testRunner({context, siteSettings, themeSettings, hbVersion});
+
+    it('should render the css cdn url and produce resource hints when attribute resourceHint is part of the template', function (done) {
+        const renderer = buildRenderer(siteSettings, themeSettings, {}, hbVersion);
+        const runTestCases = testRunner({context, renderer});
+        runTestCases([
+            {
+                input: '{{cdn "assets/css/style.css" resourceHint="preload"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.css',
+            },
+            {
+                input: '{{cdn "/assets/css/style.modal.css" resourceHint="preconnect"}}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.modal.css',
+            },
+            {
+                input: '{{cdn "/assets/css/style.modal.css" }}',
+                output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.modal.css',
+            }
+        ], () => {
+            const hints = renderer.getResourceHints();
+            expect(hints).to.have.length(2);
+            hints.forEach(hint => {
+                expect(hint.type).to.not.exist();
+                expect(hint.state).to.satisfy((state) => state === 'preload' || state === 'preconnect');
+            });
+            done();
+        });
+    });
 
     it('should render the css cdn url', function (done) {
         runTestCases([
