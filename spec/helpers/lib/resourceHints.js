@@ -20,7 +20,8 @@ describe('resource hints', function () {
             const src = '/my/styles.css';
             const type = 'style';
             const state = 'preload';
-            const expected = {src, state, type};
+            const cors = 'no';
+            const expected = {src, state, type, cors};
 
             addResourceHint(globals, src, state, type);
 
