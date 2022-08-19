@@ -54,6 +54,7 @@ const helpersList = [
     'toLowerCase',
     'truncate',
     'unless',
+    'earlyHint',
 ];
 
 const deprecatedHelpersList = [
