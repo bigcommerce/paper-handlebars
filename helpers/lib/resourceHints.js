@@ -22,7 +22,7 @@ const allowedCors = [noCors, anonymousCors, useCredentialsCors];
  * @param {string} path - The uri to the resource.
  * @param {string} state - any of [preload, preconnect, prerender, dns-prefetch]
  * @param {string} type? - any of [style, font, script] If an invalid value is provided, property won't be included
- * @param {string} cors? - any of [no, anonymous, use-credentials] defaults to no
+ * @param {string} cors? - any of [no, anonymous, use-credentials] defaults to no when no value is provided
  */
 function addResourceHint(globals, path, state, type, cors) {
 
@@ -54,7 +54,9 @@ function addResourceHint(globals, path, state, type, cors) {
         hint.type = type;
     }
 
-    if (!utils.isString(cors) || !allowedCors.includes(cors)) {
+    if (utils.isString(cors) && !allowedCors.includes(cors)) {
+        throw new Error(`Invalid cors value provided. Valid values are: ${allowedCors}`);
+    } else if (!utils.isString(cors)) {
         cors = noCors;
     }
     hint.cors = cors;

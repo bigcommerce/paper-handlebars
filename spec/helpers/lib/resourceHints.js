@@ -20,8 +20,24 @@ describe('resource hints', function () {
             const src = '/my/styles.css';
             const type = 'style';
             const state = 'preload';
-            const cors = 'no';
+            const cors = 'anonymous';
             const expected = {src, state, type, cors};
+
+            addResourceHint(globals, src, state, type, cors);
+
+            expect(globals.resourceHints).to.have.length(1);
+            expect(globals.resourceHints[0]).to.equals(expected);
+
+            done();
+        });
+
+        it("creates resource hints when valid params are provided defaulting cors to no when no provided", (done) => {
+            const globals = {};
+
+            const src = '/my/styles.css';
+            const type = 'style';
+            const state = 'preload';
+            const expected = {src, state, type, cors: 'no'};
 
             addResourceHint(globals, src, state, type);
 
@@ -120,5 +136,10 @@ describe('resource hints', function () {
             done();
         });
 
+        it('should throw when invalid cors value is provided', done => {
+            const f = () => addResourceHint({}, '/theme.css', 'style', 'preload', 'invalid-cors');
+            expect(f).to.throw();
+            done();
+        });
     });
 });
