@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## 5.0.7
+## 5.1.0
 - enable optional resource hint generation in `stylesheet` helper([#187](https://github.com/bigcommerce/paper-handlebars/pull/187))
 - enable optional resource hint generation in `getFontsCollection` helper ([#188](https://github.com/bigcommerce/paper-handlebars/pull/188))
 - enable optional resource hint generation in `cdn` helper([#189](https://github.com/bigcommerce/paper-handlebars/pull/189))
