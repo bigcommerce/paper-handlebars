@@ -5,19 +5,25 @@ const Lab = require('lab'),
     beforeEach = lab.beforeEach;
 const {buildRenderer, testRunner} = require("../spec-helpers");
 const {expect} = require("code");
-const {resourceHintAllowedTypes} = require("../../helpers/lib/resourceHints");
+const {
+    resourceHintAllowedTypes,
+    resourceHintAllowedStates,
+    resourceHintAllowedCors
+} = require("../../helpers/lib/resourceHints");
 
-function template(path, state, type) {
+function template(path, state, type, cors) {
     type = type ? `type="${type}"` : '';
-    return `{{ earlyHint "${path}" "${state}" ${type} }}`;
+    cors = cors ? `cors="${cors}"` : '';
+    return `{{ earlyHint "${path}" "${state}" ${type} ${cors} }}`;
 }
 
 function randommer(items) {
     return () => items[Math.floor(Math.random() * items.length)];
 }
 
-const randomHintState = randommer(['preload', 'preconnect', 'prefetch']);
+const randomHintState = randommer(Object.values(resourceHintAllowedStates));
 const randomHintType = randommer(Object.values(resourceHintAllowedTypes));
+const randomCors = randommer(Object.values(resourceHintAllowedCors));
 
 let renderer, runTests;
 
@@ -41,7 +47,7 @@ describe('earlyHint', () => {
         ], () => {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(1);
-            expect(hints[0]).to.equals({src: path, state});
+            expect(hints[0]).to.equals({src: path, state, cors: 'no'});
             done();
         });
     });
@@ -50,7 +56,8 @@ describe('earlyHint', () => {
         const path = '/asset/theme.css'
         const type = randomHintType();
         const state = randomHintState();
-        const input = template(path, state, type);
+        const cors = randomCors();
+        const input = template(path, state, type, cors);
         runTests([
             {
                 input,
@@ -59,7 +66,7 @@ describe('earlyHint', () => {
         ], () => {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(1);
-            expect(hints[0]).to.equals({src: path, state, type});
+            expect(hints[0]).to.equals({src: path, state, type, cors});
             done();
         });
     });
