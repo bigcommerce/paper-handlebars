@@ -1,8 +1,10 @@
 const Lab = require('lab'),
-      lab = exports.lab = Lab.script(),
-      describe = lab.experiment,
-      it = lab.it,
-      testRunner = require('../spec-helpers').testRunner;
+    lab = exports.lab = Lab.script(),
+    describe = lab.experiment,
+    it = lab.it,
+    {testRunner, buildRenderer} = require('../spec-helpers');
+const {expect} = require("code");
+const {resourceHintAllowedTypes, resourceHintAllowedStates} = require('../../helpers/lib/resourceHints');
 
 describe('getFontsCollection', function () {
     it('should return a font link with fonts from theme settings and &display=swap when no font-display value is passed', function (done) {
@@ -17,14 +19,22 @@ describe('getFontsCollection', function () {
             'test8-font': 'Google_Crimson+Text_400,700_sans',
             'random-property': 'not a font'
         };
-
-        const runTestCases = testRunner({themeSettings});
+        const renderer = buildRenderer({}, themeSettings);
+        const runTestCases = testRunner({renderer});
+        const href = "https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700&display=swap";
         runTestCases([
             {
-                input: '{{getFontsCollection}}',
-                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700&display=swap" rel="stylesheet">',
+                input: '{{getFontsCollection resourceHint="preload"}}',
+                output: `<link href="${href}" rel="stylesheet">`,
             },
-        ], done);
+        ], () => {
+            const hints = renderer.getResourceHints();
+            expect(hints).to.have.length(1);
+            expect(hints[0].src).to.equals(href);
+            expect(hints[0].state).to.equals(resourceHintAllowedStates.preloadResourceHintState);
+            expect(hints[0].type).to.equals(resourceHintAllowedTypes.resourceHintFontType);
+            done();
+        });
     });
     it('should return a font link with fonts from theme settings and &display=swap when font-display value passed is invalid', function (done) {
         const themeSettings = {
@@ -74,14 +84,19 @@ describe('getFontsCollection', function () {
             'test2-font': 'Google_',
             'test3-font': 'Google'
         };
-
-        const runTestCases = testRunner({themeSettings});
+        const renderer = buildRenderer({}, themeSettings);
+        const runTestCases = testRunner({renderer});
         runTestCases([
             {
-                input: '{{getFontsCollection}}',
+                input: '{{getFontsCollection resourceHint="preconnect"}}',
                 output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:&display=swap" rel="stylesheet">',
             },
-        ], done);
+        ], () => {
+            const hints = renderer.getResourceHints();
+            expect(hints).to.have.length(1);
+            expect(hints[0].state).to.equals(resourceHintAllowedStates.preconnectResourceHintState);
+            done();
+        });
     });
     it('should not crash if a malformed Google font is passed when valid font-display value is passed', function (done) {
         const themeSettings = {

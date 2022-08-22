@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const {resourceHintAllowedTypes, addResourceHint} = require('../lib/resourceHints');
+
 const fontProviders = {
     'Google': {
         /**
@@ -68,6 +70,18 @@ const fontProviders = {
                 }
             };
         },
+
+        generateResourceHints: function (globals, state, fonts, fontDisplay) {
+            const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
+            fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
+            const path = `https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}`;
+            addResourceHint(
+                globals,
+                path,
+                state,
+                resourceHintAllowedTypes.resourceHintFontType
+            );
+        }
     },
 };
 
@@ -84,7 +98,7 @@ const fontProviders = {
  * @returns {Object.<string, Array>|string}
  */
 module.exports = function(format, themeSettings, handlebars, options) {
-    
+
     const collectedFonts = {};
     _.each(themeSettings, function(value, key) {
         //check that -font is on end of string but not start of string
@@ -115,8 +129,11 @@ module.exports = function(format, themeSettings, handlebars, options) {
     // Format output based on requested format
     switch(format) {
     case 'linkElements':
-        
+
         const formattedFonts = _.mapValues(parsedFonts, function(value, key) {
+            if (options.globals && options.state) {
+                fontProviders[key].generateResourceHints(options.globals, options.state, value, options.fontDisplay);
+            }
             return fontProviders[key].buildLink(value, options.fontDisplay);
         });
         return new handlebars.SafeString(_.values(formattedFonts).join(''));
