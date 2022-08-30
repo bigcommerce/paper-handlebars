@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.1.1
+
+- removes `type` attribute of `earlyHint` helper ([#193](https://github.com/bigcommerce/paper-handlebars/pull/193))
+
 ## 5.1.0
 - enable optional resource hint generation in `stylesheet` helper([#187](https://github.com/bigcommerce/paper-handlebars/pull/187))
 - enable optional resource hint generation in `getFontsCollection` helper ([#188](https://github.com/bigcommerce/paper-handlebars/pull/188))
