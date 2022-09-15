@@ -27,7 +27,7 @@ const factory = (globals) => {
 
         const parts = path.split(/[[.\]]/).filter(Boolean);
 
-        let value = getValue(globals, context, parts);
+        let value = getValue(context, parts, globals);
 
         // for backwards compatibility: `get-object` returns on empty object instead of
         // getting props with 'false' values (not just undefined)

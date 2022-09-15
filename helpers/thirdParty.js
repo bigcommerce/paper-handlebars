@@ -5,6 +5,7 @@ const helpers = require('handlebars-helpers');
 const whitelist = [
     {
         name: 'array',
+        module: require('./3p/array'),
         include: [
             'after',
             'arrayify',
@@ -141,7 +142,7 @@ for (let i = 0; i < whitelist.length; i++) {
     const spec = whitelist[i];
 
     // Initialize module
-    const module = helpers[spec.name]();
+    const module = spec.module ? spec.module : helpers[spec.name]();
     if (typeof spec.init === 'function') {
         spec.init(module);
     }

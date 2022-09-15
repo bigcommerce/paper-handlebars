@@ -15,7 +15,7 @@ function isValidURL(val) {
  * - Performs "hasOwnProperty" checks for safety.
  * - Now accepts Handlebars.SafeString paths.
  */
-function getValue(globals, object, path) {
+function getValue(object, path, globals) {
     let parts;
 
     // for backwards compatibility
@@ -24,7 +24,9 @@ function getValue(globals, object, path) {
     }
 
     // unwrap Handlebars.SafeString for compatibility with `concat` etc.
-    path = unwrapIfSafeString(globals.handlebars, path);
+    if (globals && globals.handlebars) {
+        path = unwrapIfSafeString(globals.handlebars, path);
+    }
 
     // accept array or string for backwards compatibility
     if (typeof path === 'string') {

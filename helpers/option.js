@@ -23,7 +23,7 @@ const factory = (globals) => {
 
         let opts = util.options(this, locals, options);
 
-        return getValue(globals, opts, path);
+        return getValue(opts, path, globals);
     };
 };
 
