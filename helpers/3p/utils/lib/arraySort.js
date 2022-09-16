@@ -5,7 +5,7 @@
     Copy of https://github.com/jonschlinkert/array-sort/blob/0.1.2/index.js
 
 */
-const typeOf = require('./kindOf');
+const kindOf = require('./kindOf');
 const { getValue } = require('../../../lib/common'); // TODO: 2.0.5 while we have 2.0.6
 
 /**
@@ -19,7 +19,7 @@ const { getValue } = require('../../../lib/common'); // TODO: 2.0.5 while we hav
  */
 
 function arraySort(arr, props, opts) {
-  if (arr == null) {
+  if (!arr) {
     return [];
   }
 
@@ -35,7 +35,7 @@ function arraySort(arr, props, opts) {
 
   // if the last argument appears to be a plain object,
   // it's not a valid `compare` arg, so it must be options.
-  if (typeOf(args[args.length - 1]) === 'object') {
+  if (kindOf(args[args.length - 1]) === 'object') {
     opts = args.pop();
   }
   return arr.sort(sortBy(args, opts));

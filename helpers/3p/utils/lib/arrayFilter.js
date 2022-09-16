@@ -7,7 +7,7 @@
 const iterator = require('./makeIterator');
 
 module.exports = function filter(arr, cb, thisArg) {
-  if (arr == null) {
+  if (!arr) {
     return [];
   }
 

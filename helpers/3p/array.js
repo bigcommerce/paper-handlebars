@@ -26,7 +26,7 @@ var helpers = module.exports;
  */
 
 helpers.after = function(array, n) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   return array.slice(n);
 };
 
@@ -64,7 +64,7 @@ helpers.arrayify = function(value) {
  */
 
 helpers.before = function(array, n) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   return array.slice(0, -n);
 };
 
@@ -153,7 +153,7 @@ helpers.filter = function(array, value, options) {
  */
 
 helpers.first = function(array, n) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   if (!utils.isNumber(n)) {
     return array[0];
   }
@@ -281,10 +281,10 @@ helpers.isArray = function(value) {
  */
 
 helpers.itemAt = function(array, idx) {
-  if (utils.isUndefined(array)) return null;
+  if (utils.isUndefined(array)) {return null;}
   array = utils.result(array);
 
-  if (!array || typeof(array) != 'object') return null;
+  if (!array || typeof(array) != 'object') {return null;}
 
   if (!utils.isUndefined(idx)) {
     idx = parseFloat(utils.result(idx));
@@ -325,7 +325,7 @@ helpers.itemAt = function(array, idx) {
  */
 
 helpers.join = function(array, sep) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   sep = typeof sep !== 'string'
     ? ', '
     : sep;
@@ -407,7 +407,7 @@ helpers.lengthEqual = function(array, length, options) {
  */
 
 helpers.map = function(array, fn) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   if (typeof array === 'string' && /[[]/.test(array)) {
     array = utils.tryParse(array) || [];
   }
@@ -446,7 +446,7 @@ helpers.map = function(array, fn) {
 
 helpers.some = function(arr, cb, options) {
   cb = utils.iterator(cb, this);
-  if (arr == null) {
+  if (!arr) {
     return options.inverse(this);
   }
   var len = arr.length, i = -1;
@@ -477,7 +477,7 @@ helpers.some = function(arr, cb, options) {
  */
 
 helpers.sort = function(arr, options) {
-  if (utils.isUndefined(arr)) return '';
+  if (utils.isUndefined(arr)) {return '';}
   if (utils.get(options, 'hash.reverse')) {
     return arr.sort().reverse();
   }
@@ -503,7 +503,7 @@ helpers.sort = function(arr, options) {
  */
 
 helpers.sortBy = function(arr/*, prop*/) {
-  if (utils.isUndefined(arr)) return '';
+  if (utils.isUndefined(arr)) {return '';}
   var args = [].slice.call(arguments);
   args.pop(); // remove hbs options object
 
@@ -599,7 +599,7 @@ helpers.withBefore = function(array, idx, options) {
  */
 
 helpers.withFirst = function(arr, idx, options) {
-  if (utils.isUndefined(arr)) return '';
+  if (utils.isUndefined(arr)) {return '';}
   arr = utils.result(arr);
 
   if (!utils.isUndefined(idx)) {
@@ -681,7 +681,7 @@ helpers.withGroup = function (array, every, options) {
  */
 
 helpers.withLast = function(array, idx, options) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   array = utils.result(array);
 
   if (!utils.isUndefined(idx)) {
@@ -722,7 +722,7 @@ helpers.withLast = function(array, idx, options) {
  */
 
 helpers.withSort = function(array, prop, options) {
-  if (utils.isUndefined(array)) return '';
+  if (utils.isUndefined(array)) {return '';}
   var result = '';
 
   if (utils.isUndefined(prop)) {

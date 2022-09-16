@@ -9,7 +9,7 @@ module.exports = function indexOf(arr, ele, start) {
   start = start || 0;
   var idx = -1;
 
-  if (arr == null) return idx;
+  if (arr === null) {return idx;}
   var len = arr.length;
   var i = start < 0
     ? (len + start)

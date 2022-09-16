@@ -6,7 +6,7 @@
 const forOwn = require('./forOwn');
 
 module.exports = function makeIterator(src, thisArg) {
-  if (src == null) {
+  if (src === null) {
     return noop;
   }
 

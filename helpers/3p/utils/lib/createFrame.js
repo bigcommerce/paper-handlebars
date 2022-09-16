@@ -1,11 +1,30 @@
-'use strict';
-
-const utils = require('handlebars-utils');
-
 /**
  * 
  * https://github.com/jonschlinkert/create-frame/blob/master/index.js
+ * https://github.com/jonschlinkert/define-property/blob/master/index.js
  */
+
+
+const utils = require('handlebars-utils');
+
+
+function defineProperty(obj, prop, val) {
+  if (typeof obj !== 'object' && typeof obj !== 'function') {
+    throw new TypeError('expected an object or function.');
+  }
+
+  if (typeof prop !== 'string') {
+    throw new TypeError('expected `prop` to be a string.');
+  }
+
+
+  return Object.defineProperty(obj, prop, {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: val
+  });
+};
 
 module.exports = function createFrame(data) {
   if (!utils.isObject(data)) {
@@ -16,7 +35,7 @@ module.exports = function createFrame(data) {
   var frame = extend({}, data);
   frame._parent = data;
 
-  utils.define(frame, 'extend', function(data) {
+  defineProperty(frame, 'extend', function(data) {
     extend(this, data);
   });
 

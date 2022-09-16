@@ -86,7 +86,7 @@ utils.isRegex = function(val) {
  */
 
 utils.chop = function(str) {
-  if (!utils.isString(str)) return '';
+  if (!utils.isString(str)) {return '';}
   var re = /^[-_.\W\s]+|[-_.\W\s]+$/g;
   return str.trim().replace(re, '');
 };
@@ -109,7 +109,7 @@ utils.chop = function(str) {
  */
 
 utils.changecase = function(str, fn) {
-  if (!utils.isString(str)) return '';
+  if (!utils.isString(str)) {return '';}
   if (str.length === 1) {
     return str.toLowerCase();
   }
@@ -149,7 +149,7 @@ utils.random = function(min, max) {
 
 utils.isUndefined = function(val) {
   return typeof val === 'undefined'
-    || (val.hash != null);
+    || (!!val.hash);
 };
 
 /**
