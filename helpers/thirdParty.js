@@ -35,6 +35,7 @@ const whitelist = [
     },
     {
         name: 'comparison',
+        module: require('./3p/comparison'),
         include: [
             'and',
             'gt',
@@ -78,6 +79,7 @@ const whitelist = [
     },
     {
         name: 'number',
+        module: require('./3p/number'),
         include: [
             'addCommas',
             'phoneNumber',
@@ -107,6 +109,7 @@ const whitelist = [
     },
     {
         name: 'string',
+        module: require('./3p/string'),
         include: [
             'camelcase',
             'capitalize',
