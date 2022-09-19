@@ -5,13 +5,6 @@ const expect = Code.expect;
 const it = lab.it;
 const describe = lab.describe
 
-// require('should');
-// var support = require('./support');
-// var expected = support.expected('object');
-// var helpers = require('..');
-// var hbs = require('handlebars');
-// helpers.object({handlebars: hbs});
-
 const { buildRenderer } = require('../../spec-helpers');
 const renderer = buildRenderer();
 const hbs = renderer.handlebars;
@@ -97,17 +90,6 @@ describe('object', function() {
     });
   });
 
-  describe('getObject', function() {
-    it('should get an object from the context', function(done) {
-      var one = hbs.compile('{{{stringify (getObject "a" this)}}}')({a: 'b'});
-      expect(one).to.equal('{"a":"b"}');
-
-      var two = hbs.compile('{{{stringify (getObject "c" this)}}}')({c: 'd'});
-      expect(two).to.equal('{"c":"d"}');
-      done();
-    });
-  });
-
   describe('toPath', function() {
     it('should return a path from provided arguments', function(done) {
       expect(hbs.compile('{{toPath "a" "b" "c"}}')()).to.equal('a.b.c');
@@ -121,35 +103,6 @@ describe('object', function() {
     it('should return a `get` compatible path', function(done) {
       var fn = hbs.compile('{{get (toPath "a" (add 1 1) "j") this}}');
       expect(fn({a: [{b: 'c', d: 'e'},{f: 'g', h: 'i'}, {j: 'k', l: 'm'}]})).to.equal('k');
-      done();
-    });
-  });
-
-  describe('get', function() {
-    it('should get a value from the context', function(done) {
-      expect(hbs.compile('{{get "a" this}}')({a: 'b'})).to.equal('b');
-      expect(hbs.compile('{{get "c" this}}')({c: 'd'})).to.equal('d');
-      done();
-    });
-
-    it('should get a nested value from the context', function(done) {
-      var fn = hbs.compile('{{get "a.b.c.d" this}}');
-      expect(fn({a: {b: {c: {d: 'e'}}}})).to.equal('e');
-      done();
-    });
-
-    it('should work as a block helper', function(done) {
-      var fn1 = hbs.compile('{{#get "a" this}} {{.}} {{/get}}');
-      expect(fn1(context.object)).to.equal(' b ');
-
-      var fn2 = hbs.compile('{{#get "c" this}} {{.}} {{/get}}');
-      expect(fn2(context.object)).to.equal(' d ');
-      done();
-    });
-
-    it('should get the inverse block if not found', function(done) {
-      var fn = hbs.compile('{{#get "foo" this}} {{.}} {{else}}Nope.{{/get}}');
-      expect(fn(context.object)).to.equal('Nope.');
       done();
     });
   });

@@ -262,75 +262,6 @@ helpers.isArray = function(value) {
   return Array.isArray(value);
 };
 
-/**
- * Block helper that returns the item with specified index.
- *
- * Given the array `['a', 'b', 'c']`:
- *
- * ```handlebars
- * {{itemAt array 1}}
- * //=> 'b'
- * ```
- *
- * @name .itemAt
- * @param {Array} `array`
- * @param {Number} `idx`
- * @return {any} `value`
- * @block
- * @api public
- */
-
-helpers.itemAt = function(array, idx) {
-  if (utils.isUndefined(array)) {return null;}
-  array = utils.result(array);
-
-  if (!array || typeof(array) != 'object') {return null;}
-
-  if (!utils.isUndefined(idx)) {
-    idx = parseFloat(utils.result(idx));
-  }
-  else {
-    idx = 0;
-  }
-
-  if (idx < 0) {
-    idx = array.length + idx;
-  }
-
-  if (idx < 0 || idx >= array.length) {
-    return null;
-  }
-
-  return array[idx];
-};
-
-/**
- * Join all elements of array into a string, optionally using a
- * given separator.
- *
- * Given the array `['a', 'b', 'c']`:
- *
- * ```handlebars
- * {{join array}}
- * //=> 'a, b, c'
- *
- * {{join array '-'}}
- * //=> 'a-b-c'
- * ```
- *
- * @param {Array} `array`
- * @param {String} `sep` The separator to use.
- * @return {String}
- * @api public
- */
-
-helpers.join = function(array, sep) {
-  if (utils.isUndefined(array)) {return '';}
-  sep = typeof sep !== 'string'
-    ? ', '
-    : sep;
-  return array.join(sep);
-};
 
 /**
  * Returns the last item, or last `n` items of an array.
@@ -618,46 +549,6 @@ helpers.withFirst = function(arr, idx, options) {
     result += options.fn(arr[i]);
   }
   return result;
-};
-
-/**
- * Block helper that groups array elements by given `value`.
- *
- * Given the array `['a', 'b', 'c', 'd','e','f','g','h']`:
- *
- * ```handlebars
- * {{#withGroup array 4}}
- *   {{#each this}}
- *     {{.}}
- *   {{each}}
- *   <br>
- * {{/withGroup}}
- * ```
- *  //=> 'a','b','c','d'<br>
- *  //=> 'e','f','g','h'<br>
- *
- * @name .withGroup
- * @param {Array} `array`
- * @param {Number} `every`
- * @param {Object} `options`
- * @return {String}
- * @block
- * @api public
- */
-
-helpers.withGroup = function (array, every, options) {
-  var out = '', subcontext = [], i;
-  if (array && array.length > 0) {
-    for (i = 0; i < array.length; i++) {
-      if (i > 0 && i % every === 0) {
-        out += options.fn(subcontext);
-        subcontext = [];
-      }
-      subcontext.push(array[i]);
-    }
-    out += options.fn(subcontext);
-  }
-  return out;
 };
 
 /**

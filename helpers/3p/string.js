@@ -205,34 +205,6 @@ helpers.lowercase = function(str) {
 };
 
 /**
- * Return the number of occurrences of `substring` within the
- * given `string`.
- *
- * ```handlebars
- * {{occurrences "foo bar foo bar baz" "foo"}}
- * //=> 2
- * ```
- * @param  {String} `str`
- * @param  {String} `substring`
- * @return {Number} Number of occurrences
- * @api public
- */
-
-helpers.occurrences = function(str, substring) {
-  if (str && typeof str === 'string') {
-    var len = substring.length;
-    var pos = 0;
-    var n = 0;
-
-    while ((pos = str.indexOf(substring, pos)) > -1) {
-      n++;
-      pos += len;
-    }
-    return n;
-  }
-};
-
-/**
  * PascalCase the characters in `string`.
  *
  * ```js

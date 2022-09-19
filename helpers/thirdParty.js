@@ -31,6 +31,7 @@ const whitelist = [
     },
     {
         name: 'collection',
+        module: require('./3p/collection'),
         include: ['isEmpty', 'iterate', 'length'],
     },
     {
@@ -59,6 +60,7 @@ const whitelist = [
     },
     {
         name: 'html',
+        // module: require('./3p/html'),
         include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
     },
     {

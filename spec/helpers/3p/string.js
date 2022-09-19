@@ -153,19 +153,6 @@ describe('string', function() {
     });
   });
 
-  describe('occurrences', function() {
-    it('should return an empty string if undefined', function(done) {
-      var fn = hbs.compile('{{occurrences}}');
-      expect(fn()).to.equal('');
-      done();
-    });
-    it('should return the number of occurrences of a string, within a string.', function(done) {
-      var fn = hbs.compile('{{occurrences "Jar-Jar Binks" "Jar"}}');
-      expect(fn()).to.equal('2');
-      done();
-    });
-  });
-
   describe('pascalcase', function() {
     it('should return an empty string if undefined', function(done) {
       var fn = hbs.compile('{{pascalcase}}');

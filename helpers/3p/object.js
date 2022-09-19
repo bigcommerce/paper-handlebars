@@ -119,44 +119,6 @@ helpers.toPath = function (/*prop*/) {
   return prop.join('.');
 };
 
-/**
- * Use property paths (`a.b.c`) to get a value or nested value from
- * the context. Works as a regular helper or block helper.
- *
- * @name .get
- * @param {String} `prop` The property to get, optionally using dot notation for nested properties.
- * @param {Object} `context` The context object
- * @param {Object} `options` The handlebars options object, if used as a block helper.
- * @return {String}
- * @block
- * @api public
- */
-
-helpers.get = function(prop, context, options) {
-  var val = utils.get(context, prop);
-  if (options && options.fn) {
-    return val ? options.fn(val) : options.inverse(context);
-  }
-  return val;
-};
-
-/**
- * Use property paths (`a.b.c`) to get an object from
- * the context. Differs from the `get` helper in that this
- * helper will return the actual object, including the
- * given property key. Also, this helper does not work as a
- * block helper.
- *
- * @name .getObject
- * @param {String} `prop` The property to get, optionally using dot notation for nested properties.
- * @param {Object} `context` The context object
- * @return {String}
- * @api public
- */
-
-helpers.getObject = function(prop, context) {
-  return utils.getObject(prop, context);
-};
 
 /**
  * Return true if `key` is an own, enumerable property
@@ -234,37 +196,6 @@ helpers.merge = function(context/*, objects, options*/) {
 helpers.JSONparse = function(str, options) {
   return options.fn(JSON.parse(str));
 };
-
-
-// /**
-//  * Pick properties from the context object.
-//  *
-//  * @param {Array|String} `properties` One or more properties to pick.
-//  * @param {Object} `context`
-//  * @param {Object} `options` Handlebars options object.
-//  * @return {Object} Returns an object with the picked values. If used as a block helper, the values are passed as context to the inner block. If no values are found, the context is passed to the inverse block.
-//  * @block
-//  * @api public
-//  */
-
-// helpers.pick = function(props, context, options) {
-//   var keys = array.arrayify(props);
-//   var len = keys.length, i = -1;
-//   var result = {};
-
-//   while (++i < len) {
-//     result = helpers.extend(result, utils.getObject(context, keys[i]));
-//   }
-
-//   if (options.fn) {
-//     if (Object.keys(result).length) {
-//       return options.fn(result);
-//     } else {
-//       return options.inverse(context);
-//     }
-//   }
-//   return result;
-// };
 
 /**
  * Stringify an object using `JSON.stringify`.

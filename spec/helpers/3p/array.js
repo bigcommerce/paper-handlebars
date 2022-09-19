@@ -216,75 +216,6 @@ describe('array', function() {
     });
   });
 
-  describe('itemAt', function() {
-    var ctx = {array: ['foo', 'bar', 'baz']};
-
-    it('should return a null value for undefined array.', function(done) {
-      expect(hbs.compile('{{#if (itemAt)}}exists{{else}}notfound{{/if}}')()).to.equal('notfound');
-      done();
-    });
-
-    it('should return a null value for empty array.', function(done) {
-      var fn = hbs.compile('{{#if (itemAt array)}}exists{{else}}notfound{{/if}}');
-      expect(fn({array: []})).to.equal('notfound');
-      done();
-    });
-
-    it('should return a null value for exceed bound.', function(done) {
-      var fn = hbs.compile('{{#if (itemAt array 999)}}exists{{else}}notfound{{/if}}');
-      expect(fn(ctx)).to.equal('notfound');
-      done();
-    });
-
-    it('should return a first value of array for undefined index.', function(done) {
-      var fn = hbs.compile('{{itemAt array}}');
-      expect(fn(ctx)).to.equal('foo');
-      done();
-    });
-
-    it('should return a first value of array for zero index.', function(done) {
-      var fn = hbs.compile('{{itemAt array 0}}');
-      expect(fn(ctx)).to.equal('foo');
-      done();
-    });
-
-    it('should return a second value of array.', function(done) {
-      var fn = hbs.compile('{{itemAt array 1}}');
-      expect(fn(ctx)).to.equal('bar');
-      done();
-    });
-
-    it('should return a last value of array.', function(done) {
-      var fn = hbs.compile('{{itemAt array -1}}');
-      expect(fn(ctx)).to.equal('baz');
-      done();
-    });
-
-    it('should return a last before value of array.', function(done) {
-      var fn = hbs.compile('{{itemAt array -2}}');
-      expect(fn(ctx)).to.equal('bar');
-      done();
-    });
-  });
-
-  describe('join', function() {
-    it('should return an empty string when undefined.', function(done) {
-      expect(hbs.compile('{{join}}')()).to.equal('');
-      done();
-    });
-
-    it('should join items by the default separator.', function(done) {
-      expect(hbs.compile('{{join array}}')(context)).to.equal('a, b, c, d, e, f, g, h');
-      done();
-    });
-
-    it('should join by a custom separator.', function(done) {
-      var fn = hbs.compile('{{join array " | "}}');
-      expect(fn(context)).to.equal('a | b | c | d | e | f | g | h');
-      done();
-    });
-  });
-
   describe('last', function() {
     it('should return an empty string when undefined.', function(done) {
       expect(hbs.compile('{{last}}')()).to.equal('');
@@ -477,17 +408,6 @@ describe('array', function() {
     it('should use the first two items in an array.', function(done) {
       var fn = hbs.compile('{{#withFirst array 2}}{{this}} is smart.{{/withFirst}}');
       expect(fn(context)).to.equal('a is smart.b is smart.');
-      done();
-    });
-  });
-
-  describe('withGroup', function() {
-    it('should iterate over an array grouping elements by a given number', function(done) {
-      var fn = hbs.compile('{{#withGroup collection 4}}{{#each this}}{{name}}{{/each}}<br>{{/withGroup}}');
-      var res = fn({
-        collection: [ {name: 'a'}, {name: 'b'}, {name: 'c'}, {name: 'd'}, {name: 'e'}, {name: 'f'}, {name: 'g'}, {name: 'h'}]
-      });
-      expect(res).to.equal('abcd<br>efgh<br>');
       done();
     });
   });
