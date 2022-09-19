@@ -2,6 +2,7 @@
 
 
 const { getValue } = require('../../lib/common');
+const getObject = require('../../../helpers/getObject');
 
 module.exports = {
     sortBy: require('./lib/arraySort'),
@@ -15,5 +16,7 @@ module.exports = {
     isOdd: require('./lib/isOdd'),
     createFrame: require('./lib/createFrame'),
     get: getValue,
+    getObject: getObject[0].factory(),
     forOwn: require('./lib/forOwn'),
+    merge: require('./lib/mixinDeep'),
 };

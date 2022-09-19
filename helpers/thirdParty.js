@@ -92,6 +92,7 @@ const whitelist = [
     },
     {
         name: 'object',
+        module: require('./3p/object'),
         include: [
             'extend',
             'forIn',

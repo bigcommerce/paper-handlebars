@@ -9,7 +9,6 @@ const expect = Code.expect;
 const it = lab.it;
 const describe = lab.describe
 
-// var hbs = require('handlebars');
 const { buildRenderer } = require('../../spec-helpers');
 const renderer = buildRenderer();
 const hbs = renderer.handlebars;
@@ -19,8 +18,6 @@ Object.keys(helpers).forEach(key => {
     hbs.registerHelper(key, helpers[key]);
 })
 
-
-// helpers({handlebars: hbs});
 
 var context = {array: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']};
 
@@ -436,16 +433,19 @@ describe('array', function() {
       expect(fn(o)).to.equal('c,b,a');
       done();
     });
-
-    // TODO: enable when JSONstrinfy is merged
     
-    // it('should sort based on object key:', function(done) {
-    //   var ctx = {arr: [{a: 'zzz'}, {a: 'aaa'}]};
-    // //   hbs.registerHelper(helpers.object());
-    //   var fn = hbs.compile('{{{stringify (sortBy arr "a") 0}}}');
-    //   expect(fn(ctx)).to.equal('[{"a":"aaa"},{"a":"zzz"}]');
-    //   done();
-    // });
+    it('should sort based on object key:', function(done) {
+      var ctx = {arr: [{a: 'zzz'}, {a: 'aaa'}]};
+
+      const helpers = require('../../../helpers/3p/object');
+
+      Object.keys(helpers).forEach(key => {
+          hbs.registerHelper(key, helpers[key]);
+      })
+      var fn = hbs.compile('{{{stringify (sortBy arr "a") 0}}}');
+      expect(fn(ctx)).to.equal('[{"a":"aaa"},{"a":"zzz"}]');
+      done();
+    });
   });
 
   describe('withAfter', function() {

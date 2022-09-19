@@ -6,7 +6,7 @@
 
 */
 const kindOf = require('./kindOf');
-const { getValue } = require('../../../lib/common'); // TODO: 2.0.5 while we have 2.0.6
+const { getValue } = require('../../../lib/common');
 
 /**
  * Sort an array of objects by one or more properties.
