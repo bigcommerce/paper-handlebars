@@ -7,11 +7,11 @@ const factory = globals => {
     const cdn = cdnify(globals);
 
     return function (path) {
-        const fullPath = cdn(path);
+        let fullPath = cdn(path);
 
         const options = arguments[arguments.length - 1];
         if (options.hash.resourceHint) {
-            addResourceHint(
+            fullPath = addResourceHint(
                 globals,
                 fullPath,
                 options.hash.resourceHint

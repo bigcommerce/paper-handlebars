@@ -21,7 +21,7 @@ describe('getFontsCollection', function () {
         };
         const renderer = buildRenderer({}, themeSettings);
         const runTestCases = testRunner({renderer});
-        const href = "https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700&display=swap";
+        const href = "https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700%7CKarla:700%7CLora:400%7CVolkron:%7CDroid:400,700%7CCrimson+Text:400,700&display=swap";
         runTestCases([
             {
                 input: '{{getFontsCollection resourceHint="preload"}}',
@@ -53,7 +53,7 @@ describe('getFontsCollection', function () {
         runTestCases([
             {
                 input: '{{getFontsCollection font-display="oreo"}}',
-                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700&display=swap" rel="stylesheet">',
+                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700%7CKarla:700%7CLora:400%7CVolkron:%7CDroid:400,700%7CCrimson+Text:400,700&display=swap" rel="stylesheet">',
             },
         ], done);
     });
@@ -74,7 +74,7 @@ describe('getFontsCollection', function () {
         runTestCases([
             {
                 input: '{{getFontsCollection font-display="fallback"}}',
-                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700|Karla:700|Lora:400|Volkron:|Droid:400,700|Crimson+Text:400,700&display=fallback" rel="stylesheet">',
+                output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700%7CKarla:700%7CLora:400%7CVolkron:%7CDroid:400,700%7CCrimson+Text:400,700&display=fallback" rel="stylesheet">',
             },
         ], done);
     });

@@ -40,8 +40,8 @@ const factory = globals => {
             }
         }
 
-        hosts.forEach(host => {
-            addResourceHint(
+        hosts = hosts.map(host => {
+            return addResourceHint(
                 globals,
                 host,
                 resourceHintAllowedStates.dnsPrefetchResourceHintState,

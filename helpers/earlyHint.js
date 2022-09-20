@@ -8,15 +8,13 @@ const factory = globals => {
 
         const cors = options.hash.cors;
 
-        addResourceHint(
+        return addResourceHint(
             globals,
             path,
             state,
             undefined,
             cors
         );
-
-        return path;
     }
 };
 
