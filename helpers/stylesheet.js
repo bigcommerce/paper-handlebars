@@ -1,7 +1,5 @@
 'use strict';
 
-const URL = require('url');
-
 const buildCDNHelper = require('./lib/cdnify');
 const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
 
