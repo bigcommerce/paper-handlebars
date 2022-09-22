@@ -34,7 +34,7 @@ function addResourceHint(globals, path, state, type, cors) {
     try {
         path = URL.parse(path).format();
     } catch (error) {
-        throw new Error(`Invalid value (resource URL) provided: [${path}]`)
+        throw new Error(`Invalid value (resource URL) provided: ${path}`)
     }
 
     if (!utils.isString(state) || !resourceHintStates.includes(state)) {
