@@ -17,7 +17,7 @@ var helpers = module.exports;
  */
 
 helpers.default = function(value, defaultValue) {
-  return value == null
+  return !value
     ? defaultValue
     : value;
 };

@@ -10,7 +10,7 @@ function parseAttributes(hash) {
 };
 
 function sanitize(str) {
-  if (!utils.isString(str)) return '';
+  if (!utils.isString(str)) {return '';}
   return striptags(str).trim();
 };
 
