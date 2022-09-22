@@ -5,7 +5,6 @@ const helpers = require('handlebars-helpers');
 const whitelist = [
     {
         name: 'array',
-        module: require('./3p/array'),
         include: [
             'after',
             'arrayify',
@@ -31,7 +30,6 @@ const whitelist = [
     },
     {
         name: 'collection',
-        module: require('./3p/collection'),
         include: ['isEmpty', 'iterate', 'length'],
     },
     {
@@ -60,7 +58,6 @@ const whitelist = [
     },
     {
         name: 'html',
-        // module: require('./3p/html'),
         include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
     },
     {
@@ -81,7 +78,6 @@ const whitelist = [
     },
     {
         name: 'number',
-        module: require('./3p/number'),
         include: [
             'addCommas',
             'phoneNumber',
@@ -96,7 +92,6 @@ const whitelist = [
     },
     {
         name: 'object',
-        module: require('./3p/object'),
         include: [
             'extend',
             'forIn',
@@ -142,13 +137,17 @@ const whitelist = [
     },
 ];
 
+// Env var for rolling out helpers groups
+const enabledHelpersGroups = process.env && process.env.ENABLED_HELPERS_GROUPS ? process.env.ENABLED_HELPERS_GROUPS : '';
+const enabledHelpersList = enabledHelpersGroups.split(',').map((item) => item.trim());
+
 // Construct the data structure the caller expects: an array of { name, factory }
 const exportedHelpers = [];
 for (let i = 0; i < whitelist.length; i++) {
     const spec = whitelist[i];
 
     // Initialize module
-    const module = spec.module ? spec.module : helpers[spec.name]();
+    const module = enabledHelpersList.includes(spec.name) ? require(`./3p/${spec.name}`) : helpers[spec.name]();
     if (typeof spec.init === 'function') {
         spec.init(module);
     }
