@@ -184,8 +184,6 @@ describe('helper registration', () => {
             'earlyHint',
         ].sort();
 
-        console.log(expectedHelpers.length);
-        console.log(helpers.length);
         expect(helpers.map(helper => helper.name).sort()).to.be.equal(expectedHelpers);
         done();
     });
