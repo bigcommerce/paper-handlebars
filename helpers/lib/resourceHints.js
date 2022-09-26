@@ -1,4 +1,5 @@
 const utils = require("handlebars-utils");
+const URL = require('url');
 
 const resourceHintsLimit = 50;
 
@@ -30,6 +31,11 @@ function addResourceHint(globals, path, state, type, cors) {
         throw new Error('Invalid path provided. path should be a non empty string');
     }
     path = path.trim();
+    try {
+        path = URL.parse(path).format();
+    } catch (error) {
+        throw new Error(`Invalid value (resource URL) provided: ${path}`)
+    }
 
     if (!utils.isString(state) || !resourceHintStates.includes(state)) {
         throw new Error(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
@@ -62,6 +68,8 @@ function addResourceHint(globals, path, state, type, cors) {
     hint.cors = cors;
 
     globals.resourceHints.push(hint);
+
+    return path;
 }
 
 module.exports = {

@@ -4,8 +4,9 @@ const buildCDNHelper = require('./lib/cdnify');
 const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
 
 const factory = globals => {
+    const cdnify = buildCDNHelper(globals);
+
     return function (assetPath) {
-        const cdnify = buildCDNHelper(globals);
         const siteSettings = globals.getSiteSettings();
         const configId = siteSettings.theme_config_id;
 
@@ -16,10 +17,11 @@ const factory = globals => {
             ? assetPath.replace(/\.css$/, `-${configId}.css`)
             : assetPath;
 
-        const url = cdnify(path);
+        let url = cdnify(path);
+
 
         if (options.hash.resourceHint) {
-            addResourceHint(
+            url = addResourceHint(
                 globals,
                 url,
                 options.hash.resourceHint,

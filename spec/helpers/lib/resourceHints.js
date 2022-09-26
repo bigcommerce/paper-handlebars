@@ -141,5 +141,53 @@ describe('resource hints', function () {
             expect(f).to.throw();
             done();
         });
+
+        it('should handle URLs with special chars', done => {
+            const data = [
+                {
+                    original: "https://bigcommerce.paystackintegrations.com/js/script.js?store_hash=cag1k6vhir&installed_at=Tue May 10 2022 08:57:26 GMT+0000 (Coordinated Universal Time)",
+                    expected: "https://bigcommerce.paystackintegrations.com/js/script.js?store_hash=cag1k6vhir&installed_at=Tue%20May%2010%202022%2008:57:26%20GMT+0000%20(Coordinated%20Universal%20Time)"
+                },
+                {
+                    original: `https://instocknotify.blob.core.windows.net/stencil/cfa17df4-72e5-4c23-a4c7-1fa6903bdeb4.js?ts=17443383" type="text/javascript""`,
+                    expected: "https://instocknotify.blob.core.windows.net/stencil/cfa17df4-72e5-4c23-a4c7-1fa6903bdeb4.js?ts=17443383%22%20type=%22text/javascript%22%22"
+                },
+                {
+                    original: `https://instocknotify.blob.core.windows.net/stencil/41f9521c-57b6-4920-827b-77ba3477fcb5.js?ts=34911865" type="text/javascript"></script> <!--End InStockNotify Stencil Script -->`,
+                    expected: "https://instocknotify.blob.core.windows.net/stencil/41f9521c-57b6-4920-827b-77ba3477fcb5.js?ts=34911865%22%20type=%22text/javascript%22%3E%3C/script%3E%20%3C!--End%20InStockNotify%20Stencil%20Script%20--%3E"
+                },
+                {
+                    original: `https://fonts.googleapis.com/css?family=Karla:400|Montserrat:400,500,700&display=block`,
+                    expected: `https://fonts.googleapis.com/css?family=Karla:400%7CMontserrat:400,500,700&display=block`
+                },
+                {
+                    original: '/relative/asset/background.png?why=not',
+                    expected: '/relative/asset/background.png?why=not'
+                }
+            ];
+            const globals = {resourceHints: []};
+
+            data.forEach(pair => {
+                const {original, expected} = pair;
+
+                const type = 'style';
+                const state = 'preload';
+                const cors = 'anonymous';
+
+                expect(
+                    expected,
+                    addResourceHint(globals, original, state, type, cors)
+                );
+            });
+            done();
+        });
+
+        it('should throw when invalid URL is passed in', done => {
+            const globals = {resourceHints: []};
+            const invalid = '';
+            const f = () => addResourceHint(globals, invalid, 'style', 'preload', 'no')
+            expect(f).to.throw();
+            done();
+        });
     });
 });
