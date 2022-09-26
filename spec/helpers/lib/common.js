@@ -28,68 +28,68 @@ describe('common utils', function () {
         obj.__proto__ = {x: 'yz'};
 
         it('should get a value from an object', (done) => {
-            expect(getValue(globals, obj, 'c')).to.equal(3);
-            expect(getValue(globals, obj, 'd')).to.equal(false);
+            expect(getValue(obj, 'c', globals)).to.equal(3);
+            expect(getValue(obj, 'd', globals)).to.equal(false);
             done();
         });
 
         it('should get nested values', (done) => {
-            expect(getValue(globals, obj, 'a.b.b.a')).to.equal(1);
-            expect(getValue(globals, obj, ['a', 'b', 'b', 'a'])).to.equal(1);
+            expect(getValue(obj, 'a.b.b.a', globals)).to.equal(1);
+            expect(getValue(obj, ['a', 'b', 'b', 'a'], globals)).to.equal(1);
             done();
         });
 
         it('should get nested values from arrays', (done) => {
-            expect(getValue(globals, obj, 'b.0')).to.equal(2);
-            expect(getValue(globals, obj, 'a.c.5')).to.equal(8);
+            expect(getValue(obj, 'b.0', globals)).to.equal(2);
+            expect(getValue(obj, 'a.c.5', globals)).to.equal(8);
             done();
         });
 
         it('should get nested values from objects in arrays', (done) => {
-            expect(getValue(globals, obj, 'a.a.1.y')).to.equal('b');
+            expect(getValue(obj, 'a.a.1.y', globals)).to.equal('b');
             done();
         });
 
         it('should return obj[String(path)] or undefined if path is not a string or array', (done) => {
-            expect(getValue(globals, obj, {a: 1})).to.equal(undefined);
-            expect(getValue(globals, obj, ()=>1)).to.equal(undefined);
-            expect(getValue(globals, obj, 42)).to.equal(42);
+            expect(getValue(obj, {a: 1}, globals)).to.equal(undefined);
+            expect(getValue(obj, ()=>1, globals)).to.equal(undefined);
+            expect(getValue(obj, 42, globals)).to.equal(42);
             done();
         });
 
         it('should return the whole object if path is empty', (done) => {
-            expect(getValue(globals, obj, [])).to.equal(obj);
+            expect(getValue(obj, [], globals)).to.equal(obj);
             done();
         });
 
         it('should return obj if path is falsey', (done) => {
-            expect(getValue(globals, obj, '')).to.equal(obj);
-            expect(getValue(globals, obj, false)).to.equal(obj);
-            expect(getValue(globals, obj, 0)).to.equal(obj);
+            expect(getValue(obj, '', globals)).to.equal(obj);
+            expect(getValue(obj, false, globals)).to.equal(obj);
+            expect(getValue(obj, 0, globals)).to.equal(obj);
             done();
         });
 
         it('should return undefined if prop does not exist', (done) => {
-            expect(getValue(globals, obj, 'a.a.a.a')).to.equal(undefined);
-            expect(getValue(globals, obj, 'a.c.23')).to.equal(undefined);
-            expect(getValue(globals, obj, 'ab')).to.equal(undefined);
-            expect(getValue(globals, obj, 'nonexistent')).to.equal(undefined);
-            expect(getValue(globals, [ undefined ], '0.x')).to.equal(undefined);
-            expect(getValue(globals, [ null ], '0.x')).to.equal(undefined);
+            expect(getValue(obj, 'a.a.a.a', globals)).to.equal(undefined);
+            expect(getValue(obj, 'a.c.23', globals)).to.equal(undefined);
+            expect(getValue(obj, 'ab', globals)).to.equal(undefined);
+            expect(getValue(obj, 'nonexistent', globals)).to.equal(undefined);
+            expect(getValue([ undefined ], '0.x', globals)).to.equal(undefined);
+            expect(getValue([ null ], '0.x', globals)).to.equal(undefined);
             done();
         });
 
         it('should treat backslash-escaped . characters as part of a prop name', (done) => {
             const data = {'a.b': {'c.d.e': 42, z: 'xyz'}};
 
-            expect(getValue(globals, data, 'a\\.b.z')).to.equal('xyz');
-            expect(getValue(globals, data, 'a\\.b.c\\.d\\.e')).to.equal(42);
+            expect(getValue(data, 'a\\.b.z', globals)).to.equal('xyz');
+            expect(getValue(data, 'a\\.b.c\\.d\\.e', globals)).to.equal(42);
             done()
         });
 
         it('should not access inherited props', (done) => {
-            expect(getValue(globals, obj, 'x')).to.equal(undefined);
-            expect(getValue(globals, obj, 'a.constructor')).to.equal(undefined);
+            expect(getValue(obj, 'x', globals)).to.equal(undefined);
+            expect(getValue(obj, 'a.constructor', globals)).to.equal(undefined);
             done();
         });
     });

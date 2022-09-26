@@ -14,7 +14,7 @@ const factory = (globals) => {
         // use an empty context if none was given
         // (expect 3 args: `path`, `context`, and the `options` object 
         // Handlebars always passes as the last argument to a helper)
-        if (arguments.length < 3) {
+        if (arguments.length < 2) {
             context = {};
         }
 
@@ -27,7 +27,7 @@ const factory = (globals) => {
 
         const parts = path.split(/[[.\]]/).filter(Boolean);
 
-        let value = getValue(globals, context, parts);
+        let value = getValue(context, parts, globals);
 
         // for backwards compatibility: `get-object` returns on empty object instead of
         // getting props with 'false' values (not just undefined)

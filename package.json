@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint-and-fix": "eslint . --fix",
-    "test": "lab -v -t 98 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
+    "test": "lab -v -t 97.4 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec"
   },
   "repository": {
@@ -31,11 +31,13 @@
     "handlebars-utils": "^1.0.6",
     "he": "^1.2.0",
     "lodash": "^4.17.21",
+    "remarkable": "^2.0.1",
     "stringz": "^0.1.1"
   },
   "devDependencies": {
     "code": "~4.0.0",
     "eslint": "^7.8.1",
+    "highlight.js": "^11.6.0",
     "lab": "~13.0.4",
     "sinon": "~7.5.0"
   },

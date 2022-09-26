@@ -27,7 +27,7 @@ const factory = (globals) => {
             context = { hash: options.hash };
         }
 
-        let value = getValue(globals, context, path);
+        let value = getValue(context, path, globals);
         if (options && options.fn) {
             return value ? options.fn(value) : options.inverse(context);
         }
