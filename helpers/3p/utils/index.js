@@ -1,6 +1,27 @@
 'use strict';
 
-var utils = require('./utils');
+var utils = require('./base');
+
+/**
+ * Returns true if the given value is an object.
+ *
+ * ```js
+ * console.log(utils.isObject(null));
+ * //=> false
+ * console.log(utils.isObject([]));
+ * //=> false
+ * console.log(utils.isObject(function() {}));
+ * //=> false
+ * console.log(utils.isObject({}));
+ * //=> true
+ * ```
+ * @param {Object} `val`
+ * @return {Boolean}
+ * @api public
+ */
+utils.isObject = function (val) {
+  return typeof val === 'object';
+};
 
 /**
  * Returns true if the given value contains the given
@@ -12,7 +33,7 @@ var utils = require('./utils');
  * @return {Boolean}
  */
 
-utils.contains = function(val, obj, start) {
+utils.contains = function (val, obj, start) {
   var len = val ? val.length : 0;
   var idx = start < 0
     ? Math.max(0, len + start)
@@ -32,7 +53,7 @@ utils.contains = function(val, obj, start) {
       : utils.indexOf(val, obj, start)) > -1;
 
   } else {
-    utils.iterator(val, function(ele) {
+    utils.iterator(val, function (ele) {
       if (start < i++) {
         return !(res = (ele === obj));
       }
@@ -53,7 +74,7 @@ utils.contains = function(val, obj, start) {
  * @api public
  */
 
-utils.toRegex = function(val) {
+utils.toRegex = function (val) {
   return new RegExp(val.replace(/^\/|\/$/g, ''));
 };
 
@@ -66,7 +87,7 @@ utils.toRegex = function(val) {
  * @api public
  */
 
-utils.isRegex = function(val) {
+utils.isRegex = function (val) {
   if (utils.typeOf(val) === 'regexp') {
     return true;
   }
@@ -85,8 +106,8 @@ utils.isRegex = function(val) {
  * @return {String}
  */
 
-utils.chop = function(str) {
-  if (!utils.isString(str)) {return '';}
+utils.chop = function (str) {
+  if (!utils.isString(str)) { return ''; }
   var re = /^[-_.\W\s]+|[-_.\W\s]+$/g;
   return str.trim().replace(re, '');
 };
@@ -108,8 +129,8 @@ utils.chop = function(str) {
  * @api public
  */
 
-utils.changecase = function(str, fn) {
-  if (!utils.isString(str)) {return '';}
+utils.changecase = function (str, fn) {
+  if (!utils.isString(str)) { return ''; }
   if (str.length === 1) {
     return str.toLowerCase();
   }
@@ -120,7 +141,7 @@ utils.changecase = function(str, fn) {
   }
 
   var re = /[-_.\W\s]+(\w|$)/g;
-  return str.replace(re, function(_, ch) {
+  return str.replace(re, function (_, ch) {
     return fn(ch);
   });
 };
@@ -134,7 +155,7 @@ utils.changecase = function(str, fn) {
  * @api public
  */
 
-utils.random = function(min, max) {
+utils.random = function (min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
 };
 
@@ -147,7 +168,7 @@ utils.random = function(min, max) {
  * @api public
  */
 
-utils.isUndefined = function(val) {
+utils.isUndefined = function (val) {
   return typeof val === 'undefined'
     || (!!val.hash);
 };
@@ -160,7 +181,7 @@ utils.isUndefined = function(val) {
  * @api public
  */
 
-utils.isOptions = function(val) {
+utils.isOptions = function (val) {
   return utils.isObject(val) && val.hasOwnProperty('hash');
 };
 
@@ -172,7 +193,7 @@ utils.isOptions = function(val) {
  * @api public
  */
 
-utils.getArgs = function(app, args) {
+utils.getArgs = function (app, args) {
   var opts = utils.merge({}, app && app.options);
   if (!Array.isArray(args)) {
     args = [].slice.call(args);
@@ -186,8 +207,8 @@ utils.getArgs = function(app, args) {
     opts = utils.get(opts, hbsOptions.name) || opts;
     opts = utils.merge({}, opts, hbsOptions.hash);
 
-  // if the last arg is an object, merge it
-  // into the options
+    // if the last arg is an object, merge it
+    // into the options
   } else if (utils.isObject(last)) {
     opts = utils.merge({}, opts, args.pop());
   }
@@ -205,7 +226,7 @@ utils.getArgs = function(app, args) {
  * @api public
  */
 
-utils.isObject = function(val) {
+utils.isObject = function (val) {
   return val && typeof val === 'object'
     && !Array.isArray(val);
 };
@@ -218,7 +239,7 @@ utils.isObject = function(val) {
  * @api public
  */
 
-utils.isEmpty = function(val) {
+utils.isEmpty = function (val) {
   if (val === 0 || val === '0') {
     return false;
   }
@@ -241,10 +262,10 @@ utils.isEmpty = function(val) {
  * @api public
  */
 
-utils.tryParse = function(str) {
+utils.tryParse = function (str) {
   try {
     return JSON.parse(str);
-  } catch (err) {}
+  } catch (err) { }
   return null;
 };
 
@@ -257,7 +278,7 @@ utils.tryParse = function(str) {
  * @api public
  */
 
-utils.result = function(value) {
+utils.result = function (value) {
   if (typeof value === 'function') {
     return value();
   }
@@ -272,7 +293,7 @@ utils.result = function(value) {
  * @api public
  */
 
-utils.identity = function(val) {
+utils.identity = function (val) {
   return val;
 };
 
@@ -284,7 +305,7 @@ utils.identity = function(val) {
  * @api public
  */
 
-utils.isString = function(val) {
+utils.isString = function (val) {
   return val && typeof val === 'string';
 };
 
@@ -296,8 +317,106 @@ utils.isString = function(val) {
  * @api public
  */
 
-utils.arrayify = function(val) {
+utils.arrayify = function (val) {
   return val ? (Array.isArray(val) ? val : [val]) : [];
+};
+
+utils.isArray = Array.isArray;
+
+/**
+ * Get the context to use for rendering.
+ *
+ * @param {Object} `thisArg` Optional invocation context `this`
+ * @return {Object}
+ * @api public
+ */
+
+utils.context = function (thisArg, locals, options) {
+  if (utils.isOptions(thisArg)) {
+    return utils.context({}, locals, thisArg);
+  }
+  // ensure args are in the correct order
+  if (utils.isOptions(locals)) {
+    return utils.context(thisArg, options, locals);
+  }
+  var appContext = utils.isApp(thisArg) ? thisArg.context : {};
+  options = options || {};
+
+  // if "options" is not handlebars options, merge it onto locals
+  if (!utils.isOptions(options)) {
+    locals = Object.assign({}, locals, options);
+  }
+  // merge handlebars root data onto locals if specified on the hash
+  if (utils.isOptions(options) && options.hash.root === true) {
+    locals = Object.assign({}, options.data.root, locals);
+  }
+  var context = Object.assign({}, appContext, locals, options.hash);
+  if (!utils.isApp(thisArg)) {
+    context = Object.assign({}, thisArg, context);
+  }
+  if (utils.isApp(thisArg) && thisArg.view && thisArg.view.data) {
+    context = Object.assign({}, context, thisArg.view.data);
+  }
+  return context;
+};
+
+/**
+ * Creates an options object from the `context`, `locals` and `options.`
+ * Handlebars' `options.hash` is merged onto the options, and if the context
+ * is created by [templates][], `this.options` will be merged onto the
+ * options as well.
+ *
+ * @param {Object} `context`
+ * @param {Object} `locals` Options or locals
+ * @param {Object} `options`
+ * @return {Boolean}
+ * @api public
+ */
+
+utils.options = function (thisArg, locals, options) {
+  if (utils.isOptions(thisArg)) {
+    return utils.options({}, locals, thisArg);
+  }
+  if (utils.isOptions(locals)) {
+    return utils.options(thisArg, options, locals);
+  }
+  options = options || {};
+  if (!utils.isOptions(options)) {
+    locals = Object.assign({}, locals, options);
+  }
+  var opts = Object.assign({}, locals, options.hash);
+  if (utils.isObject(thisArg)) {
+    opts = Object.assign({}, thisArg.options, opts);
+  }
+  if (opts[options.name]) {
+    opts = Object.assign({}, opts[options.name], opts);
+  }
+  return opts;
+};
+
+/**
+ * Returns true if an `app` propery is on the context, which means
+ * the context was created by [assemble][], [templates][], [verb][],
+ * or any other library that follows this convention.
+ *
+ * ```js
+ * Handlebars.registerHelper('example', function(val, options) {
+ *   var context = options.hash;
+ *   if (utils.isApp(this)) {
+ *     context = Object.assign({}, this.context, context);
+ *   }
+ *   // do stuff
+ * });
+ * ```
+ * @param {any} `value`
+ * @return {Boolean}
+ * @api public
+ */
+
+utils.isApp = function (thisArg) {
+  return utils.isObject(thisArg)
+    && utils.isObject(thisArg.options)
+    && utils.isObject(thisArg.app);
 };
 
 /**

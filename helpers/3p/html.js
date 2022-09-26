@@ -1,16 +1,16 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./utils');
 const striptags = require('./utils/lib/striptags');
 
 function parseAttributes(hash) {
-  return Object.keys(hash).map(function(key) {
+  return Object.keys(hash).map(function (key) {
     return key + '="' + hash[key] + '"';
   }).join(' ');
 };
 
 function sanitize(str) {
-  if (!utils.isString(str)) {return '';}
+  if (!utils.isString(str)) { return ''; }
   return striptags(str).trim();
 };
 
@@ -62,7 +62,7 @@ var helpers = module.exports;
  * @api public
  */
 
-helpers.ellipsis = function(str, limit) {
+helpers.ellipsis = function (str, limit) {
   if (str && typeof str === 'string') {
     if (str.length <= limit) {
       return str;
@@ -86,7 +86,7 @@ helpers.ellipsis = function(str, limit) {
  * @api public
  */
 
-helpers.sanitize = function(str) {
+helpers.sanitize = function (str) {
   return sanitize(str);
 };
 
@@ -101,8 +101,8 @@ helpers.sanitize = function(str) {
  * @api public
  */
 
-helpers.ul = function(context, options) {
-  return ('<ul ' + (parseAttributes(options.hash)) + '>') + context.map(function(item) {
+helpers.ul = function (context, options) {
+  return ('<ul ' + (parseAttributes(options.hash)) + '>') + context.map(function (item) {
     if (typeof item !== 'string') {
       item = options.fn(item);
     }
@@ -120,8 +120,8 @@ helpers.ul = function(context, options) {
  * @api public
  */
 
-helpers.ol = function(context, options) {
-  return ('<ol ' + (parseAttributes(options.hash)) + '>') + context.map(function(item) {
+helpers.ol = function (context, options) {
+  return ('<ol ' + (parseAttributes(options.hash)) + '>') + context.map(function (item) {
     if (typeof item !== 'string') {
       item = options.fn(item);
     }
@@ -142,7 +142,7 @@ helpers.ol = function(context, options) {
  * @api public
  */
 
-helpers.thumbnailImage = function(context) {
+helpers.thumbnailImage = function (context) {
   var figure = '';
   var image = '';
 

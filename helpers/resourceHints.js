@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const getFonts = require('./lib/fonts');
 const {
     addResourceHint,

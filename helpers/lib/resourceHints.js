@@ -1,4 +1,4 @@
-const utils = require("handlebars-utils");
+const utils = require("../3p/utils");
 
 const resourceHintsLimit = 50;
 
@@ -39,7 +39,7 @@ function addResourceHint(globals, path, state, type, cors) {
         globals.resourceHints = [];
     }
 
-    let index = globals.resourceHints.findIndex(({src}) => path === src);
+    let index = globals.resourceHints.findIndex(({ src }) => path === src);
     if (index >= 0) {
         return;
     }
@@ -48,7 +48,7 @@ function addResourceHint(globals, path, state, type, cors) {
         return;
     }
 
-    let hint = {src: path, state};
+    let hint = { src: path, state };
 
     if (utils.isString(type) && resourceHintTypes.includes(type)) {
         hint.type = type;
@@ -68,8 +68,8 @@ module.exports = {
     resourceHintsLimit,
     defaultResourceHintState: preloadResourceHintState,
     addResourceHint,
-    resourceHintAllowedTypes: {resourceHintStyleType, resourceHintFontType, resourceHintScriptType},
-    resourceHintAllowedCors: {noCors, anonymousCors, useCredentialsCors},
+    resourceHintAllowedTypes: { resourceHintStyleType, resourceHintFontType, resourceHintScriptType },
+    resourceHintAllowedCors: { noCors, anonymousCors, useCredentialsCors },
     resourceHintAllowedStates: {
         preloadResourceHintState,
         preconnectResourceHintState,

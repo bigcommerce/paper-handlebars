@@ -1,4 +1,3 @@
-const utils = require('handlebars-utils');
 const merge = require('./mixinDeep');
 const { Remarkable } = require('remarkable');
 
@@ -22,7 +21,7 @@ module.exports = function markdown(config) {
       return md.render(context);
     }
 
-    if (utils.isObject(context) && typeof context.fn === 'function') {
+    if (typeof context === 'object' && typeof context.fn === 'function') {
       options = context;
       context = {};
     }

@@ -1,6 +1,6 @@
 'use strict';
 
-const util = require('handlebars-utils');
+const utils = require('./3p/utils');
 const { getValue } = require('./lib/common');
 
 /**
@@ -21,7 +21,7 @@ const factory = (globals) => {
             path = '';
         }
 
-        let opts = util.options(this, locals, options);
+        let opts = utils.options(this, locals, options);
 
         return getValue(opts, path, globals);
     };

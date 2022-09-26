@@ -1,9 +1,9 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 
 const factory = () => {
-    return function(from, to, context) {
+    return function (from, to, context) {
         const options = arguments[arguments.length - 1];
         const maxIterations = 100;
         var output = '';
