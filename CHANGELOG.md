@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 5.1.2
+
+- investigate google fonts css uri encoding issue ([#197])[https://github.com/bigcommerce/paper-handlebars/pull/197]
+- Add original stack trace to render error ([#198])[https://github.com/bigcommerce/paper-handlebars/pull/198]
+- Import 3rd part handlebars helpers and utiliy function to support them ([#195])[https://github.com/bigcommerce/paper-handlebars/pull/195]
+
 ## 5.1.1
 
 - removes `type` attribute of `earlyHint` helper ([#193](https://github.com/bigcommerce/paper-handlebars/pull/193))
