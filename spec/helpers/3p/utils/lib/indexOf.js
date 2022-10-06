@@ -32,6 +32,11 @@ describe('indexOf', function () {
     done();
   });
 
+  it('should return -1 if the array is undefined', function (done) {
+    expect(indexOf(undefined, 'd')).to.equal(-1);
+    done();
+  });
+
   it('should get the index, starting from the given index:', function (done) {
     expect(indexOf(['a', 'b', 'c', 'a', 'b', 'c'], 'b', 2)).to.equal(4);
     expect(indexOf(['a', undefined, 'b', 'c', 'a'], undefined, 0)).to.equal(1);
