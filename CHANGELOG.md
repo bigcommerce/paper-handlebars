@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+## 5.1.3
+
+- fix: STRF-10122 Fix inArray helper, when array is undefined ([#201])[https://github.com/bigcommerce/paper-handlebars/pull/201]
+
 
 ## 5.1.2
 
