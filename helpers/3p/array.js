@@ -197,6 +197,9 @@ helpers.first = function(array, n) {
 
 helpers.forEach = function(array, options) {
   var data = utils.createFrame(options, options.hash);
+  if (!array) {
+    return '';
+  }
   var len = array.length;
   var buffer = '';
   var i = -1;
@@ -530,7 +533,9 @@ helpers.withBefore = function(array, idx, options) {
  */
 
 helpers.withFirst = function(arr, idx, options) {
-  if (utils.isUndefined(arr)) {return '';}
+  if (utils.isEmpty(arr) || utils.isUndefined(arr)) {
+    return '';
+  }
   arr = utils.result(arr);
 
   if (!utils.isUndefined(idx)) {
