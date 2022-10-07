@@ -10,11 +10,12 @@ const factory = globals => {
         let fullPath = cdn(path);
 
         const options = arguments[arguments.length - 1];
-        if (options.hash.resourceHint) {
+        if (options.hash && options.hash.resourceHint) {
             fullPath = addResourceHint(
                 globals,
                 fullPath,
-                options.hash.resourceHint
+                options.hash.resourceHint,
+                options.hash.as
             );
         }
 
