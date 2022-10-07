@@ -5,6 +5,7 @@ const Lab = require('lab'),
 const {buildRenderer, testRunner} = require("../spec-helpers");
 const {expect} = require("code");
 const {resourceHintStyleType} = require("../../helpers/lib/resourceHints").resourceHintAllowedTypes;
+const {anonymousCors, noCors} = require("../../helpers/lib/resourceHints").resourceHintAllowedCors;
 
 describe('stylesheet helper', () => {
     const siteSettings = {
@@ -20,16 +21,17 @@ describe('stylesheet helper', () => {
         const runner = testRunner({renderer});
         runner([
             {
-                input: '{{{stylesheet "assets/css/style.css" resourceHint="preload"}}}',
-                output: '<link data-stencil-stylesheet href="https://cdn.bcapp/hash/stencil/123/css/style-xyz.css" rel="stylesheet">',
+                input: '{{{stylesheet "assets/css/style.css" resourceHint="preload" crossorigin="anonymous"}}}',
+                output: '<link data-stencil-stylesheet href="https://cdn.bcapp/hash/stencil/123/css/style-xyz.css" rel="stylesheet" crossorigin="anonymous">',
             },
         ], () => {
             const hints = renderer.getResourceHints();
             expect(hints.length).to.equals(1);
-            hints.forEach(({src, type, state}) => {
+            hints.forEach(({src, type, state, cors}) => {
                 expect(src).to.startWith(siteSettings.cdn_url);
                 expect(type).to.equals(resourceHintStyleType);
                 expect(state).to.equals('preload');
+                expect(cors).to.equals(anonymousCors);
             });
             done();
         });
@@ -76,6 +78,7 @@ describe('stylesheet helper', () => {
             const hint = hints[0];
             expect(hint.src).to.equals(src);
             expect(hint.state).to.equals('preconnect');
+            expect(hint.cors).to.equals(noCors);
             done();
         });
     });

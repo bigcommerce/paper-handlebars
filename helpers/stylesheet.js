@@ -1,7 +1,7 @@
 'use strict';
 
 const buildCDNHelper = require('./lib/cdnify');
-const {addResourceHint, resourceHintAllowedTypes} = require('./lib/resourceHints');
+const {addResourceHint, resourceHintAllowedTypes, resourceHintAllowedCors} = require('./lib/resourceHints');
 
 const factory = globals => {
     const cdnify = buildCDNHelper(globals);
@@ -20,12 +20,14 @@ const factory = globals => {
         let url = cdnify(path);
 
 
-        if (options.hash.resourceHint) {
+        if (options.hash && options.hash.resourceHint) {
+            const cross = options.hash.crossorigin || resourceHintAllowedCors.noCors;
             url = addResourceHint(
                 globals,
                 url,
                 options.hash.resourceHint,
-                resourceHintAllowedTypes.resourceHintStyleType
+                resourceHintAllowedTypes.resourceHintStyleType,
+                cross
             );
             delete options.hash.resourceHint;
         }
