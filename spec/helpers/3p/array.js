@@ -189,6 +189,17 @@ describe('array', function() {
       expect(fn({arr: arr})).to.equal('falsefalsetrue');
       done();
     });
+
+    it('should return empty block', function(done) {
+      let arr = [];
+      var fn = hbs.compile('{{#forEach arr}}{{isLast}}{{/forEach}}');
+      expect(fn({arr})).to.equal('');
+
+      arr = null;
+      var fn = hbs.compile('{{#forEach arr}}{{isLast}}{{/forEach}}');
+      expect(fn({arr})).to.equal('');
+      done();
+    });
   });
 
   describe('inArray', function() {
@@ -403,6 +414,12 @@ describe('array', function() {
     });
     it('should return an empty string when no array is passed:', function(done) {
       expect(hbs.compile('{{#withFirst}}{{/withFirst}}')()).to.equal('');
+      done();
+    });
+    it('should return an empty string when no array is passed:', function(done) {
+      const customContext = { array: null };
+      var fn = hbs.compile('{{#withFirst array}}{{/withFirst}}');
+      expect(fn(customContext)).to.equal('');
       done();
     });
     it('should use the first two items in an array.', function(done) {
