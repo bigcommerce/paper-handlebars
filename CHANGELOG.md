@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+## 5.1.4
+
+- fix: STRF-10122 Fix forEach, withFirst helpers makeIterator utils([#203])[https://github.com/bigcommerce/paper-handlebars/pull/203]
 ## 5.1.3
 
 - fix: STRF-10122 Fix inArray helper, when array is undefined ([#201])[https://github.com/bigcommerce/paper-handlebars/pull/201]
