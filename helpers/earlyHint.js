@@ -6,13 +6,18 @@ const factory = globals => {
     return function (path, state) {
         const options = arguments[arguments.length - 1];
 
-        const cors = options.hash.cors;
+        let cors, as = undefined;
+
+        if (options && options.hash) {
+            cors = options.hash.cors;
+            as = options.hash.as;
+        }
 
         return addResourceHint(
             globals,
             path,
             state,
-            undefined,
+            as,
             cors
         );
     }
