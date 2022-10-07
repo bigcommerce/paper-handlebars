@@ -44,9 +44,9 @@ const factory = globals => {
             return addResourceHint(
                 globals,
                 host,
-                resourceHintAllowedStates.dnsPrefetchResourceHintState,
+                resourceHintAllowedStates.preconnectResourceHintState,
                 resourceHintAllowedTypes.resourceHintFontType,
-                resourceHintAllowedCors.noCors
+                resourceHintAllowedCors.anonymousCors
             );
         });
 
