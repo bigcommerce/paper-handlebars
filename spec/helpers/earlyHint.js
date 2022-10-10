@@ -11,10 +11,10 @@ const {
     resourceHintAllowedCors
 } = require("../../helpers/lib/resourceHints");
 
-function template(path, state, type, cors) {
-    cors = cors ? `cors="${cors}"` : '';
-    type = cors ? `as="${type}"` : '';
-    return `{{ earlyHint "${path}" "${state}" ${type} ${cors} }}`;
+function template(href, rel, type, cors) {
+    cors = cors ? `crossorigin="${cors}"` : '';
+    type = type ? `as="${type}"` : '';
+    return `{{ earlyHint "${href}" "${rel}" ${type} ${cors} }}`;
 }
 
 function randommer(items) {
