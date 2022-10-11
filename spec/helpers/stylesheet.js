@@ -21,7 +21,7 @@ describe('stylesheet helper', () => {
         const runner = testRunner({renderer});
         runner([
             {
-                input: '{{{stylesheet "assets/css/style.css" resourceHint="preload" crossorigin="anonymous"}}}',
+                input: '{{{stylesheet "assets/css/style.css" crossorigin="anonymous"}}}',
                 output: '<link data-stencil-stylesheet href="https://cdn.bcapp/hash/stencil/123/css/style-xyz.css" rel="stylesheet" crossorigin="anonymous">',
             },
         ], () => {
@@ -68,7 +68,7 @@ describe('stylesheet helper', () => {
         const src = '/assets/css/style-foo.css';
         runner([
             {
-                input: '{{{stylesheet "assets/css/style.css" resourceHint="preconnect"}}}',
+                input: '{{{stylesheet "assets/css/style.css" }}}',
                 output: `<link data-stencil-stylesheet href="${src}" rel="stylesheet">`,
                 siteSettings: siteSettings,
             },
@@ -77,7 +77,7 @@ describe('stylesheet helper', () => {
             expect(hints.length).to.equals(1);
             const hint = hints[0];
             expect(hint.src).to.equals(src);
-            expect(hint.state).to.equals('preconnect');
+            expect(hint.state).to.equals('preload');
             expect(hint.cors).to.equals(noCors);
             done();
         });

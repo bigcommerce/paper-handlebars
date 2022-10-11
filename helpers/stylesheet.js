@@ -1,7 +1,13 @@
 'use strict';
 
 const buildCDNHelper = require('./lib/cdnify');
-const {addResourceHint, resourceHintAllowedTypes, resourceHintAllowedCors} = require('./lib/resourceHints');
+const {
+    addResourceHint,
+    resourceHintAllowedTypes,
+    resourceHintAllowedCors,
+    defaultResourceHintState
+} = require('./lib/resourceHints');
+const {isString} = require('handlebars-utils');
 
 const factory = globals => {
     const cdnify = buildCDNHelper(globals);
@@ -18,18 +24,15 @@ const factory = globals => {
             : assetPath;
 
         let url = cdnify(path);
-
-
-        if (options.hash && options.hash.resourceHint) {
+        if (isString(url)) {
             const cross = options.hash.crossorigin || resourceHintAllowedCors.noCors;
             url = addResourceHint(
                 globals,
                 url,
-                options.hash.resourceHint,
+                defaultResourceHintState,
                 resourceHintAllowedTypes.resourceHintStyleType,
                 cross
             );
-            delete options.hash.resourceHint;
         }
 
         const attrs = Object.assign({rel: 'stylesheet'}, options.hash);

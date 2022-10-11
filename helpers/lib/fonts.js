@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const URL = require('url')
 
-const { resourceHintAllowedTypes, addResourceHint } = require('../lib/resourceHints');
+const { resourceHintAllowedTypes, addResourceHint, defaultResourceHintState } = require('../lib/resourceHints');
 
 const fontProviders = {
     'Google': {
@@ -78,14 +78,14 @@ const fontProviders = {
             };
         },
 
-        generateResourceHints: function (globals, state, fonts, fontDisplay) {
+        generateResourceHints: function (globals, fonts, fontDisplay) {
             const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
             fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
             const path = `https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}`;
             addResourceHint(
                 globals,
                 path,
-                state,
+                defaultResourceHintState,
                 resourceHintAllowedTypes.resourceHintFontType
             );
         }
@@ -138,9 +138,9 @@ module.exports = function (format, themeSettings, handlebars, options) {
         case 'linkElements':
 
             const formattedFonts = _.mapValues(parsedFonts, function (value, key) {
-                if (options.globals && options.state) {
-                    fontProviders[key].generateResourceHints(options.globals, options.state, value, options.fontDisplay);
-                }
+                // if (options.globals && options.state) {
+                fontProviders[key].generateResourceHints(options.globals, value, options.fontDisplay);
+                // }
                 return fontProviders[key].buildLink(value, options.fontDisplay);
             });
             return new handlebars.SafeString(_.values(formattedFonts).join(''));

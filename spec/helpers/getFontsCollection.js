@@ -24,7 +24,7 @@ describe('getFontsCollection', function () {
         const href = "https://fonts.googleapis.com/css?family=Open+Sans:,400italic,700%7CKarla:700%7CLora:400%7CVolkron:%7CDroid:400,700%7CCrimson+Text:400,700&display=swap";
         runTestCases([
             {
-                input: '{{getFontsCollection resourceHint="preload"}}',
+                input: '{{getFontsCollection}}',
                 output: `<link href="${href}" rel="stylesheet">`,
             },
         ], () => {
@@ -88,13 +88,13 @@ describe('getFontsCollection', function () {
         const runTestCases = testRunner({renderer});
         runTestCases([
             {
-                input: '{{getFontsCollection resourceHint="preconnect"}}',
+                input: '{{getFontsCollection}}',
                 output: '<link href="https://fonts.googleapis.com/css?family=Open+Sans:&display=swap" rel="stylesheet">',
             },
         ], () => {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(1);
-            expect(hints[0].state).to.equals(resourceHintAllowedStates.preconnectResourceHintState);
+            expect(hints[0].state).to.equals(resourceHintAllowedStates.preloadResourceHintState);
             done();
         });
     });
