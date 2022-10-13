@@ -6,13 +6,15 @@ const Lab = require('lab'),
 const {buildRenderer, testRunner} = require("../spec-helpers");
 const {expect} = require("code");
 const {
+    resourceHintAllowedTypes,
     resourceHintAllowedStates,
     resourceHintAllowedCors
 } = require("../../helpers/lib/resourceHints");
 
-function template(path, state, cors) {
-    cors = cors ? `cors="${cors}"` : '';
-    return `{{ earlyHint "${path}" "${state}" ${cors} }}`;
+function template(href, rel, type, cors) {
+    cors = cors ? `crossorigin="${cors}"` : '';
+    type = type ? `as="${type}"` : '';
+    return `{{ earlyHint "${href}" "${rel}" ${type} ${cors} }}`;
 }
 
 function randommer(items) {
@@ -20,6 +22,7 @@ function randommer(items) {
 }
 
 const randomHintState = randommer(Object.values(resourceHintAllowedStates));
+const randomHintType = randommer(Object.values(resourceHintAllowedTypes));
 const randomCors = randommer(Object.values(resourceHintAllowedCors));
 
 let renderer, runTests;
@@ -52,8 +55,9 @@ describe('earlyHint', () => {
     it('should create a resource hint with all the properties', done => {
         const path = '/asset/theme.css'
         const state = randomHintState();
+        const type = randomHintType();
         const cors = randomCors();
-        const input = template(path, state, cors);
+        const input = template(path, state, type, cors);
         runTests([
             {
                 input,
@@ -62,7 +66,7 @@ describe('earlyHint', () => {
         ], () => {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(1);
-            expect(hints[0]).to.equals({src: path, state, cors});
+            expect(hints[0]).to.equals({src: path, state, type, cors});
             done();
         });
     });

@@ -3,16 +3,21 @@
 const {addResourceHint} = require('./lib/resourceHints');
 
 const factory = globals => {
-    return function (path, state) {
+    return function (href, rel) {
         const options = arguments[arguments.length - 1];
 
-        const cors = options.hash.cors;
+        let cors, as = undefined;
+
+        if (options && options.hash) {
+            cors = options.hash.crossorigin;
+            as = options.hash.as;
+        }
 
         return addResourceHint(
             globals,
-            path,
-            state,
-            undefined,
+            href,
+            rel,
+            as,
             cors
         );
     }

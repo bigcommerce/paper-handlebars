@@ -36,9 +36,9 @@ describe('resourceHints', function () {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(2);
             hints.forEach(hint => {
-                expect(hint.cors).to.equals(resourceHintAllowedCors.noCors);
+                expect(hint.cors).to.equals(resourceHintAllowedCors.anonymousCors);
                 expect(hint.type).to.equals(resourceHintAllowedTypes.resourceHintFontType);
-                expect(hint.state).to.equals(resourceHintAllowedStates.dnsPrefetchResourceHintState);
+                expect(hint.state).to.equals(resourceHintAllowedStates.preconnectResourceHintState);
             });
             done();
         });

@@ -12,7 +12,8 @@ const resourceHintStates = [preloadResourceHintState, preconnectResourceHintStat
 const resourceHintFontType = 'font';
 const resourceHintStyleType = 'style';
 const resourceHintScriptType = 'script';
-const resourceHintTypes = [resourceHintStyleType, resourceHintFontType, resourceHintScriptType];
+const resourceHintDocumentType = 'document';
+const resourceHintTypes = [resourceHintStyleType, resourceHintFontType, resourceHintScriptType, resourceHintDocumentType];
 
 const noCors = 'no';
 const anonymousCors = 'anonymous';
@@ -21,11 +22,11 @@ const allowedCors = [noCors, anonymousCors, useCredentialsCors];
 
 /**
  * @param {string} path - The uri to the resource.
- * @param {string} state - any of [preload, preconnect, prerender, dns-prefetch]
- * @param {string} type? - any of [style, font, script] If an invalid value is provided, property won't be included
- * @param {string} cors? - any of [no, anonymous, use-credentials] defaults to no when no value is provided
+ * @param {string} rel - any of [preload, preconnect, prerender, dns-prefetch]
+ * @param {string} type? - (as attr in HTML link tag) any of [style, font, script,document] If an invalid value is provided, property won't be included
+ * @param {string} cors? - (crossorigin attr in HTML tag) any of [no, anonymous, use-credentials] defaults to no when no value is provided
  */
-function addResourceHint(globals, path, state, type, cors) {
+function addResourceHint(globals, path, rel, type, cors) {
 
     if (!utils.isString(path)) {
         throw new Error('Invalid path provided. path should be a non empty string');
@@ -37,7 +38,7 @@ function addResourceHint(globals, path, state, type, cors) {
         throw new Error(`Invalid value (resource URL) provided: ${path}`)
     }
 
-    if (!utils.isString(state) || !resourceHintStates.includes(state)) {
+    if (!utils.isString(rel) || !resourceHintStates.includes(rel)) {
         throw new Error(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
     }
 
@@ -54,7 +55,7 @@ function addResourceHint(globals, path, state, type, cors) {
         return;
     }
 
-    let hint = {src: path, state};
+    let hint = {src: path, state: rel};
 
     if (utils.isString(type) && resourceHintTypes.includes(type)) {
         hint.type = type;
