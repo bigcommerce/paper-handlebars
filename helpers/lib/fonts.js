@@ -138,9 +138,7 @@ module.exports = function (format, themeSettings, handlebars, options) {
         case 'linkElements':
 
             const formattedFonts = _.mapValues(parsedFonts, function (value, key) {
-                // if (options.globals && options.state) {
                 fontProviders[key].generateResourceHints(options.globals, value, options.fontDisplay);
-                // }
                 return fontProviders[key].buildLink(value, options.fontDisplay);
             });
             return new handlebars.SafeString(_.values(formattedFonts).join(''));
