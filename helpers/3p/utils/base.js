@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { getValue } = require('../../lib/common');
 const getObject = require('../../../helpers/getObject');
 

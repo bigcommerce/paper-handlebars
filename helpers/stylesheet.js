@@ -7,7 +7,7 @@ const {
     resourceHintAllowedCors,
     defaultResourceHintState
 } = require('./lib/resourceHints');
-const {isString} = require('handlebars-utils');
+const utils = require('./3p/utils');
 
 const factory = globals => {
     const cdnify = buildCDNHelper(globals);
@@ -24,7 +24,7 @@ const factory = globals => {
             : assetPath;
 
         let url = cdnify(path);
-        if (isString(url)) {
+        if (utils.isString(url)) {
             const cross = options.hash.crossorigin || resourceHintAllowedCors.noCors;
             url = addResourceHint(
                 globals,

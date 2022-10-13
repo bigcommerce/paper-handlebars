@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const date = require('date.js');
 
 // suppress error messages that are not actionable

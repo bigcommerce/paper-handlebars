@@ -1,5 +1,5 @@
 'use strict';
-const utils = require('handlebars-utils');
+const utils = require('../3p/utils');
 const common = require('./common');
 
 const srcsets = {
@@ -14,7 +14,7 @@ const srcsets = {
 };
 
 function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
-    if (!utils.isString (path) || common.isValidURL(path)) {
+    if (!utils.isString(path) || common.isValidURL(path)) {
         throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
@@ -35,7 +35,7 @@ function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
 }
 
 function getObjectStorageImageSrcset(handlebars, cdnUrl, source, path) {
-    if (!utils.isString (path) || common.isValidURL(path)) {
+    if (!utils.isString(path) || common.isValidURL(path)) {
         throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
