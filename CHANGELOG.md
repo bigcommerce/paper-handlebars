@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unreleased
+
+## 5.1.5
+
+- feat: preload hints generation, `as` attribute properly implemented
+
 ## 5.1.4
 
 - fix: STRF-10122 Fix forEach, withFirst helpers makeIterator utils([#203])[https://github.com/bigcommerce/paper-handlebars/pull/203]
