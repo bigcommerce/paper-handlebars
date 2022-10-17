@@ -1,10 +1,10 @@
 'use strict';
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const max_length = 1024;
 const max_keys = 50;
 
 const factory = globals => {
-    return function(key, value) {
+    return function (key, value) {
 
         // Validate that key is a string
         if (!utils.isString(key)) {

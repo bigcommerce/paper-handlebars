@@ -4,9 +4,17 @@
  * https://github.com/jonschlinkert/define-property/blob/master/index.js
  */
 
+function extend(obj /* , ...source */) {
+  for (var i = 1; i < arguments.length; i++) {
+    for (var key in arguments[i]) {
+      if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
+        obj[key] = arguments[i][key];
+      }
+    }
+  }
 
-const utils = require('handlebars-utils');
-
+  return obj;
+}
 
 function defineProperty(obj, prop, val) {
   if (typeof obj !== 'object' && typeof obj !== 'function') {
@@ -27,15 +35,14 @@ function defineProperty(obj, prop, val) {
 };
 
 module.exports = function createFrame(data) {
-  if (!utils.isObject(data)) {
+  if (typeof data !== 'object') {
     throw new TypeError('createFrame expects data to be an object');
   }
 
-  var extend = utils.extend;
   var frame = extend({}, data);
   frame._parent = data;
 
-  defineProperty(frame, 'extend', function(data) {
+  defineProperty(frame, 'extend', function (data) {
     extend(this, data);
   });
 

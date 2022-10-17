@@ -1,8 +1,9 @@
 'use strict';
-const utils = require('handlebars-utils');
+
+const utils = require('./3p/utils');
 
 const factory = globals => {
-    return function(key) {
+    return function (key) {
         if (!utils.isString(key)) {
             throw new Error("getVar helper key must be a string");
         }

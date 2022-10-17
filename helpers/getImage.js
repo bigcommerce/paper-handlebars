@@ -1,10 +1,10 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const common = require('./lib/common.js');
 
 const factory = globals => {
-    return function(image, presetName, defaultImageUrl) {
+    return function (image, presetName, defaultImageUrl) {
         var sizeRegex = /^(\d+?)x(\d+?)$/g;
         var settings = globals.getThemeSettings() || {};
         var presets = settings._images;

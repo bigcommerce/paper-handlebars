@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 
 /**
  * Yield block if any object within a collection matches supplied predicate
@@ -10,7 +10,7 @@ const utils = require('handlebars-utils');
  * {{#any items selected=true}} ... {{/any}}
  */
 const factory = () => {
-    return function(...args) {
+    return function (...args) {
 
         let any;
         // Take the last arg which is a Handlebars options object out of args array

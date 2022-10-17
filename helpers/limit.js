@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 
 /**
  * Limit an array to the second argument
@@ -9,7 +9,7 @@ const utils = require('handlebars-utils');
  * {{limit array 4}}
  */
 const factory = () => {
-    return function(data, limit) {
+    return function (data, limit) {
         if (utils.isString(data)) {
             return data.substring(0, limit);
         }

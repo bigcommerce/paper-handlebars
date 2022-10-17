@@ -1,9 +1,9 @@
 'use strict';
 
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 
 const factory = globals => {
-    return function(lvalue, operator, rvalue) {
+    return function (lvalue, operator, rvalue) {
         const options = arguments[arguments.length - 1];
         let result;
 
@@ -31,52 +31,52 @@ const factory = globals => {
             }
 
             switch (operator) {
-            case '==':
-                result = (lvalue == rvalue);
-                break;
+                case '==':
+                    result = (lvalue == rvalue);
+                    break;
 
-            case '===':
-                result = (lvalue === rvalue);
-                break;
+                case '===':
+                    result = (lvalue === rvalue);
+                    break;
 
-            case '!=':
-                result = (lvalue != rvalue);
-                break;
+                case '!=':
+                    result = (lvalue != rvalue);
+                    break;
 
-            case '!==':
-                result = (lvalue !== rvalue);
-                break;
+                case '!==':
+                    result = (lvalue !== rvalue);
+                    break;
 
-            case '<':
-                result = (lvalue < rvalue);
-                break;
+                case '<':
+                    result = (lvalue < rvalue);
+                    break;
 
-            case '>':
-                result = (lvalue > rvalue);
-                break;
+                case '>':
+                    result = (lvalue > rvalue);
+                    break;
 
-            case '<=':
-                result = (lvalue <= rvalue);
-                break;
+                case '<=':
+                    result = (lvalue <= rvalue);
+                    break;
 
-            case '>=':
-                result = (lvalue >= rvalue);
-                break;
+                case '>=':
+                    result = (lvalue >= rvalue);
+                    break;
 
-            case 'gtnum':
-                if (typeof lvalue === 'string' && typeof(rvalue) === 'string' && !isNaN(lvalue) && !isNaN(rvalue)) {
-                    result = parseInt(lvalue) > parseInt(rvalue);
-                } else {
-                    throw new Error("if gtnum only accepts numbers (as strings)");
-                }
-                break;
+                case 'gtnum':
+                    if (typeof lvalue === 'string' && typeof (rvalue) === 'string' && !isNaN(lvalue) && !isNaN(rvalue)) {
+                        result = parseInt(lvalue) > parseInt(rvalue);
+                    } else {
+                        throw new Error("if gtnum only accepts numbers (as strings)");
+                    }
+                    break;
 
-            case 'typeof':
-                result = (typeof lvalue === rvalue);
-                break;
+                case 'typeof':
+                    result = (typeof lvalue === rvalue);
+                    break;
 
-            default:
-                throw new Error("Handlerbars Helper 'if' doesn't know the operator " + operator);
+                default:
+                    throw new Error("Handlerbars Helper 'if' doesn't know the operator " + operator);
             }
         }
 
