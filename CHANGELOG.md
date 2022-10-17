@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 5.1.6
+
+- ref: STRF-10124 Clean up handlebars dependencies ([#209])[https://github.com/bigcommerce/paper-handlebars/pull/209]
+
 ## 5.1.5
 
 - feat: preload hints generation, `as` attribute properly implemented
