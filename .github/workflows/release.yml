@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: '14.x'
       - run: npm i
+      - run: npm run build
       # Setup .npmrc file to publish to npm registry
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
       - run: npm publish
