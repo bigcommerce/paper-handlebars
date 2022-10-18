@@ -99,20 +99,28 @@ describe('resource hints', function () {
             done();
         });
 
-        it('does not create duplicate, by src, hints', (done) => {
+        it('does not create duplicate, by src, hints, and returns the found src', (done) => {
             const globals = {resourceHints: []};
 
             const src = '/my/styles.css';
             const type = 'style';
             const state = 'preload';
 
+            const first = addResourceHint(
+                globals,
+                src,
+                state,
+                type
+            );
+
             for (let i = 0; i < 5; i++) {
-                addResourceHint(
+                const found = addResourceHint(
                     globals,
                     src,
                     state,
                     type
                 );
+                expect(found).to.equals(first);
             }
 
             expect(globals.resourceHints).to.have.length(1);
@@ -120,19 +128,18 @@ describe('resource hints', function () {
             done();
         });
 
-        it('does not create any hint when the limit of allowed hints was reached', (done) => {
+        it('should throw when attempting to add a hint once the limit has been reached', (done) => {
             const filled = Array(50).fill(1);
             const globals = {resourceHints: filled};
 
-            addResourceHint(
+            const f = () => addResourceHint(
                 globals,
                 '/my/styles.css',
                 'preload',
                 'style'
             );
 
-            expect(globals.resourceHints).to.have.length(filled.length);
-
+            expect(f).to.throw(Error, "Resource Hints limit (50) reached.");
             done();
         });
 

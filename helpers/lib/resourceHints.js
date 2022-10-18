@@ -48,11 +48,11 @@ function addResourceHint(globals, path, rel, type, cors) {
 
     let index = globals.resourceHints.findIndex(({ src }) => path === src);
     if (index >= 0) {
-        return;
+        return path;
     }
 
     if (globals.resourceHints.length >= resourceHintsLimit) {
-        return;
+        throw new Error(`Resource Hints limit (${resourceHintsLimit}) reached.`);
     }
 
     let hint = {src: path, state: rel};
