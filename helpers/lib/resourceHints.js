@@ -52,7 +52,8 @@ function addResourceHint(globals, path, rel, type, cors) {
     }
 
     if (globals.resourceHints.length >= resourceHintsLimit) {
-        throw new Error(`Resource Hints limit (${resourceHintsLimit}) reached.`);
+        console.warn(`Resource hint for [${path}] due to the max limit of allowed hints was reached.`);
+        return path;
     }
 
     let hint = {src: path, state: rel};

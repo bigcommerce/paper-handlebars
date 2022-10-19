@@ -128,18 +128,20 @@ describe('resource hints', function () {
             done();
         });
 
-        it('should throw when attempting to add a hint once the limit has been reached', (done) => {
+        it('does not create any hint when the limit of allowed hints was reached', (done) => {
             const filled = Array(50).fill(1);
             const globals = {resourceHints: filled};
 
-            const f = () => addResourceHint(
+            const path = '/my/styles.css';
+            const returned = addResourceHint(
                 globals,
-                '/my/styles.css',
+                path,
                 'preload',
                 'style'
             );
 
-            expect(f).to.throw(Error, "Resource Hints limit (50) reached.");
+            expect(globals.resourceHints).to.have.length(filled.length);
+            expect(returned).to.equals(path);
             done();
         });
 
