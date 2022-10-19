@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 5.1.7
+
+- fix: preload hints nested templates returning undefined paths ([#212])[https://github.com/bigcommerce/paper-handlebars/pull/212]
+- feat: bundle library to js file ([#211])[https://github.com/bigcommerce/paper-handlebars/pull/211]
+
 ## 5.1.6
 
 - ref: STRF-10124 Clean up handlebars dependencies ([#209])[https://github.com/bigcommerce/paper-handlebars/pull/209]
