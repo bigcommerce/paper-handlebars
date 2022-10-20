@@ -99,20 +99,28 @@ describe('resource hints', function () {
             done();
         });
 
-        it('does not create duplicate, by src, hints', (done) => {
+        it('does not create duplicate, by src, hints, and returns the found src', (done) => {
             const globals = {resourceHints: []};
 
             const src = '/my/styles.css';
             const type = 'style';
             const state = 'preload';
 
+            const first = addResourceHint(
+                globals,
+                src,
+                state,
+                type
+            );
+
             for (let i = 0; i < 5; i++) {
-                addResourceHint(
+                const found = addResourceHint(
                     globals,
                     src,
                     state,
                     type
                 );
+                expect(found).to.equals(first);
             }
 
             expect(globals.resourceHints).to.have.length(1);
@@ -124,15 +132,16 @@ describe('resource hints', function () {
             const filled = Array(50).fill(1);
             const globals = {resourceHints: filled};
 
-            addResourceHint(
+            const path = '/my/styles.css';
+            const returned = addResourceHint(
                 globals,
-                '/my/styles.css',
+                path,
                 'preload',
                 'style'
             );
 
             expect(globals.resourceHints).to.have.length(filled.length);
-
+            expect(returned).to.equals(path);
             done();
         });
 

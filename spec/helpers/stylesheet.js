@@ -37,6 +37,35 @@ describe('stylesheet helper', () => {
         });
     });
 
+    it('should render both link tags correclty but produce only one resource hint', done => {
+        const renderer = buildRenderer(siteSettings);
+        const context = {
+            globals: {
+                resourceHints: [
+                    {src: 'https://cdn.bcapp/hash/stencil/123/css/style-xyz.css'}
+                ]
+            }
+        };
+        const runner = testRunner({context, renderer});
+        runner([
+            {
+                input: '{{{stylesheet "assets/css/style.css" crossorigin="anonymous"}}} {{{stylesheet "assets/css/style.css" crossorigin="anonymous"}}}',
+                output: '<link data-stencil-stylesheet href="https://cdn.bcapp/hash/stencil/123/css/style-xyz.css" rel="stylesheet" crossorigin="anonymous"> <link data-stencil-stylesheet href="https://cdn.bcapp/hash/stencil/123/css/style-xyz.css" rel="stylesheet" crossorigin="anonymous">',
+                context
+            },
+        ], () => {
+            const hints = renderer.getResourceHints();
+            expect(hints.length).to.equals(1);
+            hints.forEach(({src, type, state, cors}) => {
+                expect(src).to.startWith(siteSettings.cdn_url);
+                expect(type).to.equals(resourceHintStyleType);
+                expect(state).to.equals('preload');
+                expect(cors).to.equals(anonymousCors);
+            });
+            done();
+        });
+    });
+
     it('should render a link tag and all extra attributes with no cdn url', done => {
         runTestCases([
             {
