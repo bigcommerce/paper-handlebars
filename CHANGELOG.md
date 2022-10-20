@@ -1,3 +1,10 @@
+## [5.2.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.1...v5.2.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* STRF-10157 Fix github release assets files ([#218](https://github.com/bigcommerce/paper-handlebars/issues/218)) ([427a4c5](https://github.com/bigcommerce/paper-handlebars/commit/427a4c50ca984c32b6b7644aff99c3b317c2fec6))
+
 # Changelog
 
 ## Unreleased
