@@ -6,8 +6,7 @@
       "@semantic-release/changelog",
       ["@semantic-release/github", {
         "assets": [
-          {"path": "dist/blackbird-handlebars.js", "label": "helpers.js"},
-          {"path": "dist/index.js", "label": "index.js"}
+          {"path": "dist/blackbird-handlebars.js", "label": "helpers.js"}
         ]
       }],
       "@semantic-release/npm",
@@ -19,7 +18,7 @@
       ],
       [
         "@semantic-release/exec", {
-          "publishCmd": "curl -XPOST -u \"${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}\" -H \"Accept: application/vnd.github.everest-preview+json\" -H \"Content-Type: application/json\" https://api.github.com/repos/bigcommerce/paper/dispatches --data '{\"event_type\": \"bump_hbs\", \"version\": \"${nextRelease.version}\", \"notes\": \"${nextRelease.notes}\"}"
+          "publishCmd": "./publish.sh ${nextRelease.version} ${nextRelease.notes}"
         }
       ]
     ]

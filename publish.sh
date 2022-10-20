@@ -1,0 +1,1 @@
+curl -XPOST -u "$GA_USERNAME:$GA_TOKEN" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/bigcommerce/paper/dispatches --data '{"event_type": "bump_hbs", "version": "'$1'", "notes": "'$2'"}'
