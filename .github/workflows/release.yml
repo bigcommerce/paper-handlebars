@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
-      - run: npm ci
+      - run: npm i
       - run: npm run build
       - name: Check Git Commit name
         run: git log -1 --pretty=format:"%s" |  npx commitlint
