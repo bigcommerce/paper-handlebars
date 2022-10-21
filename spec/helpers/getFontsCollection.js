@@ -32,7 +32,7 @@ describe('getFontsCollection', function () {
             expect(hints).to.have.length(1);
             expect(hints[0].src).to.equals(href);
             expect(hints[0].state).to.equals(resourceHintAllowedStates.preloadResourceHintState);
-            expect(hints[0].type).to.equals(resourceHintAllowedTypes.resourceHintFontType);
+            expect(hints[0].type).to.equals(resourceHintAllowedTypes.resourceHintStyleType);
             done();
         });
     });
