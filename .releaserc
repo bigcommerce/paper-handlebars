@@ -15,11 +15,6 @@
           "assets": ["CHANGELOG.md", "package.json"],
           "baseRef": "master"
         }
-      ],
-      [
-        "@semantic-release/exec", {
-          "publishCmd": "./publish.sh ${nextRelease.version} ${nextRelease.notes}"
-        }
       ]
     ]
 }
