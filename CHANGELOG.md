@@ -1,3 +1,10 @@
+## [5.2.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.4...v5.2.5) (2022-10-21)
+
+
+### Bug Fixes
+
+* STRF-10120 getFontsCollection helper hint should be of type style not font ([#224](https://github.com/bigcommerce/paper-handlebars/issues/224)) ([b59c475](https://github.com/bigcommerce/paper-handlebars/commit/b59c47579966f1f4a75a426ea0f5483427f772c5))
+
 # Changelog
 
 ## Unreleased
