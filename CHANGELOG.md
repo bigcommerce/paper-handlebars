@@ -1,3 +1,10 @@
+## [5.2.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.3...v5.2.4) (2022-10-21)
+
+
+### Bug Fixes
+
+* STRF-10157 Ignore case in sentence case rule ([#222](https://github.com/bigcommerce/paper-handlebars/issues/222)) ([2e3a02b](https://github.com/bigcommerce/paper-handlebars/commit/2e3a02bef14f2f1debfe7594ebf9732513c1aab3))
+
 # Changelog
 
 ## Unreleased
