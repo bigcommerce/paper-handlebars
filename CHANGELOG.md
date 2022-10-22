@@ -1,3 +1,10 @@
+## [5.2.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.2...v5.2.3) (2022-10-20)
+
+
+### Bug Fixes
+
+* STRF-10157 Fix sending event data to paper repo ([#220](https://github.com/bigcommerce/paper-handlebars/issues/220)) ([d416c0b](https://github.com/bigcommerce/paper-handlebars/commit/d416c0b64e8cf92e0212dafe1e6165f479594b55))
+
 # Changelog
 
 ## Unreleased
