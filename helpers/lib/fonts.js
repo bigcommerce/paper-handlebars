@@ -86,7 +86,7 @@ const fontProviders = {
                 globals,
                 path,
                 defaultResourceHintState,
-                resourceHintAllowedTypes.resourceHintFontType
+                resourceHintAllowedTypes.resourceHintStyleType
             );
         }
     },
