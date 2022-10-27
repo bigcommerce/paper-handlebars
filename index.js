@@ -65,6 +65,7 @@ class HandlebarsRenderer {
             getThemeSettings: this.getThemeSettings.bind(this),
             getTranslator: this.getTranslator.bind(this),
             getContent: this.getContent.bind(this),
+            getLogger: this.getLogger.bind(this),
             storage: {}, // global storage used by helpers to keep state
             resourceHints: []
         };
@@ -167,6 +168,15 @@ class HandlebarsRenderer {
     getContent() {
         return this._contentRegions;
     };
+
+    /**
+     * Get logger provided to the library
+     *
+     * @param {Object} logger
+     */
+    getLogger() {
+        return this.logger;
+    }
 
     /**
      * Add templates to the active set of partials. The templates can either be raw

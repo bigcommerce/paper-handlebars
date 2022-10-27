@@ -4,7 +4,7 @@ const lab = exports.lab = Lab.script();
 const describe = lab.experiment;
 const expect = Code.expect;
 const it = lab.it;
-const render = require('../spec-helpers').render;
+const { render } = require('../spec-helpers');
 
 describe('partial and block helpers', function () {
     it('should insert partial into the corresponding block', function (done) {
@@ -43,6 +43,34 @@ describe('partial and block helpers', function () {
 
         render('template', {}, {}, {}, templates).then(result => {
             expect(result).to.be.equal('Hello');
+            done();
+        });
+    });
+
+    it('should successfully render template', function (done) {
+        const templateContent = "some-content";
+        const templates = {
+            "layout/base": templateContent,
+            template: `{{#JSONparse '{"layout/base":{}}'}}{{#partial this}}{{/partial}}{{/JSONparse}}{{>layout/base}}`,
+        };
+        render('template', {}, {}, {}, templates).then(result => {
+            expect(result).to.be.equal(templateContent);
+            done();
+        });
+    });
+
+    it('should successfully render template with context', function (done) {
+        const templateContent = "Hello, world!";
+        const templates = {
+            template: `{{#partial "base"}}Hello, world!{{/partial}}{{#partial notPartials}}{{/partial}}{{> base}}`,
+        };
+        const context  = {
+            notPartials: {
+                "base": {}
+            }
+        }
+        render('template', context, {}, {}, templates).then(result => {
+            expect(result).to.be.equal(templateContent);
             done();
         });
     });

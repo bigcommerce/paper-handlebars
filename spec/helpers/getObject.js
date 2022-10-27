@@ -33,16 +33,15 @@ describe('getObject helper', function () {
         ], done);
     });
 
-    // uncomment when 3rd-party version is replaced
-    // it('does not access prototype props', function (done) {
-    //     context.obj.__proto__ = {x: 'yz'};
-    //     runTestCases([
-    //         {
-    //             input: `{{#with (getObject "x" obj)}}{{x}}{{/with}}`,
-    //             output: ``,
-    //         },
-    //     ], done);
-    // });
+    it('does not access prototype props', function (done) {
+        context.obj.__proto__ = {x: 'yz'};
+        runTestCases([
+            {
+                input: `{{#with (getObject "x" obj)}}{{x}}{{/with}}`,
+                output: ``,
+            },
+        ], done);
+    });
 
     it('accepts SafeString paths', (done) => {
         runTestCases([
