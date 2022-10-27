@@ -1,3 +1,10 @@
+## [5.2.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.5...v5.2.6) (2022-10-27)
+
+
+### Bug Fixes
+
+* STRF-10175 Allow only strings passed to partial and block helpers ([#226](https://github.com/bigcommerce/paper-handlebars/issues/226)) ([3e2d147](https://github.com/bigcommerce/paper-handlebars/commit/3e2d1474ab501591ebfca02e665f15b0ab145566))
+
 ## [5.2.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.4...v5.2.5) (2022-10-21)
 
 
