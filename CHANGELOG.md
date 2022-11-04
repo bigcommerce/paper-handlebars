@@ -1,3 +1,10 @@
+## [5.2.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.6...v5.2.7) (2022-11-04)
+
+
+### Bug Fixes
+
+* STRF-10198 Accept only strings for lang helper output ([#228](https://github.com/bigcommerce/paper-handlebars/issues/228)) ([a73ff5a](https://github.com/bigcommerce/paper-handlebars/commit/a73ff5a672185ccea0de386ea83fff74c00e3b9c))
+
 ## [5.2.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.5...v5.2.6) (2022-10-27)
 
 
