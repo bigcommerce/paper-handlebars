@@ -4,7 +4,13 @@ const factory = globals => {
     return function(translationKey) {
         const options = arguments[arguments.length - 1];
         const translator = globals.getTranslator();
-        return translator ? translator.translate(translationKey, options.hash) : '';
+        if (translator) {
+            const result = translator.translate(translationKey, options.hash);
+            if (typeof result === 'string') {
+                return result;
+            }
+        }
+        return ''
     };
 };
 
