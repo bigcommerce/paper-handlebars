@@ -303,6 +303,13 @@ describe('string', function() {
       expect(fn()).to.equal('');
       done();
     });
+  
+    it('should return unchanged input string if string has only non-word characters', function(done) {
+      var fn = hbs.compile('{{titleize ",!"}}');
+      expect(fn()).to.equal(',!');
+      done();
+    });
+  
     it('should return the string in title case.', function(done) {
       var fn = hbs.compile('{{titleize "Bender-should-Not-be-allowed_on_Tv"}}');
       expect(fn()).to.equal('Bender Should Not Be Allowed On Tv');

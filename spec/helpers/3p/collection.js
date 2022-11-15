@@ -105,6 +105,12 @@ describe('collection', function() {
       done();
     });
 
+    it('should return empty strig when the value is null.', function(done) {
+      var fn = hbs.compile('{{length foo}}');
+      expect(fn({foo: null})).to.equal('');
+      done();
+    });
+
     it('should return the length of a string.', function(done) {
       var fn = hbs.compile('{{length "foo"}}');
       expect(fn(context)).to.equal('3');

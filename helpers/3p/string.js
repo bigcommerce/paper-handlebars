@@ -414,6 +414,9 @@ helpers.titleize = function(str) {
   if (str && typeof str === 'string') {
     var title = str.replace(/[ \-_]+/g, ' ');
     var words = title.match(/\w+/g);
+    if (!words) {
+      return str;
+    }
     var len = words.length;
     var res = [];
     var i = 0;
