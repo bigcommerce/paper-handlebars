@@ -85,7 +85,7 @@ helpers.iterate = function(context, options) {
  */
 
 helpers.length = function(value) {
-  if (utils.isUndefined(value)) {return '';}
+  if (!value || utils.isUndefined(value)) {return '';}
   if (typeof value === 'string' && /[[]/.test(value)) {
     value = utils.tryParse(value) || [];
   }
