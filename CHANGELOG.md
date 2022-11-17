@@ -1,3 +1,10 @@
+## [5.2.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.7...v5.2.8) (2022-11-17)
+
+
+### Bug Fixes
+
+* STRF-10180 Improve titleize and length helpers edge cases ([#230](https://github.com/bigcommerce/paper-handlebars/issues/230)) ([c454907](https://github.com/bigcommerce/paper-handlebars/commit/c4549072796a604af92fd3a20055ac64cd34c057))
+
 ## [5.2.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.6...v5.2.7) (2022-11-04)
 
 
