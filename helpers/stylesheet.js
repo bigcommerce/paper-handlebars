@@ -26,13 +26,23 @@ const factory = globals => {
         let url = cdnify(path);
         if (utils.isString(url)) {
             const cross = options.hash.crossorigin || resourceHintAllowedCors.noCors;
-            url = addResourceHint(
-                globals,
-                url,
-                defaultResourceHintState,
-                resourceHintAllowedTypes.resourceHintStyleType,
-                cross
-            );
+            try {
+                const hintPath = addResourceHint(
+                    globals,
+                    url,
+                    defaultResourceHintState,
+                    resourceHintAllowedTypes.resourceHintStyleType,
+                    cross
+                );
+
+                if (utils.isString(hintPath)) {
+                    url = hintPath;
+                } else {
+                    console.warn(`Early hint generated and invalid path [${hintPath}]. stylesheet tag won't be using it.`);
+                }
+            } catch (e) {
+                console.error(`Early hint generation failed for path [${url}]`, e);
+            }
         }
 
         const attrs = Object.assign({rel: 'stylesheet'}, options.hash);

@@ -13,13 +13,18 @@ const factory = globals => {
             as = options.hash.as;
         }
 
-        return addResourceHint(
-            globals,
-            href,
-            rel,
-            as,
-            cors
-        );
+        try {
+            return addResourceHint(
+                globals,
+                href,
+                rel,
+                as,
+                cors
+            );
+        } catch (e) {
+            console.error(`Early hint generation failed for path [${href}]`, e);
+            throw e;
+        }
     }
 };
 
