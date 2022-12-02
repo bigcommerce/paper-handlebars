@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const URL = require('url')
 
-const { resourceHintAllowedTypes, addResourceHint, defaultResourceHintState } = require('../lib/resourceHints');
+const {resourceHintAllowedTypes, addResourceHint, defaultResourceHintState} = require('../lib/resourceHints');
 
 const fontProviders = {
     'Google': {
@@ -82,12 +82,16 @@ const fontProviders = {
             const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
             fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
             const path = `https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}`;
-            addResourceHint(
-                globals,
-                path,
-                defaultResourceHintState,
-                resourceHintAllowedTypes.resourceHintStyleType
-            );
+            try {
+                addResourceHint(
+                    globals,
+                    path,
+                    defaultResourceHintState,
+                    resourceHintAllowedTypes.resourceHintStyleType
+                );
+            } catch (e) {
+                console.info(`EarlyHint generation failed while generating fonts collection.`, e);
+            }
         }
     },
 };

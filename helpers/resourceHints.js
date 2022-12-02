@@ -41,13 +41,18 @@ const factory = globals => {
         }
 
         hosts = hosts.map(host => {
-            return addResourceHint(
-                globals,
-                host,
-                resourceHintAllowedStates.preconnectResourceHintState,
-                resourceHintAllowedTypes.resourceHintFontType,
-                resourceHintAllowedCors.anonymousCors
-            );
+            try {
+                return addResourceHint(
+                    globals,
+                    host,
+                    resourceHintAllowedStates.preconnectResourceHintState,
+                    resourceHintAllowedTypes.resourceHintFontType,
+                    resourceHintAllowedCors.anonymousCors
+                );
+            } catch (e) {
+                console.info(`EarlyHint generation failed in resourceHints helper with host [${host}]`);
+                return host;
+            }
         });
 
         return new globals.handlebars.SafeString(hosts.map(host => format(host)).join(''));
