@@ -1,3 +1,10 @@
+## [5.2.9](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.8...v5.2.9) (2022-12-02)
+
+
+### Bug Fixes
+
+* STRF-10188 adds logs at early hint generation calls ([#232](https://github.com/bigcommerce/paper-handlebars/issues/232)) ([59bdcf4](https://github.com/bigcommerce/paper-handlebars/commit/59bdcf4af2c74c194d86427f6165845df0c456c5))
+
 ## [5.2.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.7...v5.2.8) (2022-11-17)
 
 
