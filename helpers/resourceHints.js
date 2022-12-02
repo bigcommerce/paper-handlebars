@@ -50,7 +50,7 @@ const factory = globals => {
                     resourceHintAllowedCors.anonymousCors
                 );
             } catch (e) {
-                console.warn(`EarlyHint generation failed in resourceHints helper with host [${host}]`);
+                console.info(`EarlyHint generation failed in resourceHints helper with host [${host}]`);
                 return host;
             }
         });

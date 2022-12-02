@@ -90,7 +90,7 @@ const fontProviders = {
                     resourceHintAllowedTypes.resourceHintStyleType
                 );
             } catch (e) {
-                console.warn(`EarlyHint generation failed while generating fonts collection.`, e);
+                console.info(`EarlyHint generation failed while generating fonts collection.`, e);
             }
         }
     },

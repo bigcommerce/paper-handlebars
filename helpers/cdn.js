@@ -23,7 +23,7 @@ const factory = globals => {
         const options = arguments[arguments.length - 1];
         if (options.hash && options.hash.resourceHint) {
             if (!utils.isString(fullPath)) {
-                console.warn(`Skipping resource hint creation in CDN fill path was not valid [${fullPath}]`);
+                console.info(`Skipping resource hint creation in CDN fill path was not valid [${fullPath}]`);
                 return fullPath;
             }
 
@@ -32,7 +32,7 @@ const factory = globals => {
                 return hintPath;
             }
 
-            console.warn(`Resource hint path was invalid [${hintPath}]`);
+            console.info(`Resource hint path was invalid [${hintPath}]`);
         }
 
         return fullPath;

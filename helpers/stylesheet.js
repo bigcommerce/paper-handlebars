@@ -38,10 +38,10 @@ const factory = globals => {
                 if (utils.isString(hintPath)) {
                     url = hintPath;
                 } else {
-                    console.warn(`Early hint generated and invalid path [${hintPath}]. stylesheet tag won't be using it.`);
+                    console.info(`Early hint generated and invalid path [${hintPath}]. stylesheet tag won't be using it.`);
                 }
             } catch (e) {
-                console.error(`Early hint generation failed for path [${url}]`, e);
+                console.info(`Early hint generation failed for path [${url}]`, e);
             }
         }
 
