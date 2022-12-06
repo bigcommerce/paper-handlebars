@@ -36,6 +36,8 @@
   "dependencies": {
     "@bigcommerce/handlebars-v4": "4.7.6",
     "date.js": "^0.3.3",
+    "accept-language-parser": "^1.5.0",
+    "messageformat": "^2.3.0",
     "handlebars": "3.0.8",
     "he": "^1.2.0",
     "lodash": "^4.17.21",
