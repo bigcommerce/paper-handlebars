@@ -2,6 +2,7 @@
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
+const Translator = require('./lib/translator');
 
 const AppError = require('./lib/appError');
 class CompileError extends AppError {};          // Error compiling template
@@ -207,27 +208,33 @@ class HandlebarsRenderer {
     };
 
     _tryRestoringPrecompiled(precompiled) {
-        // Let's analyze the string to make sure it at least looks
-        // something like a handlebars precompiled template. It should
-        // be a string representation of an object containing a `main`
-        // function and a `compiler` array. We do this because the next
-        // step is a potentially dangerous eval.
-        const re = /"compiler":\[.*\],"main":function/;
-        if (!re.test(precompiled)) {
+        let template;
+    
+        if (typeof precompiled == 'string') {
+          // Let's analyze the string to make sure it at least looks
+          // something like a handlebars precompiled template. It should
+          // be a string representation of an object containing a `main`
+          // function and a `compiler` array. We do this because the next
+          // step is a potentially dangerous eval.
+          const re = /"compiler":\[.*\],"main":function/;
+          if (!re.test(precompiled)) {
             // This is not a valid precompiled template, so this is
             // a raw template that can be registered directly.
             return precompiled;
+          }
+    
+          // We need to take the string representation and turn it into a
+          // valid JavaScript object. eval is evil, but necessary in this case.
+    
+          eval(`template = ${precompiled}`);
+        } else if (typeof precompiled == 'object' && typeof precompiled.main == 'function') {
+          template = precompiled;
         }
-
-        // We need to take the string representation and turn it into a
-        // valid JavaScript object. eval is evil, but necessary in this case.
-        let template;
-        eval(`template = ${precompiled}`);
-
+    
         // Take the precompiled object and get the actual function out of it,
         // after first testing for runtime version compatibility.
         return this.handlebars.template(template);
-    }
+      }
 
     /**
      * Detect whether a given template has been loaded.
@@ -303,6 +310,41 @@ class HandlebarsRenderer {
         });
     };
 
+    renderSync(path, context) {
+        context = context || {};
+    
+        // Add some data to the context
+        context.template = path;
+        if (this._translator) {
+          context.locale_name = this._translator.getLocale();
+        }
+    
+        // Look up the template
+        const template = this.handlebars.partials[path];
+        if (typeof template === 'undefined') {
+          throw new TemplateNotFoundError(`template not found: ${path}`);
+        }
+    
+        // Render the template
+        let result;
+        try {
+          result = template(context);
+        } catch (e) {
+          throw new RenderError(e.message);
+        }
+    
+        // Apply decorators
+        try {
+          for (let i = 0; i < this._decorators.length; i++) {
+            result = this._decorators[i](result);
+          }
+        } catch (e) {
+          throw new DecoratorError(e.message);
+        }
+    
+        return result;
+    };
+
     /**
      * Renders a string with the given context
      *
@@ -362,6 +404,11 @@ class HandlebarsRenderer {
      */
     setLoggerLevel(level) {
         this.handlebars.logger.level = level;
+    }
+
+    loadTranslations(acceptLanguage, translations, translator_logger = logger) {
+        let translator = Translator.create(acceptLanguage, translations, translator_logger);
+        this.setTranslator(translator);
     }
 }
 
