@@ -146,6 +146,7 @@ describe('helper registration', () => {
             'hasOwn',
             'isObject',
             'merge',
+            'JSONparseSafe',
             'JSONparse',
             'JSONstringify',
             'camelcase',
