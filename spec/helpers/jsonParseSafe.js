@@ -9,16 +9,26 @@ describe('JSONParseSafe helper', () => {
     };
     const runTestCases = testRunner({context});
 
-    it('should have the same behavior as the original if helper', done => {
+    it('should execute the main instruction', done => {
+        runTestCases([
+            {
+                input: '{{#JSONparseSafe jsonString}}{{name}}{{/JSONparseSafe}}',
+                output: 'John',
+            },
+        ], done);
+    });
+
+    it('should skip the main instruction if variable is non-json', done => {
         runTestCases([
             {
                 input: '{{#JSONparseSafe string}}{{name}}{{/JSONparseSafe}}',
                 output: '',
             },
-            {
-                input: '{{#JSONparseSafe jsonString}}{{name}}{{/JSONparseSafe}}',
-                output: 'John',
-            },
+        ], done);
+    });
+
+    it('should execute the else instruction if variable is non-json', done => {
+        runTestCases([
             {
                 input: '{{#JSONparseSafe string}}{{name}}{{else}}{{string}}{{/JSONparseSafe}}',
                 output: 'John Doe',
