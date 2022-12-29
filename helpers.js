@@ -32,6 +32,7 @@ const helpersList = [
     'langJson',
     'limit',
     'money',
+    'multiConcat',
     'nl2br',
     'occurrences',
     'or',

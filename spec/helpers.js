@@ -77,6 +77,7 @@ describe('helper registration', () => {
             'last',
             'lengthEqual',
             'map',
+            'multiConcat',
             'some',
             'sort',
             'sortBy',
