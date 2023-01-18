@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const common = require('./lib/common.js');
 const utils = require('handlebars-utils');
 
@@ -11,29 +12,28 @@ const utils = require('handlebars-utils');
 
 const factory = globals => {
     return function(...args) {
-        // str = common.unwrapIfSafeString(globals.handlebars, str);
+        // Take the last arg which is a Handlebars options object out of args array
+        args.pop();
 
-        args.forEach(element => {
-            const substr = common.unwrapIfSafeString(globals.handlebars, element);
-            if (!utils.isString(substr)){
-                throw new TypeError("Invalid query parameter string passed to multiConcat");
+        // Check if all the args are valid / truthy
+        const result = _.every(args, function (arg) {
+            if (utils.isArray(arg)) {
+                return !!arg.length;
+            }
+            // If an empty object is passed, arg is false
+            else if (utils.isEmpty(arg) && utils.isObject(arg)) {
+                return false;
+            }
+            // Everything else
+            else {
+                return !!arg;
             }
         });
 
-        // args.forEach(element => {
-        //     const substr= new globals.handlebars.SafeString(element);
-        //     if (!utils.isString(substr)) {
-        //         throw new TypeError("multiConcat parameters must be string");
-        //     }
-        // });
+        if (result) {
+            return args.join('');
+        }
 
-        // _.every(args, function (arg) {
-        //     if (!utils.isString(arg)) {
-        //         throw new TypeError("multiConcat parameters must be string");
-        //     }
-        // });
-
-        return args.join('');
     };
 
 };
