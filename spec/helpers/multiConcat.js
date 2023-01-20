@@ -24,6 +24,10 @@ describe('multiConcat helper', function() {
             {
                 input: '{{multiConcat string1 string2 string3 string4}}',
                 output: 'FirstSecondThirdFourth',
+            },
+            {
+                input: '{{multiConcat string1 string2}}',
+                output: 'FirstSecond',
             }
         ], done);
     });
@@ -41,6 +45,10 @@ describe('multiConcat helper', function() {
             {
                 input: '{{multiConcat string1 3 false "" "4" true}}',
                 output: 'First3false4true',
+            },
+            {
+                input: '{{multiConcat string1 ""}}',
+                output: 'First',
             }
         ], done);
     });
