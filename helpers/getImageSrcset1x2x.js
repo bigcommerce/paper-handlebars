@@ -1,9 +1,9 @@
 'use strict';
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const common = require('./lib/common');
 
 const factory = globals => {
-    return function(image, size1x) {
+    return function (image, size1x) {
         // Regex to test size string is of the form 123x123
         const pixelDimensionsRegex = /(^\d+w$)|(^(\d+?)x(\d+?)$)/;
         const return1x = (image, size1x) =>
@@ -18,7 +18,7 @@ const factory = globals => {
             throw new Error("Invalid size argument passed to getImageSrcset1x2x, must be a set of pixel dimensions of the format '123x123'")
         }
 
-        if(!image.width || !image.height || !Number.isInteger(image.width) || !Number.isInteger(image.height)) {
+        if (!image.width || !image.height || !Number.isInteger(image.width) || !Number.isInteger(image.height)) {
             return return1x(image, size1x);
         }
 
@@ -30,7 +30,7 @@ const factory = globals => {
             // or those sizes would be larger than the resizer supports
             return return1x(image, size1x);
         } else {
-            const smallestFactor = Math.min((image.width/width1x), (image.height/height1x));
+            const smallestFactor = Math.min((image.width / width1x), (image.height / height1x));
             const factor = smallestFactor < 2 ? smallestFactor : 2;
             const roundedFactor = +(factor).toFixed(4) //cast to Number for clean rounding
 

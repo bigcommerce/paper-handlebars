@@ -11,6 +11,7 @@ const helpersList = [
     'dynamicComponent',
     'encodeHtmlEntities',
     'for',
+    'get',
     'getContentImage',
     'getContentImageSrcset',
     'getFontLoaderConfig',
@@ -20,6 +21,7 @@ const helpersList = [
     'getImageManagerImageSrcset',
     'getImageSrcset',
     'getImageSrcset1x2x',
+    'getObject',
     'getVar',
     'helperMissing',
     'if',
@@ -31,10 +33,12 @@ const helpersList = [
     'lang',
     'langJson',
     'limit',
+    'moment',
     'money',
     'multiConcat',
     'nl2br',
     'occurrences',
+    'option',
     'or',
     'partial',
     'pluck',
@@ -51,6 +55,7 @@ const helpersList = [
     'toLowerCase',
     'truncate',
     'unless',
+    'earlyHint',
 ];
 
 const deprecatedHelpersList = [

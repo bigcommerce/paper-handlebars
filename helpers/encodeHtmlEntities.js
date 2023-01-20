@@ -1,12 +1,12 @@
 'use strict';
 const he = require('he');
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const common = require('./lib/common.js');
 
 const factory = globals => {
-    return function(string) {
+    return function (string) {
         string = common.unwrapIfSafeString(globals.handlebars, string);
-        if (!utils.isString(string)){
+        if (!utils.isString(string)) {
             throw new TypeError("Non-string passed to encodeHtmlEntities");
         }
 

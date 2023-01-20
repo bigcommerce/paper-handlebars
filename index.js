@@ -65,7 +65,9 @@ class HandlebarsRenderer {
             getThemeSettings: this.getThemeSettings.bind(this),
             getTranslator: this.getTranslator.bind(this),
             getContent: this.getContent.bind(this),
+            getLogger: this.getLogger.bind(this),
             storage: {}, // global storage used by helpers to keep state
+            resourceHints: []
         };
 
         // Register helpers with Handlebars
@@ -73,6 +75,10 @@ class HandlebarsRenderer {
             const spec = helpers[i];
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
         }
+    }
+
+    getResourceHints() {
+        return this.helperContext.resourceHints;
     }
 
     /**
@@ -162,6 +168,15 @@ class HandlebarsRenderer {
     getContent() {
         return this._contentRegions;
     };
+
+    /**
+     * Get logger provided to the library
+     *
+     * @param {Object} logger
+     */
+    getLogger() {
+        return this.logger;
+    }
 
     /**
      * Add templates to the active set of partials. The templates can either be raw
@@ -272,7 +287,7 @@ class HandlebarsRenderer {
             try {
                 result = template(context);
             } catch(e) {
-                return reject(new RenderError(e.message));
+                return reject(new RenderError(`${e.message} : ${e.stack}`));
             }
 
             // Apply decorators
@@ -293,7 +308,7 @@ class HandlebarsRenderer {
      *
      * @param  {String} template
      * @param  {Object} context
-     * @return {String}
+     * @return {Promise}
      * @throws [CompileError|RenderError]
      */
     renderString(template, context) {
@@ -342,8 +357,8 @@ class HandlebarsRenderer {
     }
 
     /**
-     * 
-     * @param {String} level 
+     *
+     * @param {String} level
      */
     setLoggerLevel(level) {
         this.handlebars.logger.level = level;

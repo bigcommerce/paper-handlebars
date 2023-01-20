@@ -1,9 +1,9 @@
 'use strict';
-const utils = require('handlebars-utils');
+const utils = require('./3p/utils');
 const common = require('./lib/common');
 
 const factory = globals => {
-    return function(image, defaultImageUrl) {
+    return function (image, defaultImageUrl) {
         // Regex to test size string is of the form 123x123 or 100w
         const sizeRegex = /(^\d+w$)|(^(\d+?)x(\d+?)$)/;
         // Regex to test to that srcset descriptor is of the form 1x 1.5x 2x OR 123w
@@ -15,7 +15,7 @@ const factory = globals => {
             defaultImageUrl = '';
         }
 
-        if (!utils.isObject(image) || !utils.isString (image.data)
+        if (!utils.isObject(image) || !utils.isString(image.data)
             || !common.isValidURL(image.data) || image.data.indexOf('{:size}') === -1) {
             // return empty string if not a valid image object
             defaultImageUrl = defaultImageUrl ? defaultImageUrl : '';
@@ -25,7 +25,7 @@ const factory = globals => {
         let srcsets = {};
 
         if (options.hash['use_default_sizes']) {
-            if (Number.isInteger(image.width) && Number.isInteger(image.height)){
+            if (Number.isInteger(image.width) && Number.isInteger(image.height)) {
                 /* If we know the image dimensions, don't generate srcset sizes larger than the image  */
                 srcsets[`${image.width}w`] = `${image.width}w`;
                 const defaultSrcsetSizes = [2560, 1920, 1280, 960, 640, 320, 160, 80];

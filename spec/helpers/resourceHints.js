@@ -1,8 +1,14 @@
 const Lab = require('lab'),
-      lab = exports.lab = Lab.script(),
-      describe = lab.experiment,
-      it = lab.it,
-      testRunner = require('../spec-helpers').testRunner;
+    lab = exports.lab = Lab.script(),
+    describe = lab.experiment,
+    it = lab.it,
+    {testRunner, buildRenderer} = require('../spec-helpers');
+const {expect} = require("code");
+const {
+    resourceHintAllowedCors,
+    resourceHintAllowedStates,
+    resourceHintAllowedTypes
+} = require('../../helpers/lib/resourceHints');
 
 describe('resourceHints', function () {
     it('should return the expected resource links', function (done) {
@@ -18,13 +24,23 @@ describe('resourceHints', function () {
             'random-property': 'not a font'
         };
 
-        const runTestCases = testRunner({themeSettings});
+        const renderer = buildRenderer({}, themeSettings);
+        const runTestCases = testRunner({renderer});
 
         runTestCases([
             {
                 input: '{{resourceHints}}',
-                output: '<link rel="dns-prefetch preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com" crossorigin>',
+                output: '<link rel="dns-prefetch preconnect" href="https://fonts.googleapis.com/" crossorigin><link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com/" crossorigin>',
             },
-        ], done);
+        ], () => {
+            const hints = renderer.getResourceHints();
+            expect(hints).to.have.length(2);
+            hints.forEach(hint => {
+                expect(hint.cors).to.equals(resourceHintAllowedCors.anonymousCors);
+                expect(hint.type).to.equals(resourceHintAllowedTypes.resourceHintFontType);
+                expect(hint.state).to.equals(resourceHintAllowedStates.preconnectResourceHintState);
+            });
+            done();
+        });
     });
 });

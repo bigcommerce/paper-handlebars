@@ -30,5 +30,18 @@ describe('dynamicComponent helper', function() {
             },
         ], done);
     });
+
+    it('should return undefined when accessing proto/constructor', function(done) {
+        runTestCases([
+            {
+                input: '{{#each fields}}{{dynamicComponent "__proto__"}}{{/each}}',
+                output: '',
+            },
+            {
+                input: '{{#each fields}}{{dynamicComponent "constructor"}}{{/each}}',
+                output: '',
+            },
+        ], done);
+    });
 });
 

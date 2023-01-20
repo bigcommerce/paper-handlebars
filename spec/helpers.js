@@ -30,6 +30,7 @@ describe('helper registration', () => {
             'dynamicComponent',
             'encodeHtmlEntities',
             'for',
+            'get',
             'getContentImage',
             'getContentImageSrcset',
             'getFontLoaderConfig',
@@ -39,6 +40,7 @@ describe('helper registration', () => {
             'getImageManagerImageSrcset',
             'getImageSrcset',
             'getImageSrcset1x2x',
+            'getObject',
             'getVar',
             'helperMissing',
             'if',
@@ -50,10 +52,12 @@ describe('helper registration', () => {
             'lang',
             'langJson',
             'limit',
+            'moment',
             'money',
             'multiConcat',
             'nl2br',
             'occurrences',
+            'option',
             'or',
             'partial',
             'pluck',
@@ -107,7 +111,6 @@ describe('helper registration', () => {
             'unlessLt',
             'unlessGteq',
             'unlessLteq',
-            'moment',
             'ellipsis',
             'sanitize',
             'ul',
@@ -126,7 +129,6 @@ describe('helper registration', () => {
             'sum',
             'avg',
             'default',
-            'option',
             'noop',
             'withHash',
             'addCommas',
@@ -142,8 +144,6 @@ describe('helper registration', () => {
             'forIn',
             'forOwn',
             'toPath',
-            'get',
-            'getObject',
             'hasOwn',
             'isObject',
             'merge',
@@ -182,9 +182,10 @@ describe('helper registration', () => {
             'equals',
             'getShortMonth',
             'pick',
-        ];
+            'earlyHint',
+        ].sort();
 
-        expect(helpers.map(helper => helper.name)).to.be.equal(expectedHelpers);
+        expect(helpers.map(helper => helper.name).sort()).to.be.equal(expectedHelpers);
         done();
     });
 });

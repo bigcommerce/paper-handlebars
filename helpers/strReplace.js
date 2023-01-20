@@ -1,19 +1,34 @@
 'use strict';
 const common = require('./lib/common.js');
+<<<<<<< HEAD
 const utils = require('handlebars-utils');
 
 const factory = globals => {
     return function(str, substr, newSubstr, iteration) {
+=======
+const utils = require('./3p/utils');
+
+const factory = globals => {
+    return function (str, substr, newSubstr, iteration) {
+>>>>>>> bigcommerce-master
         str = common.unwrapIfSafeString(globals.handlebars, str);
         substr = common.unwrapIfSafeString(globals.handlebars, substr);
         newSubstr = common.unwrapIfSafeString(globals.handlebars, newSubstr);
         iteration = common.unwrapIfSafeString(globals.handlebars, iteration);
 
+<<<<<<< HEAD
         if (!utils.isString(str)){
             throw new TypeError("Invalid query parameter string passed to strReplace");
         } else if (!utils.isString(substr)){
             throw new TypeError("Invalid query paramter substring passed to strReplace");
         } else if(!utils.isString(newSubstr)) {
+=======
+        if (!utils.isString(str)) {
+            throw new TypeError("Invalid query parameter string passed to strReplace");
+        } else if (!utils.isString(substr)) {
+            throw new TypeError("Invalid query paramter substring passed to strReplace");
+        } else if (!utils.isString(newSubstr)) {
+>>>>>>> bigcommerce-master
             throw new TypeError("Invalid query parameter new substring passed to strReplace");
         }
 
@@ -44,7 +59,11 @@ function escapeRegex(string) {
 }
 
 function getOccurrences(str, substr) {
+<<<<<<< HEAD
     const matches = str.match(new RegExp(escapeRegex(substr),'g'));
+=======
+    const matches = str.match(new RegExp(escapeRegex(substr), 'g'));
+>>>>>>> bigcommerce-master
     return matches ? matches.length : 0;
 }
 

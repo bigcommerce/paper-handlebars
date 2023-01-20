@@ -1,0 +1,20 @@
+{
+    "branches": ["master"],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      ["@semantic-release/github", {
+        "assets": [
+          {"path": "dist/blackbird-handlebars.js", "label": "helpers.js"}
+        ]
+      }],
+      "@semantic-release/npm",
+      [
+        "semantic-release-github-pullrequest", {
+          "assets": ["CHANGELOG.md", "package.json"],
+          "baseRef": "master"
+        }
+      ]
+    ]
+}

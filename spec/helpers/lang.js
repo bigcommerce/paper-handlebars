@@ -16,6 +16,7 @@ describe('lang helper', () => {
     beforeEach(done => {
         context = {
             name: 'BigCommerce',
+            test: {},
         };
 
         renderer = buildRenderer();
@@ -44,6 +45,20 @@ describe('lang helper', () => {
         runTestCases([
             {
                 input: '{{lang "powered_by" name=name}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should return an empty string if translastor returns an object', done => {
+        renderer.setTranslator({
+            getLocale: () => 'en',
+            translate: (key, params) => params.test,
+        });
+
+        runTestCases([
+            {
+                input: '{{lang "some_key" name=test}}',
                 output: '',
             },
         ], done);

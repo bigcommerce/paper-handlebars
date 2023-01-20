@@ -1,6 +1,9 @@
 'use strict';
 
 const _ = require('lodash');
+const URL = require('url')
+
+const {resourceHintAllowedTypes, addResourceHint, defaultResourceHintState} = require('../lib/resourceHints');
 
 const fontProviders = {
     'Google': {
@@ -17,7 +20,7 @@ const fontProviders = {
          *
          * @returns {string}
          */
-        parser: function(fonts) {
+        parser: function (fonts) {
             var collection = [],
                 familyHash = {};
 
@@ -51,13 +54,19 @@ const fontProviders = {
             return collection;
         },
 
-        buildLink: function(fonts, fontDisplay) {
+        buildLink: function (fonts, fontDisplay) {
             const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
             fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
-            return `<link href="https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}" rel="stylesheet">`;
+            const uri = `https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}`
+            try {
+                const url = URL.parse(uri);
+                return `<link href="${url.format()}" rel="stylesheet">`;
+            } catch (error) {
+                throw new Error(`Invalid URL [${uri}]. Check configured fonts.`)
+            }
         },
 
-        buildFontLoaderConfig: function(fonts) {
+        buildFontLoaderConfig: function (fonts) {
             function replaceSpaces(font) {
                 return font.split('+').join(' ');
             }
@@ -68,6 +77,22 @@ const fontProviders = {
                 }
             };
         },
+
+        generateResourceHints: function (globals, fonts, fontDisplay) {
+            const displayTypes = ['auto', 'block', 'swap', 'fallback', 'optional'];
+            fontDisplay = displayTypes.includes(fontDisplay) ? fontDisplay : 'swap';
+            const path = `https://fonts.googleapis.com/css?family=${fonts.join('|')}&display=${fontDisplay}`;
+            try {
+                addResourceHint(
+                    globals,
+                    path,
+                    defaultResourceHintState,
+                    resourceHintAllowedTypes.resourceHintStyleType
+                );
+            } catch (e) {
+                console.info(`EarlyHint generation failed while generating fonts collection.`, e);
+            }
+        }
     },
 };
 
@@ -83,10 +108,10 @@ const fontProviders = {
  * @param {Object} options an optional object for additional configuration details
  * @returns {Object.<string, Array>|string}
  */
-module.exports = function(format, themeSettings, handlebars, options) {
-    
+module.exports = function (format, themeSettings, handlebars, options) {
+
     const collectedFonts = {};
-    _.each(themeSettings, function(value, key) {
+    _.each(themeSettings, function (value, key) {
         //check that -font is on end of string but not start of string
         const fontKeySuffix = '-font';
         if (!key.endsWith(fontKeySuffix)) {
@@ -108,34 +133,35 @@ module.exports = function(format, themeSettings, handlebars, options) {
     });
 
     // Parse font strings based on provider
-    const parsedFonts = _.mapValues(collectedFonts, function(value, key) {
+    const parsedFonts = _.mapValues(collectedFonts, function (value, key) {
         return fontProviders[key].parser(value);
     });
 
     // Format output based on requested format
-    switch(format) {
-    case 'linkElements':
-        
-        const formattedFonts = _.mapValues(parsedFonts, function(value, key) {
-            return fontProviders[key].buildLink(value, options.fontDisplay);
-        });
-        return new handlebars.SafeString(_.values(formattedFonts).join(''));
+    switch (format) {
+        case 'linkElements':
 
-    case 'webFontLoaderConfig':
-        // Build configs
-        const configs = _.mapValues(parsedFonts, function(value, key) {
-            return fontProviders[key].buildFontLoaderConfig(value);
-        });
+            const formattedFonts = _.mapValues(parsedFonts, function (value, key) {
+                fontProviders[key].generateResourceHints(options.globals, value, options.fontDisplay);
+                return fontProviders[key].buildLink(value, options.fontDisplay);
+            });
+            return new handlebars.SafeString(_.values(formattedFonts).join(''));
 
-        // Merge them
-        const fontLoaderConfig = {};
-        _.each(configs, function(config) {
-            return Object.assign(fontLoaderConfig, config);
-        });
-        return fontLoaderConfig;
+        case 'webFontLoaderConfig':
+            // Build configs
+            const configs = _.mapValues(parsedFonts, function (value, key) {
+                return fontProviders[key].buildFontLoaderConfig(value);
+            });
 
-    case 'providerLists':
-    default:
-        return parsedFonts;
+            // Merge them
+            const fontLoaderConfig = {};
+            _.each(configs, function (config) {
+                return Object.assign(fontLoaderConfig, config);
+            });
+            return fontLoaderConfig;
+
+        case 'providerLists':
+        default:
+            return parsedFonts;
     }
 }

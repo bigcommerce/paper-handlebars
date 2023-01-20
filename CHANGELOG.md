@@ -1,6 +1,129 @@
+## [5.2.9](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.8...v5.2.9) (2022-12-02)
+
+
+### Bug Fixes
+
+* STRF-10188 adds logs at early hint generation calls ([#232](https://github.com/bigcommerce/paper-handlebars/issues/232)) ([59bdcf4](https://github.com/bigcommerce/paper-handlebars/commit/59bdcf4af2c74c194d86427f6165845df0c456c5))
+
+## [5.2.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.7...v5.2.8) (2022-11-17)
+
+
+### Bug Fixes
+
+* STRF-10180 Improve titleize and length helpers edge cases ([#230](https://github.com/bigcommerce/paper-handlebars/issues/230)) ([c454907](https://github.com/bigcommerce/paper-handlebars/commit/c4549072796a604af92fd3a20055ac64cd34c057))
+
+## [5.2.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.6...v5.2.7) (2022-11-04)
+
+
+### Bug Fixes
+
+* STRF-10198 Accept only strings for lang helper output ([#228](https://github.com/bigcommerce/paper-handlebars/issues/228)) ([a73ff5a](https://github.com/bigcommerce/paper-handlebars/commit/a73ff5a672185ccea0de386ea83fff74c00e3b9c))
+
+## [5.2.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.5...v5.2.6) (2022-10-27)
+
+
+### Bug Fixes
+
+* STRF-10175 Allow only strings passed to partial and block helpers ([#226](https://github.com/bigcommerce/paper-handlebars/issues/226)) ([3e2d147](https://github.com/bigcommerce/paper-handlebars/commit/3e2d1474ab501591ebfca02e665f15b0ab145566))
+
+## [5.2.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.4...v5.2.5) (2022-10-21)
+
+
+### Bug Fixes
+
+* STRF-10120 getFontsCollection helper hint should be of type style not font ([#224](https://github.com/bigcommerce/paper-handlebars/issues/224)) ([b59c475](https://github.com/bigcommerce/paper-handlebars/commit/b59c47579966f1f4a75a426ea0f5483427f772c5))
+
+## [5.2.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.3...v5.2.4) (2022-10-21)
+
+
+### Bug Fixes
+
+* STRF-10157 Ignore case in sentence case rule ([#222](https://github.com/bigcommerce/paper-handlebars/issues/222)) ([2e3a02b](https://github.com/bigcommerce/paper-handlebars/commit/2e3a02bef14f2f1debfe7594ebf9732513c1aab3))
+
+
+## [5.2.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.2...v5.2.3) (2022-10-20)
+
+
+### Bug Fixes
+
+* STRF-10157 Fix sending event data to paper repo ([#220](https://github.com/bigcommerce/paper-handlebars/issues/220)) ([d416c0b](https://github.com/bigcommerce/paper-handlebars/commit/d416c0b64e8cf92e0212dafe1e6165f479594b55))
+
+
 # Changelog
 
 ## Unreleased
+
+## 5.1.7
+
+- fix: preload hints nested templates returning undefined paths ([#212])[https://github.com/bigcommerce/paper-handlebars/pull/212]
+- feat: bundle library to js file ([#211])[https://github.com/bigcommerce/paper-handlebars/pull/211]
+
+## 5.1.6
+
+- ref: STRF-10124 Clean up handlebars dependencies ([#209])[https://github.com/bigcommerce/paper-handlebars/pull/209]
+
+## 5.1.5
+
+- feat: preload hints generation, `as` attribute properly implemented
+
+## 5.1.4
+
+- fix: STRF-10122 Fix forEach, withFirst helpers makeIterator utils([#203])[https://github.com/bigcommerce/paper-handlebars/pull/203]
+## 5.1.3
+
+- fix: STRF-10122 Fix inArray helper, when array is undefined ([#201])[https://github.com/bigcommerce/paper-handlebars/pull/201]
+
+
+## 5.1.2
+
+- investigate google fonts css uri encoding issue ([#197])[https://github.com/bigcommerce/paper-handlebars/pull/197]
+- Add original stack trace to render error ([#198])[https://github.com/bigcommerce/paper-handlebars/pull/198]
+- Import 3rd part handlebars helpers and utiliy function to support them ([#195])[https://github.com/bigcommerce/paper-handlebars/pull/195]
+
+## 5.1.1
+
+- removes `type` attribute of `earlyHint` helper ([#193](https://github.com/bigcommerce/paper-handlebars/pull/193))
+
+## 5.1.0
+- enable optional resource hint generation in `stylesheet` helper([#187](https://github.com/bigcommerce/paper-handlebars/pull/187))
+- enable optional resource hint generation in `getFontsCollection` helper ([#188](https://github.com/bigcommerce/paper-handlebars/pull/188))
+- enable optional resource hint generation in `cdn` helper([#189](https://github.com/bigcommerce/paper-handlebars/pull/189))
+- introduce new `earlyHint` helper ([#190](https://github.com/bigcommerce/paper-handlebars/pull/190))
+
+## 5.0.6
+- bugfix for edge case affecting `get`, `getObject`, and `option` ([#185](https://github.com/bigcommerce/paper-handlebars/pull/185))
+
+## 5.0.5
+- setup to replace `get` & `getObject` helpers ([#183](https://github.com/bigcommerce/paper-handlebars/pull/183))
+## 5.0.4
+- patch for helper-date 0.2.3 compatibility ([#180](https://github.com/bigcommerce/paper-handlebars/pull/180))
+
+## 5.0.3
+- bugfix & setup to replace 3p helpers incrementally: `moment` and `option` ([#178](https://github.com/bigcommerce/paper-handlebars/pull/178))
+
+## 5.0.2
+- Fix replacement `get` and `option` helpers for backwards-compatibility ([#173](https://github.com/bigcommerce/paper-handlebars/pull/173))
+- `get` now fully supports property paths constructed using `concat`
+
+## 5.0.1
+- fix: STRF-9873 use modified implementations of `get`, `getObject`, `moment`, `option` 3p helpers ([#171](https://github.com/bigcommerce/paper-handlebars/pull/171))
+
+## 5.0.0
+- feat: STRF-9791 drop node 12 support ([#169](https://github.com/bigcommerce/paper-handlebars/pull/169))
+
+## 5.0.0
+- feat: STRF-9791 drop node 12 support ([#169](https://github.com/bigcommerce/paper-handlebars/pull/169))
+
+## 4.6.0
+- fix: STRF-9835 Reduce proto usage ([#167](https://github.com/bigcommerce/paper-handlebars/pull/167))
+
+## 4.5.5
+- feat: STRF-9707 Improve money helper to support input params ([#164](https://github.com/bigcommerce/paper-handlebars/pull/164))
+
+
+## 4.5.4
+- String replace helper with more options ([#156](https://github.com/bigcommerce/paper-handlebars/pull/156))
+
 
 ## 4.5.3
 - Bump lodash version to 4.17.21 ([#161](https://github.com/bigcommerce/paper-handlebars/pull/161))

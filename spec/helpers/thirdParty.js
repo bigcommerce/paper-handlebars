@@ -77,22 +77,6 @@ describe('third party handlebars-helpers', function() {
 
     });
 
-    describe('date helpers', function() {
-
-        describe('contains moment', function() {
-            it('renders the date in the format specified', function(done) {
-                const now = new Date();
-                runTestCases([
-                    {
-                        input: `{{#moment "1 year ago" "YYYY"}}{{/moment}}`,
-                        output: `${now.getFullYear() - 1}`,
-                    },
-                ], done);
-            });
-        });
-
-    });
-
     describe('html helpers', function() {
 
         describe('contains ellipsis', function() {
@@ -170,21 +154,6 @@ describe('third party handlebars-helpers', function() {
                     {
                         input: `{{avg array}}`,
                         output: '3',
-                    },
-                ], done);
-            });
-        });
-
-    });
-
-    describe('misc helpers', function() {
-
-        describe('contains option', function() {
-            it('returns the nested prop of this.options', function(done) {
-                runTestCases([
-                    {
-                        input: `{{option "a.b.c"}}`,
-                        output: 'd',
                     },
                 ], done);
             });

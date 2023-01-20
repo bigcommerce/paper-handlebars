@@ -1,7 +1,5 @@
 'use strict';
 
-const helpers = require('handlebars-helpers');
-
 const whitelist = [
     {
         name: 'array',
@@ -34,6 +32,7 @@ const whitelist = [
     },
     {
         name: 'comparison',
+        module: require('./3p/comparison'),
         include: [
             'and',
             'gt',
@@ -56,16 +55,6 @@ const whitelist = [
         ],
     },
     {
-        name: 'date',
-        include: ['moment'],
-        init: () => {
-            // date-helper uses moment under the hood, so we can hook in to supress
-            // error messages that are not actionable
-            const moment = require('moment');
-            moment.suppressDeprecationWarnings = true;
-        },
-    },
-    {
         name: 'html',
         include: ['ellipsis', 'sanitize', 'ul', 'ol', 'thumbnailImage']
     },
@@ -83,7 +72,7 @@ const whitelist = [
     },
     {
         name: 'misc',
-        include: ['default', 'option', 'noop', 'withHash'],
+        include: ['default', 'noop', 'withHash'],
     },
     {
         name: 'number',
@@ -106,8 +95,6 @@ const whitelist = [
             'forIn',
             'forOwn',
             'toPath',
-            'get',
-            'getObject',
             'hasOwn',
             'isObject',
             'merge',
@@ -117,6 +104,7 @@ const whitelist = [
     },
     {
         name: 'string',
+        module: require('./3p/string'),
         include: [
             'camelcase',
             'capitalize',
@@ -147,13 +135,14 @@ const whitelist = [
     },
 ];
 
+
 // Construct the data structure the caller expects: an array of { name, factory }
 const exportedHelpers = [];
 for (let i = 0; i < whitelist.length; i++) {
     const spec = whitelist[i];
 
     // Initialize module
-    const module = helpers[spec.name]();
+    const module = require(`./3p/${spec.name}`);
     if (typeof spec.init === 'function') {
         spec.init(module);
     }

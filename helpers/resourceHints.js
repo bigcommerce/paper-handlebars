@@ -1,7 +1,13 @@
 'use strict';
 
-const _ = require('lodash');
+const utils = require('./3p/utils');
 const getFonts = require('./lib/fonts');
+const {
+    addResourceHint,
+    resourceHintAllowedStates,
+    resourceHintAllowedTypes,
+    resourceHintAllowedCors
+} = require('./lib/resourceHints');
 
 const fontResources = {
     'Google': [
@@ -10,26 +16,42 @@ const fontResources = {
     ],
 };
 
-const factory = globals => {
-    return function() {
-        function format(host) {
-            return `<link rel="dns-prefetch preconnect" href="${host}" crossorigin>`;
-        }
+function format(host) {
+    return `<link rel="dns-prefetch preconnect" href="${host}" crossorigin>`;
+}
 
-        var hosts = [];
+const factory = globals => {
+    return function () {
+
+        let hosts = [];
 
         // Add cdn
         const siteSettings = globals.getSiteSettings();
         const cdnUrl = siteSettings['cdn_url'] || '';
-        if (cdnUrl != '') {
+        if (utils.isString(cdnUrl)) {
             hosts.push(cdnUrl);
         }
 
         // Add font providers
-        const fontProviders = _.keys(getFonts('providerLists', globals.getThemeSettings(), globals.handlebars));
-        _.each(fontProviders, function(provider) {
+        const fonts = getFonts('providerLists', globals.getThemeSettings(), globals.handlebars);
+        for (const provider in fonts) {
             if (typeof fontResources[provider] !== 'undefined') {
                 hosts = hosts.concat(fontResources[provider]);
+            }
+        }
+
+        hosts = hosts.map(host => {
+            try {
+                return addResourceHint(
+                    globals,
+                    host,
+                    resourceHintAllowedStates.preconnectResourceHintState,
+                    resourceHintAllowedTypes.resourceHintFontType,
+                    resourceHintAllowedCors.anonymousCors
+                );
+            } catch (e) {
+                console.info(`EarlyHint generation failed in resourceHints helper with host [${host}]`);
+                return host;
             }
         });
 

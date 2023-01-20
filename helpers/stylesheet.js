@@ -1,11 +1,18 @@
 'use strict';
 
-const _ = require('lodash');
 const buildCDNHelper = require('./lib/cdnify');
+const {
+    addResourceHint,
+    resourceHintAllowedTypes,
+    resourceHintAllowedCors,
+    defaultResourceHintState
+} = require('./lib/resourceHints');
+const utils = require('./3p/utils');
 
 const factory = globals => {
-    return function(assetPath) {
-        const cdnify = buildCDNHelper(globals);
+    const cdnify = buildCDNHelper(globals);
+
+    return function (assetPath) {
         const siteSettings = globals.getSiteSettings();
         const configId = siteSettings.theme_config_id;
 
@@ -16,15 +23,35 @@ const factory = globals => {
             ? assetPath.replace(/\.css$/, `-${configId}.css`)
             : assetPath;
 
-        const url = cdnify(path);
+        let url = cdnify(path);
+        if (utils.isString(url)) {
+            const cross = options.hash.crossorigin || resourceHintAllowedCors.noCors;
+            try {
+                const hintPath = addResourceHint(
+                    globals,
+                    url,
+                    defaultResourceHintState,
+                    resourceHintAllowedTypes.resourceHintStyleType,
+                    cross
+                );
 
-        let attrs = { rel: 'stylesheet' };
+                if (utils.isString(hintPath)) {
+                    url = hintPath;
+                } else {
+                    console.info(`Early hint generated and invalid path [${hintPath}]. stylesheet tag won't be using it.`);
+                }
+            } catch (e) {
+                console.info(`Early hint generation failed for path [${url}]`, e);
+            }
+        }
 
-        Object.assign(attrs, options.hash);
+        const attrs = Object.assign({rel: 'stylesheet'}, options.hash);
+        const keyValuePairs = [];
+        for (const attrsKey in attrs) {
+            keyValuePairs.push(`${attrsKey}="${attrs[attrsKey]}"`);
+        }
 
-        attrs = _.map(attrs, (value, key) => `${key}="${value}"`).join( ' ');
-
-        return `<link data-stencil-stylesheet href="${url}" ${attrs}>`;
+        return `<link data-stencil-stylesheet href="${url}" ${keyValuePairs.join(' ')}>`;
     };
 };
 
