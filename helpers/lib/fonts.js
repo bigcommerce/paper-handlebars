@@ -1,7 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
 const URL = require('url')
+const utils = require('../3p/utils');
 
 const {resourceHintAllowedTypes, addResourceHint, defaultResourceHintState} = require('../lib/resourceHints');
 
@@ -24,30 +24,32 @@ const fontProviders = {
             var collection = [],
                 familyHash = {};
 
-            _.each(fonts, function fontsIterator(font) {
+            Object.keys(fonts).forEach(function fontsIterator(key) {
+                const font = fonts[key];
                 var split = font.split('_'),
                     familyKey = split[1],  // Eg: Open+Sans
                     weights = split[2];    // Eg: 400,700italic
 
-                if (_.isEmpty(familyKey)) {
+                if (utils.isEmpty(familyKey)) {
                     return;
                 }
 
-                if (_.isUndefined(weights)) {
+                if (utils.isUndefined(weights)) {
                     weights = '';
                 }
 
-                if (!_.isArray(familyHash[familyKey])) {
+                if (!utils.isArray(familyHash[familyKey])) {
                     familyHash[familyKey] = [];
                 }
 
                 weights = weights.split(',');
 
                 familyHash[familyKey].push(weights);
-                familyHash[familyKey] = _.uniq(_.flatten(familyHash[familyKey]));
+                familyHash[familyKey] = [...new Set(familyHash[familyKey].flat())]
             });
 
-            _.each(familyHash, function fontHashIterator(weights, family) {
+            Object.keys(familyHash).forEach(function fontHashIterator(family) {
+                const weights = familyHash[family];
                 collection.push(family + ':' + weights.join(','));
             });
 
@@ -111,14 +113,14 @@ const fontProviders = {
 module.exports = function (format, themeSettings, handlebars, options) {
 
     const collectedFonts = {};
-    _.each(themeSettings, function (value, key) {
+    Object.keys(themeSettings).forEach(function (key) {
         //check that -font is on end of string but not start of string
         const fontKeySuffix = '-font';
         if (!key.endsWith(fontKeySuffix)) {
             return;
         }
 
-        const splits = value.split('_');
+        const splits = themeSettings[key].split('_');
         const provider = splits[0];
 
         if (typeof fontProviders[provider] === 'undefined') {
@@ -129,34 +131,36 @@ module.exports = function (format, themeSettings, handlebars, options) {
             collectedFonts[provider] = [];
         }
 
-        collectedFonts[provider].push(value);
+        collectedFonts[provider].push(themeSettings[key]);
     });
 
     // Parse font strings based on provider
-    const parsedFonts = _.mapValues(collectedFonts, function (value, key) {
-        return fontProviders[key].parser(value);
+    const parsedFonts = {};
+    Object.keys(collectedFonts).forEach(function (key) {
+        parsedFonts[key] = fontProviders[key].parser(collectedFonts[key]);
     });
 
     // Format output based on requested format
     switch (format) {
         case 'linkElements':
-
-            const formattedFonts = _.mapValues(parsedFonts, function (value, key) {
-                fontProviders[key].generateResourceHints(options.globals, value, options.fontDisplay);
-                return fontProviders[key].buildLink(value, options.fontDisplay);
+            const formattedFonts = {};
+            Object.keys(parsedFonts).forEach(function (key) {
+                fontProviders[key].generateResourceHints(options.globals, parsedFonts[key], options.fontDisplay);
+                formattedFonts[key] = fontProviders[key].buildLink(parsedFonts[key], options.fontDisplay);
             });
-            return new handlebars.SafeString(_.values(formattedFonts).join(''));
+            return new handlebars.SafeString(Object.values(formattedFonts).join(''));
 
         case 'webFontLoaderConfig':
             // Build configs
-            const configs = _.mapValues(parsedFonts, function (value, key) {
-                return fontProviders[key].buildFontLoaderConfig(value);
+            const configs = {};
+            Object.keys(parsedFonts).forEach(function (key) {
+                configs[key] = fontProviders[key].buildFontLoaderConfig(parsedFonts[key]);
             });
 
             // Merge them
             const fontLoaderConfig = {};
-            _.each(configs, function (config) {
-                return Object.assign(fontLoaderConfig, config);
+            Object.values(configs).forEach((config) => {
+                Object.assign(fontLoaderConfig, config);
             });
             return fontLoaderConfig;
 

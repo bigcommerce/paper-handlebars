@@ -4,7 +4,6 @@ const lab = (exports.lab = Lab.script());
 const expect = Code.expect;
 const it = lab.it;
 const describe = lab.describe;
-const _ = require("lodash");
 
 var markdown = require("../../../../../helpers/3p/utils/lib/markdown");
 
@@ -127,49 +126,6 @@ describe("sync", function () {
       )();
       expect(b).to.equal(
         '<pre><code class="language-js"><span class="hljs-keyword">var</span> foo = <span class="hljs-string">&quot;bar&quot;</span>;\n</code></pre>\n'
-      );
-      done();
-    });
-  });
-
-  describe("lodash:", function () {
-    it("should work as a lodash mixin:", function (done) {
-      _.mixin({ markdown: markdown });
-      expect(
-        _.template('<%= _.markdown("# " + title) %>')({ title: "heading" })
-      ).to.equal("<h1>heading</h1>\n");
-      done();
-    });
-
-    it("should pass options to remarkable:", function (done) {
-      _.mixin({ markdown: markdown({ highlight: highlight }) });
-      var a = _.template(
-        '<%= _.markdown("foo\\n```js\\nvar foo = {};\\n```\\nbar") %>'
-      )({});
-      expect(a).to.equal(
-        '<p>foo</p>\n<pre><code class="language-js"><span class="hljs-keyword">var</span> foo = {};\n</code></pre>\n<p>bar</p>\n'
-      );
-
-      var b = _.template(
-        "<%= _.markdown(\"foo\\n```js\\nvar foo = {};\\n```\\nbar\", {langPrefix: 'language-'}) %>"
-      )({});
-      expect(b).to.equal(
-        '<p>foo</p>\n<pre><code class="language-js"><span class="hljs-keyword">var</span> foo = {};\n</code></pre>\n<p>bar</p>\n'
-      );
-      done();
-    });
-
-    it("should work when passed to lodash as a string:", function (done) {
-      expect(
-        _.template('<%= markdown("# heading") %>')({ markdown: markdown })
-      ).to.equal("<h1>heading</h1>\n");
-      done();
-    });
-
-    it("should work as a lodash import:", function (done) {
-      var settings = { imports: { markdown: markdown } };
-      expect(_.template('<%= markdown("# heading") %>', settings)({})).to.equal(
-        "<h1>heading</h1>\n"
       );
       done();
     });

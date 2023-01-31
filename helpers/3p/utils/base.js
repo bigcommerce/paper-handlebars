@@ -18,4 +18,5 @@ module.exports = {
     getObject: getObject[0].factory(),
     forOwn: require('./lib/forOwn'),
     merge: require('./lib/mixinDeep'),
+    deepMatches: require('./lib/deepMatches'),
 };

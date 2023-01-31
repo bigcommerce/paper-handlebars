@@ -1,13 +1,23 @@
 'use strict';
 
-const _ = require('lodash');
 
 const factory = () => {
     /**
      * @deprecate
      */
-    return function() {
-        return _.pick.apply(null, arguments);
+    return function(...args) {
+        const target = args.shift();
+        const toReturn = {};
+        const paths = args[0];
+        if (paths) {
+            paths.forEach((key) => {
+                if (target.hasOwnProperty(key)) {
+                    toReturn[key] = target[key];
+                }
+            })
+        }
+
+        return toReturn;
     };
 };
 
