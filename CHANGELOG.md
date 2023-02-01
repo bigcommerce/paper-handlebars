@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.9...v5.3.0) (2023-02-01)
+
+
+### Features
+
+* strf-9673 Remove lodash from paper-handlebars deps ([#237](https://github.com/bigcommerce/paper-handlebars/issues/237)) ([1df2eef](https://github.com/bigcommerce/paper-handlebars/commit/1df2eef3bd5a1dd84e097963c1633f44ee17277b))
+
 ## [5.2.9](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.8...v5.2.9) (2022-12-02)
 
 
