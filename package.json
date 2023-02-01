@@ -38,7 +38,6 @@
     "date.js": "^0.3.3",
     "handlebars": "3.0.8",
     "he": "^1.2.0",
-    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "remarkable": "^2.0.1",
     "stringz": "^0.1.1"

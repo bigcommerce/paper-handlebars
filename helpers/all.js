@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const utils = require('./3p/utils');
 
 /**
@@ -16,7 +15,7 @@ const factory = () => {
         const opts = args.pop();
 
         // Check if all the args are valid / truthy
-        const result = _.every(args, function (arg) {
+        const result = args.every( function (arg) {
             if (utils.isArray(arg)) {
                 return !!arg.length;
             }

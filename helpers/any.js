@@ -1,7 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
 const utils = require('./3p/utils');
+const deepMatches = require('./3p/utils/lib/deepMatches');
 
 /**
  * Yield block if any object within a collection matches supplied predicate
@@ -18,12 +18,14 @@ const factory = () => {
         const predicate = opts.hash;
 
         if (!utils.isEmpty(predicate)) {
-            // With options hash, we check the contents of first argument
-            any = _.some(args[0], predicate);
+            if (utils.isArray(args[0])) {
+                // With options hash, we check the contents of first argument
+                any = args[0].some((v) => deepMatches(v, predicate));
+            }
         } else {
             // DEPRECATED: Moved to #or helper
             // Without options hash, we check all the arguments
-            any = _.some(args, function (arg) {
+            any = args.some(function (arg) {
                 if (utils.isArray(arg)) {
                     return !!arg.length;
                 }
