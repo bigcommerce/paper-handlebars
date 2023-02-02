@@ -30,6 +30,7 @@ const helpersList = [
     'join',
     'jsContext',
     'json',
+    'jsonParseSafe',
     'lang',
     'langJson',
     'limit',
