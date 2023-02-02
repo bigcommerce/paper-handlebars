@@ -65,6 +65,10 @@ describe('any helper (with option hash)', function() {
                     foobar: undefined
                 }
             },
+            {
+                input: '{{#any null num=null}}{{big}}{{/any}}',
+                output: '',
+            },
         ], done);
     });
 });

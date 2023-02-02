@@ -5,6 +5,9 @@ const factory = () => {
         const options = arguments[arguments.length - 1];
         var config = options.hash || {};
 
+        if (!Array.isArray(array)) {
+            throw new TypeError("Non-array passed to join helper");
+        }
         array = array.slice();
 
         // Truncate array

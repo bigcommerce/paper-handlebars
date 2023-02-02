@@ -16,7 +16,8 @@ describe('all helper', function() {
         emptyObject: {},
         itemArray: [1,2],
         emptyString: "",
-        big: 'big'
+        big: 'big',
+        alwaysNull: null,
     };
 
     // Build a test runner that uses a default context
@@ -112,6 +113,10 @@ describe('all helper', function() {
             },
             {
                 input: '{{#all true "" alwaysTrue}}big{{/all}}',
+                output: '',
+            },
+            {
+                input: '{{#all alwaysNull}}big{{/all}}',
                 output: '',
             },
         ], done);

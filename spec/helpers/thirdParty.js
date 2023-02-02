@@ -7,6 +7,7 @@ const Lab = require('lab'),
 describe('third party handlebars-helpers', function() {
     const context = {
         array: [1, 2, 3, 4, 5],
+        null: null,
         object: {"a" : 1, "b" : 2},
         options: { a: { b: { c: 'd' } } }
     };
@@ -86,6 +87,14 @@ describe('third party handlebars-helpers', function() {
                 runTestCases([
                     {
                         input: `{{#contains object '3'}}This will not be rendered.{{else}}This will be rendered.{{/contains}}`,
+                        output: 'This will be rendered.',
+                    },
+                ], done);
+            });
+            it('renders the else block if it evaluates to false. null as input', function(done) {
+                runTestCases([
+                    {
+                        input: `{{#contains null '3'}}This will not be rendered.{{else}}This will be rendered.{{/contains}}`,
                         output: 'This will be rendered.',
                     },
                 ], done);

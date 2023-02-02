@@ -6,7 +6,8 @@ const Lab = require('lab'),
 
 describe('join helper', function() {
     const context = {
-        list: ['Mario', 'Chris', 'Mick', 'Hau', 'Cody']
+        list: ['Mario', 'Chris', 'Mick', 'Hau', 'Cody'],
+        notArray: null,
     };
 
     const runTestCases = testRunner({context});

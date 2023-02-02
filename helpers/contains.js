@@ -14,7 +14,7 @@ const factory = () => {
     return function(container, value) {
         const options = arguments[arguments.length - 1];
         const preparedContainer = utils.isObject(container) ? Object.values(container) : container;
-        const contained = preparedContainer.includes(value);
+        const contained = preparedContainer ? preparedContainer.includes(value) : false;
 
         // Yield block if true
         if (contained) {

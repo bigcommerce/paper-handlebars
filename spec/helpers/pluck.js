@@ -9,7 +9,9 @@ describe('pluck helper', function() {
         users: [
           { 'user': 'barney', 'age': 36 },
           { 'user': 'fred',   'age': 40 }
-        ]
+        ],
+        null: null,
+        undefined: undefined,
     };
 
     const runTestCases = testRunner({context});
@@ -36,6 +38,19 @@ describe('pluck helper', function() {
             {
                 input: '{{pluck users "constructor"}}',
                 output: ',',
+            },
+        ], done);
+    });
+
+    it('should return empty array when null is provided', function(done) {
+        runTestCases([
+            {
+                input: '{{pluck null "age"}}',
+                output: '',
+            },
+            {
+                input: '{{pluck undefined "age"}}',
+                output: '',
             },
         ], done);
     });
