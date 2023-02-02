@@ -1,3 +1,10 @@
+# [5.4.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.3.0...v5.4.0) (2023-02-02)
+
+
+### Features
+
+* Add JSONparseSafe helper ([#235](https://github.com/bigcommerce/paper-handlebars/issues/235)) ([f9edc1b](https://github.com/bigcommerce/paper-handlebars/commit/f9edc1b11c05a84eb159a08681910fcad8c01410))
+
 # [5.3.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.2.9...v5.3.0) (2023-02-01)
 
 
