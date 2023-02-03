@@ -1,3 +1,10 @@
+## [5.4.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.0...v5.4.1) (2023-02-03)
+
+
+### Bug Fixes
+
+* STRF-9673 Fix null params passed to helpers ([#240](https://github.com/bigcommerce/paper-handlebars/issues/240)) ([a79c648](https://github.com/bigcommerce/paper-handlebars/commit/a79c64894f119d05c1b9de4b25da1cbe4daf171d))
+
 # [5.4.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.3.0...v5.4.0) (2023-02-02)
 
 
