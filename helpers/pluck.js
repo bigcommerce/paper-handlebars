@@ -2,7 +2,10 @@
 
 const factory = () => {
     return function(collection, path) {
-        return collection.map(item => item.hasOwnProperty(path) ? item[path] : undefined);
+        if (collection) {
+            return collection.map(item => item.hasOwnProperty(path) ? item[path] : undefined);
+        }
+        return [];
     };
 };
 

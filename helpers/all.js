@@ -15,7 +15,7 @@ const factory = () => {
         const opts = args.pop();
 
         // Check if all the args are valid / truthy
-        const result = args.every( function (arg) {
+        const result = args.every(function (arg) {
             if (utils.isArray(arg)) {
                 return !!arg.length;
             }

@@ -9,7 +9,7 @@ const factory = () => {
         const target = args.shift();
         const toReturn = {};
         const paths = args[0];
-        if (paths) {
+        if (paths && Array.isArray(paths)) {
             paths.forEach((key) => {
                 if (target.hasOwnProperty(key)) {
                     toReturn[key] = target[key];
