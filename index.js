@@ -51,6 +51,7 @@ class HandlebarsRenderer {
 
         this.logger = logger;
         this._setHandlebarsLogger();
+        this._overrideConsoleLog();
         this.setSiteSettings(siteSettings || {});
         this.setThemeSettings(themeSettings || {});
         this.setTranslator(null);
@@ -354,6 +355,18 @@ class HandlebarsRenderer {
                 this.logger[method](...message);
             }
         };
+    }
+
+    /**
+     * As some handlebars helpers do not use the logger, we need to override the console.log method 
+     */
+    _overrideConsoleLog() {
+        if (this.logger !== console) {
+            console.log = this.logger.log;
+            console.info = this.logger.info;
+            console.error = this.logger.error;
+            console.warn = this.logger.warn;
+        }
     }
 
     /**
