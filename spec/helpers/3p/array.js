@@ -38,6 +38,12 @@ describe('array', function() {
     });
 
     it('should return all of the items in an array after the specified count.', function(done) {
+      var fn = hbs.compile('{{after notArray 5}}');
+      expect(fn(context)).to.equal('');
+      done();
+    });
+  
+    it('should return all of the items in an array after the specified count.', function(done) {
       var fn = hbs.compile('{{after array 5}}');
       expect(fn(context)).to.equal(['f', 'g', 'h'].toString());
       done();
