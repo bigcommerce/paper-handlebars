@@ -468,7 +468,7 @@ helpers.uppercase = function(str, options) {
   } else {
     options = str;
   }
-  if (typeof options === 'object' && options.fn) {
+  if (options && typeof options === 'object' && options.fn) {
     return options.fn(this).toUpperCase();
   }
   return '';

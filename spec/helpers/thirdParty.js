@@ -91,10 +91,14 @@ describe('third party handlebars-helpers', function() {
                     },
                 ], done);
             });
-            it('renders the else block if it evaluates to false. null as input', function(done) {
+            it('renders the else block if it evaluates to false. null / number as input', function(done) {
                 runTestCases([
                     {
                         input: `{{#contains null '3'}}This will not be rendered.{{else}}This will be rendered.{{/contains}}`,
+                        output: 'This will be rendered.',
+                    },
+                    {
+                        input: `{{#contains 111 '3'}}This will not be rendered.{{else}}This will be rendered.{{/contains}}`,
                         output: 'This will be rendered.',
                     },
                 ], done);
