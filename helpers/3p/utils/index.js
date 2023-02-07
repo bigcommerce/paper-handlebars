@@ -170,7 +170,7 @@ utils.random = function (min, max) {
 
 utils.isUndefined = function (val) {
   return typeof val === 'undefined'
-    || (!!val.hash);
+    || (val && !!val.hash);
 };
 
 /**

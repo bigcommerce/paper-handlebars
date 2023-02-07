@@ -83,8 +83,10 @@ helpers.before = function(array, n) {
 
 helpers.eachIndex = function(array, options) {
   var result = '';
-  for (var i = 0; i < array.length; i++) {
-    result += options.fn({item: array[i], index: i});
+  if (Array.isArray(array)) {
+    for (var i = 0; i < array.length; i++) {
+      result += options.fn({item: array[i], index: i});
+    }
   }
   return result;
 };
@@ -283,6 +285,9 @@ helpers.isArray = function(value) {
  */
 
 helpers.last = function(array, n) {
+  if (!Array.isArray(array)) {
+    return [];
+  }
   if (!utils.isNumber(n)) {
     return array[array.length - 1];
   }

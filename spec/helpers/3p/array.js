@@ -19,7 +19,10 @@ Object.keys(helpers).forEach(key => {
 })
 
 
-var context = {array: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']};
+var context = {
+  array: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+  notArray: null,
+};
 
 describe('array', function() {
   describe('after', function() {
@@ -79,6 +82,12 @@ describe('array', function() {
     it('should render the block using the array and each item\'s index.', function(done) {
       var fn = hbs.compile('{{#eachIndex array}} {{item}} is {{index}} {{/eachIndex}}');
       expect(fn(context)).to.equal(' a is 0  b is 1  c is 2  d is 3  e is 4  f is 5  g is 6  h is 7 ');
+      done();
+    });
+
+    it('should render the block when non array is passed returning empty string', function(done) {
+      var fn = hbs.compile('{{#eachIndex notArray}} {{item}} is {{index}} {{/eachIndex}}');
+      expect(fn(context)).to.equal('');
       done();
     });
   });
@@ -240,6 +249,11 @@ describe('array', function() {
 
     it('should return an array with the last two items in an array.', function(done) {
       expect(hbs.compile('{{last array 2}}')(context)).to.equal(['g', 'h'].toString());
+      done();
+    });
+  
+    it('should return an empty array array if non array is passed', function(done) {
+      expect(hbs.compile('{{last notArray 2}}')(context)).to.equal([].toString());
       done();
     });
   });
