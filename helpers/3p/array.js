@@ -26,7 +26,7 @@ var helpers = module.exports;
  */
 
 helpers.after = function(array, n) {
-  if (utils.isUndefined(array)) {return '';}
+  if (!array || utils.isUndefined(array)) {return '';}
   return array.slice(n);
 };
 

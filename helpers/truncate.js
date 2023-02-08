@@ -25,7 +25,7 @@ const substring = require('stringz').substring;
  */
 const factory = globals => {
     return function(string, length) {
-        if (typeof string !== 'string') {
+        if (typeof string !== 'string' || string.length === 0) {
             return string;
         }
 

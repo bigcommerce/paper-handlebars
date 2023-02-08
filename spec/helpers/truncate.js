@@ -11,6 +11,8 @@ describe('truncate helper', function() {
         spanish_string: 'mañana',
         string: 'hello world',
         unicode_string: 'She ❤️️ this',
+        empty_string: '',
+        null: null,
     };
 
     const runTestCases = testRunner({context});
@@ -51,6 +53,24 @@ describe('truncate helper', function() {
             {
                 input: '{{truncate chinese_string 3}}',
                 output: '𠜎𠜱𠝹',
+            },
+        ], done);
+    });
+
+    it('should handle empty strings', function(done) {
+        runTestCases([
+            {
+                input: '{{truncate empty_string 5}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should handle null object', function(done) {
+        runTestCases([
+            {
+                input: '{{truncate null 5}}',
+                output: '',
             },
         ], done);
     });
