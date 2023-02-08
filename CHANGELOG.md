@@ -1,3 +1,10 @@
+## [5.4.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.2...v5.4.3) (2023-02-08)
+
+
+### Bug Fixes
+
+* STRF-9673 Lodash removal, part 3 ([#245](https://github.com/bigcommerce/paper-handlebars/issues/245)) ([8903ce2](https://github.com/bigcommerce/paper-handlebars/commit/8903ce286af7c6af2828ed1ce1c3dc0573a0bf1e))
+
 ## [5.4.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.1...v5.4.2) (2023-02-07)
 
 
