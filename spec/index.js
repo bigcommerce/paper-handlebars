@@ -415,6 +415,9 @@ describe('logging', () => {
         sandbox = Sinon.createSandbox();
         logger = {
             log: Sinon.fake(),
+            info: Sinon.fake(),
+            warn: Sinon.fake(),
+            error: Sinon.fake(),
         };
         console = {
             log: Sinon.fake(),
@@ -431,7 +434,7 @@ describe('logging', () => {
 
     it('log helper uses given logger', done => {
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(logger.log.calledWith('baz')).to.equal(true);
+            expect(logger.info.calledWith('baz')).to.equal(true);
             done();
         });
     });
@@ -456,7 +459,7 @@ describe('logging', () => {
     it('console log helper uses given logger', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v4', console);
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(console.log.calledWith('baz')).to.equal(true);
+            expect(console.info.calledWith('baz')).to.equal(true);
             done();
         });
     });
@@ -476,4 +479,33 @@ describe('logging', () => {
             done();
         });
     });
+
+    it('should override default console.log', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        console.log('test');
+        expect(logger.log.calledWith('test')).to.equal(true);
+        done();
+    });
+
+    it('should override default console.info', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        console.info('info');
+        expect(logger.info.calledWith('info')).to.equal(true);
+        done();
+    });
+
+    it('should override default console.error', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        console.error('error');
+        expect(logger.error.calledWith('error')).to.equal(true);
+        done();
+    });
+
+    it('should override default console.warn', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        console.warn('test');
+        expect(logger.warn.calledWith('test')).to.equal(true);
+        done();
+    });
+
 });
