@@ -1,3 +1,10 @@
+# [5.5.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.3...v5.5.0) (2023-02-09)
+
+
+### Features
+
+* STRF-9922 Improve renderer logging ([#244](https://github.com/bigcommerce/paper-handlebars/issues/244)) ([9f07d35](https://github.com/bigcommerce/paper-handlebars/commit/9f07d35deff8cdd3f90d37ee09e9d38c4da0894e))
+
 ## [5.4.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.2...v5.4.3) (2023-02-08)
 
 
