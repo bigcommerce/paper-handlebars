@@ -13,8 +13,6 @@ const factory = globals => {
             throw new TypeError("Invalid query parameter string passed to strReplace");
         } else if (!utils.isString(substr)) {
             throw new TypeError("Invalid query paramter substring passed to strReplace");
-        } else if (!utils.isString(newSubstr)) {
-            throw new TypeError("Invalid query parameter new substring passed to strReplace");
         }
 
         if (typeof iteration !== 'number') {
