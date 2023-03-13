@@ -406,7 +406,10 @@ describe('errors', () => {
 
 describe('logging', () => {
     let renderer, logger, sandbox;
-    let consoleCopy = console;
+    let consoleLogCopy = console.log;
+    let consoleInfoCopy = console.info;
+    let consoleErrorCopy = console.error;
+    let consoleWarnCopy = console.warn;
     const context = {
         bar: 'baz'
     };
@@ -422,17 +425,20 @@ describe('logging', () => {
         console = {
             log: Sinon.fake(),
         };
-        renderer = new HandlebarsRenderer({}, {}, 'v3', logger);
         done();
     });
 
     afterEach(done => {
-        console = consoleCopy;
+        console.log = consoleLogCopy;
+        console.info = consoleInfoCopy;
+        console.error = consoleErrorCopy;
+        console.warn = consoleWarnCopy;
         sandbox.restore();
         done();
     });
 
     it('log helper uses given logger', done => {
+        renderer = new HandlebarsRenderer({}, {}, 'v3', logger);
         renderer.renderString('{{log bar}}', context).then(() => {
             expect(logger.info.calledWith('baz')).to.equal(true);
             done();
@@ -459,7 +465,7 @@ describe('logging', () => {
     it('console log helper uses given logger', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v4', console);
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(console.info.calledWith('baz')).to.equal(true);
+            expect(console.log.calledWith('baz')).to.equal(true);
             done();
         });
     });

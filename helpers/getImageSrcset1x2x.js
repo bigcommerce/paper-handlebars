@@ -1,6 +1,7 @@
 'use strict';
 const utils = require('./3p/utils');
 const common = require('./lib/common');
+const { ValidationError } = require('../lib/errors');
 
 const factory = globals => {
     return function (image, size1x) {
@@ -11,11 +12,11 @@ const factory = globals => {
 
         if (!utils.isObject(image) || !utils.isString(image.data)
             || !common.isValidURL(image.data) || image.data.indexOf('{:size}') === -1) {
-            throw new Error("Invalid StencilImage passed to getImageSrcset1x2x")
+            throw new ValidationError("Invalid StencilImage passed to getImageSrcset1x2x")
         }
 
         if (!pixelDimensionsRegex.test(size1x)) {
-            throw new Error("Invalid size argument passed to getImageSrcset1x2x, must be a set of pixel dimensions of the format '123x123'")
+            throw new ValidationError("Invalid size argument passed to getImageSrcset1x2x, must be a set of pixel dimensions of the format '123x123'")
         }
 
         if (!image.width || !image.height || !Number.isInteger(image.width) || !Number.isInteger(image.height)) {

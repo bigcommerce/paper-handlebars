@@ -7,6 +7,7 @@
 */
 const kindOf = require('./kindOf');
 const { getValue } = require('../../../lib/common');
+const { ValidationError } = require('../../../../lib/errors');
 
 /**
  * Sort an array of objects by one or more properties.
@@ -24,7 +25,7 @@ function arraySort(arr, props, opts) {
   }
 
   if (!Array.isArray(arr)) {
-    throw new TypeError('array-sort expects an array.');
+    throw new ValidationError('array-sort expects an array.');
   }
 
   if (arguments.length === 1) {

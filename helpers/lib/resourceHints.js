@@ -1,6 +1,8 @@
 const utils = require("../3p/utils");
 const URL = require('url');
 
+const { ValidationError } = require('../../lib/errors');
+
 const resourceHintsLimit = 50;
 
 const preloadResourceHintState = 'preload';
@@ -29,17 +31,17 @@ const allowedCors = [noCors, anonymousCors, useCredentialsCors];
 function addResourceHint(globals, path, rel, type, cors) {
 
     if (!utils.isString(path)) {
-        throw new Error('Invalid path provided. path should be a non empty string');
+        throw new ValidationError('Invalid path provided. path should be a non empty string');
     }
     path = path.trim();
     try {
         path = URL.parse(path).format();
     } catch (error) {
-        throw new Error(`Invalid value (resource URL) provided: ${path}`)
+        throw new ValidationError(`Invalid value (resource URL) provided: ${path}`)
     }
 
     if (!utils.isString(rel) || !resourceHintStates.includes(rel)) {
-        throw new Error(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
+        throw new ValidationError(`resourceHint attribute received invalid value. Valid values are: ${resourceHintStates}`);
     }
 
     if (typeof globals.resourceHints === 'undefined') {
@@ -63,7 +65,7 @@ function addResourceHint(globals, path, rel, type, cors) {
     }
 
     if (utils.isString(cors) && !allowedCors.includes(cors)) {
-        throw new Error(`Invalid cors value provided. Valid values are: ${allowedCors}`);
+        throw new ValidationError(`Invalid cors value provided. Valid values are: ${allowedCors}`);
     } else if (!utils.isString(cors)) {
         cors = noCors;
     }

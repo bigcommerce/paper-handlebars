@@ -2,6 +2,7 @@
 
 const URL = require('url')
 const utils = require('../3p/utils');
+const { ValidationError } = require('../../lib/errors');
 
 const {resourceHintAllowedTypes, addResourceHint, defaultResourceHintState} = require('../lib/resourceHints');
 
@@ -64,7 +65,7 @@ const fontProviders = {
                 const url = URL.parse(uri);
                 return `<link href="${url.format()}" rel="stylesheet">`;
             } catch (error) {
-                throw new Error(`Invalid URL [${uri}]. Check configured fonts.`)
+                throw new ValidationError(`Invalid URL [${uri}]. Check configured fonts.`)
             }
         },
 

@@ -1,6 +1,7 @@
 'use strict';
 
 const utils = require('./3p/utils');
+const { ValidationError } = require('../lib/errors');
 
 const factory = globals => {
     return function (lvalue, operator, rvalue) {
@@ -67,7 +68,7 @@ const factory = globals => {
                     if (typeof lvalue === 'string' && typeof (rvalue) === 'string' && !isNaN(lvalue) && !isNaN(rvalue)) {
                         result = parseInt(lvalue) > parseInt(rvalue);
                     } else {
-                        throw new Error("if gtnum only accepts numbers (as strings)");
+                        throw new ValidationError("if gtnum only accepts numbers (as strings)");
                     }
                     break;
 
@@ -76,7 +77,7 @@ const factory = globals => {
                     break;
 
                 default:
-                    throw new Error("Handlerbars Helper 'if' doesn't know the operator " + operator);
+                    throw new ValidationError("Handlerbars Helper 'if' doesn't know the operator " + operator);
             }
         }
 

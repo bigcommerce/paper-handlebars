@@ -4,6 +4,9 @@
  * https://github.com/jonschlinkert/define-property/blob/master/index.js
  */
 
+
+const { ValidationError } = require('../../../../lib/errors');
+
 function extend(obj /* , ...source */) {
   for (var i = 1; i < arguments.length; i++) {
     for (var key in arguments[i]) {
@@ -18,11 +21,11 @@ function extend(obj /* , ...source */) {
 
 function defineProperty(obj, prop, val) {
   if (typeof obj !== 'object' && typeof obj !== 'function') {
-    throw new TypeError('expected an object or function.');
+    throw new ValidationError('expected an object or function.');
   }
 
   if (typeof prop !== 'string') {
-    throw new TypeError('expected `prop` to be a string.');
+    throw new ValidationError('expected `prop` to be a string.');
   }
 
 
@@ -36,7 +39,7 @@ function defineProperty(obj, prop, val) {
 
 module.exports = function createFrame(data) {
   if (typeof data !== 'object') {
-    throw new TypeError('createFrame expects data to be an object');
+    throw new ValidationError('createFrame expects data to be an object');
   }
 
   var frame = extend({}, data);

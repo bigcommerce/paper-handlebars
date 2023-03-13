@@ -2,6 +2,8 @@
 const utils = require('../3p/utils');
 const common = require('./common');
 
+const { ValidationError } = require('../../lib/errors');
+
 const srcsets = {
     '80w': '80w',
     '160w': '160w',
@@ -15,7 +17,7 @@ const srcsets = {
 
 function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
     if (!utils.isString(path) || common.isValidURL(path)) {
-        throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
+        throw new ValidationError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
     // Return original image if there are no arguments
@@ -36,7 +38,7 @@ function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
 
 function getObjectStorageImageSrcset(handlebars, cdnUrl, source, path) {
     if (!utils.isString(path) || common.isValidURL(path)) {
-        throw new TypeError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
+        throw new ValidationError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
     return new handlebars.SafeString(Object.keys(srcsets).map(descriptor => {

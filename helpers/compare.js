@@ -1,4 +1,5 @@
 'use strict';
+const { ValidationError } = require('../lib/errors');
 
 const factory = () => {
     return function(lvalue, rvalue) {
@@ -8,7 +9,7 @@ const factory = () => {
         var result;
 
         if (arguments.length < 3) {
-            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+            throw new ValidationError("Handlerbars Helper 'compare' needs 2 parameters");
         }
 
         operator = options.hash.operator || "==";
@@ -29,7 +30,7 @@ const factory = () => {
         // directly (like operators[x]) is insecure
         // (we could use switch instead)
         if (Object.getOwnPropertyNames(operators).indexOf(operator) === -1) {
-            throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+            throw new ValidationError("Handlerbars Helper 'compare' doesn't know the operator " + operator);
         }
 
         result = operators[operator](lvalue, rvalue);
