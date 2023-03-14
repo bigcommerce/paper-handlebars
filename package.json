@@ -1,6 +1,6 @@
 {
   "name": "@bigcommerce/stencil-paper-handlebars",
-  "version": "5.5.0",
+  "version": "5.7.0",
   "description": "A paper plugin to render pages using Handlebars.js",
   "main": "index.js",
   "author": "Bigcommerce",
