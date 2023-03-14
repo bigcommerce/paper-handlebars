@@ -36,6 +36,7 @@ const helpersList = [
     'limit',
     'moment',
     'money',
+    'multiConcat',
     'nl2br',
     'occurrences',
     'option',

@@ -54,6 +54,7 @@ describe('helper registration', () => {
             'limit',
             'moment',
             'money',
+            'multiConcat',
             'nl2br',
             'occurrences',
             'option',
