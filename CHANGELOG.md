@@ -5,6 +5,13 @@
 
 * multi concat ([#236](https://github.com/bigcommerce/paper-handlebars/issues/236)) ([bb829aa](https://github.com/bigcommerce/paper-handlebars/commit/bb829aa5342340e3eae82adafc2b4edd70314501))
 
+# [5.6.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.5.0...v5.6.0) (2023-03-14)
+
+
+### Features
+
+* STRF-10408 Categorize validaiton error as ValidationError ([#249](https://github.com/bigcommerce/paper-handlebars/issues/249)) ([9917efe](https://github.com/bigcommerce/paper-handlebars/commit/9917efe99e15ce98bf148d76b229f5298413b0f0))
+
 # [5.5.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.4.3...v5.5.0) (2023-02-09)
 
 
