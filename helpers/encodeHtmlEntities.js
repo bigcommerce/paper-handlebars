@@ -2,12 +2,13 @@
 const he = require('he');
 const utils = require('./3p/utils');
 const common = require('./lib/common.js');
+const { ValidationError } = require('../lib/errors');
 
 const factory = globals => {
     return function (string) {
         string = common.unwrapIfSafeString(globals.handlebars, string);
         if (!utils.isString(string)) {
-            throw new TypeError("Non-string passed to encodeHtmlEntities");
+            throw new ValidationError("Non-string passed to encodeHtmlEntities");
         }
 
         const options = arguments[arguments.length - 1];
@@ -28,7 +29,7 @@ const factory = globals => {
             // Make sure all named arguments from options hash are in the whitelist and have boolean (string) values
             if (Object.keys(args).some(key => !allowedArguments.includes(key))
                 || !Object.keys(args).map(key => args[key]).every(val => ['true', 'false'].includes(val))) {
-                throw new TypeError("Invalid named argument passed to encodeHtmlEntities");
+                throw new ValidationError("Invalid named argument passed to encodeHtmlEntities");
             }
         }
 

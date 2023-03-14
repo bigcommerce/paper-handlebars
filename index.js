@@ -4,11 +4,7 @@ const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
 
 const AppError = require('./lib/appError');
-class CompileError extends AppError {};          // Error compiling template
-class FormatError extends AppError {};           // Error restoring precompiled template
-class RenderError extends AppError {};           // Error rendering template
-class DecoratorError extends AppError {};        // Error applying decorator
-class TemplateNotFoundError extends AppError {}; // Template not registered
+const { CompileError, FormatError, RenderError, DecoratorError, TemplateNotFoundError, ValidationError } = require('./lib/errors');
 
 const handlebarsOptions = {
     preventIndent: true
@@ -20,11 +16,13 @@ class HandlebarsRenderer {
     // Add static accessor to reference custom errors
     static get errors() {
         return {
+            AppError,
             CompileError,
             FormatError,
             RenderError,
             DecoratorError,
             TemplateNotFoundError,
+            ValidationError,
         };
     }
 
@@ -362,10 +360,10 @@ class HandlebarsRenderer {
      */
     _overrideConsoleLog() {
         if (this.logger !== console) {
-            console.log = this.logger.log;
-            console.info = this.logger.info;
-            console.error = this.logger.error;
-            console.warn = this.logger.warn;
+            console.log = this.logger.log.bind(this.logger);
+            console.info = this.logger.info.bind(this.logger);
+            console.error = this.logger.error.bind(this.logger);
+            console.warn = this.logger.warn.bind(this.logger);
         }
     }
 

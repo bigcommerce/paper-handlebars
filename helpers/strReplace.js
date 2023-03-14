@@ -1,6 +1,7 @@
 'use strict';
 const common = require('./lib/common.js');
 const utils = require('./3p/utils');
+const { ValidationError } = require('../lib/errors');
 
 const factory = globals => {
     return function (str, substr, newSubstr, iteration) {
@@ -10,11 +11,11 @@ const factory = globals => {
         iteration = common.unwrapIfSafeString(globals.handlebars, iteration);
 
         if (!utils.isString(str)) {
-            throw new TypeError("Invalid query parameter string passed to strReplace");
+            throw new ValidationError("Invalid query parameter string passed to strReplace");
         } else if (!utils.isString(substr)) {
-            throw new TypeError("Invalid query paramter substring passed to strReplace");
+            throw new ValidationError("Invalid query paramter substring passed to strReplace");
         } else if (!utils.isString(newSubstr)) {
-            throw new TypeError("Invalid query parameter new substring passed to strReplace");
+            throw new ValidationError("Invalid query parameter new substring passed to strReplace");
         }
 
         if (typeof iteration !== 'number') {

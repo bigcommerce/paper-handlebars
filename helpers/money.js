@@ -1,4 +1,5 @@
 'use strict';
+const { ValidationError } = require('../lib/errors');
 
 /**
  * Format numbers
@@ -25,13 +26,13 @@ const factory = globals => {
         let value = args[0];
 
         if (isNaN(value)) {
-            throw new TypeError("money helper accepts only Number's as first parameter");
+            throw new ValidationError("money helper accepts only Number's as first parameter");
         }
 
         const decimalPlaces = args[1] || money.decimal_places;
 
         if (isNaN(decimalPlaces)) {
-            throw new TypeError("money helper accepts only Number's for decimal places");
+            throw new ValidationError("money helper accepts only Number's for decimal places");
         }
         const thousandsToken = args[2] || money.thousands_token;
         const decimalToken = args[3] || money.decimal_token;

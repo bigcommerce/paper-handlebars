@@ -5,6 +5,7 @@
 'use strict';
 
 const iterator = require('./makeIterator');
+const { ValidationError } = require('../../../../lib/errors');
 
 module.exports = function filter(arr, cb, thisArg) {
   if (!arr) {
@@ -12,7 +13,7 @@ module.exports = function filter(arr, cb, thisArg) {
   }
 
   if (typeof cb !== 'function') {
-    throw new TypeError('arr-filter expects a callback function.');
+    throw new ValidationError('arr-filter expects a callback function.');
   }
 
   cb = iterator(cb, thisArg);
