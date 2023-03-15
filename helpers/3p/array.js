@@ -155,11 +155,24 @@ helpers.filter = function(array, value, options) {
  */
 
 helpers.first = function(array, n) {
-  if (utils.isUndefined(array)) {return '';}
-  if (!utils.isNumber(n)) {
-    return array[0];
+  if (Array.isArray(array)) {
+    return arrayAlt();
   }
-  return array.slice(0, n);
+
+  if (utils.isString(array)) {
+    const chars = array.split('');
+    return arrayAlt(chars, n);
+  }
+
+  return [];
+
+  function arrayAlt() {
+    if (utils.isUndefined(array)) {return '';}
+    if (!utils.isNumber(n)) {
+      return array[0];
+    }
+    return array.slice(0, n);
+  }
 };
 
 /**
@@ -285,13 +298,29 @@ helpers.isArray = function(value) {
  */
 
 helpers.last = function(array, n) {
-  if (!Array.isArray(array)) {
-    return [];
+
+  function arrayAlt(array, n) {
+    if (!utils.isNumber(n)) {
+      return array[array.length - 1];
+    }
+    return array.slice(-n);
   }
-  if (!utils.isNumber(n)) {
-    return array[array.length - 1];
+
+  function stringAlt(str, n) {
+    const chars = str.split('');
+    const arr = arrayAlt(chars, n);
+    return arr.join('');
   }
-  return array.slice(-n);
+
+  if (Array.isArray(array)) {
+    return arrayAlt(array, n);
+  }
+
+  if (utils.isString(array)) {
+    return stringAlt(array, n);
+  }
+
+  return [];
 };
 
 /**
