@@ -161,7 +161,8 @@ helpers.first = function(array, n) {
 
   if (utils.isString(array)) {
     const chars = array.split('');
-    return arrayAlt(chars, n);
+    const result = arrayAlt(chars, n);
+    return Array.isArray(result) ? result.join('') : result;
   }
 
   return [];
@@ -308,8 +309,8 @@ helpers.last = function(array, n) {
 
   function stringAlt(str, n) {
     const chars = str.split('');
-    const arr = arrayAlt(chars, n);
-    return arr.join('');
+    const result = arrayAlt(chars, n);
+    return Array.isArray(result) ? result.join('') : result;
   }
 
   if (Array.isArray(array)) {
