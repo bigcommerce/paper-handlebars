@@ -42,7 +42,7 @@ describe('array', function() {
       expect(fn(context)).to.equal('');
       done();
     });
-  
+
     it('should return all of the items in an array after the specified count.', function(done) {
       var fn = hbs.compile('{{after array 5}}');
       expect(fn(context)).to.equal(['f', 'g', 'h'].toString());
@@ -99,33 +99,59 @@ describe('array', function() {
   });
 
   describe('first', function() {
-    it('should return the first item in a collection.', function(done) {
-      var fn = hbs.compile('{{first foo}}');
-      expect(fn({foo: ['a', 'b', 'c']})).to.equal('a');
-      done();
-    });
-
-    it('should return an array with the first two items in a collection.', function(done) {
-      var fn = hbs.compile('{{first foo 2}}');
-      expect(fn({foo: ['a', 'b', 'c']})).to.equal(['a', 'b'].toString());
-      done();
-    });
-
-    it('should return an empty string when undefined.', function(done) {
-        expect(hbs.compile('{{first}}')()).to.equal('');
+    describe('array', function () {
+      it('should return the first item in a collection.', function(done) {
+        var fn = hbs.compile('{{first foo}}');
+        expect(fn({foo: ['a', 'b', 'c']})).to.equal('a');
         done();
+      });
+
+      it('should return an array with the first two items in a collection.', function(done) {
+        var fn = hbs.compile('{{first foo 2}}');
+        expect(fn({foo: ['a', 'b', 'c']})).to.equal(['a', 'b'].toString());
+        done();
+      });
+
+      it('should return an empty string when undefined.', function(done) {
+          expect(hbs.compile('{{first}}')()).to.equal('');
+          done();
+      });
+
+      it('should return the first item in an array.', function(done) {
+        var fn = hbs.compile('{{first foo}}');
+        expect(fn({foo: ['a', 'b', 'c']})).to.equal('a');
+        done();
+      });
+
+      it('should return an array with the first two items in an array.', function(done) {
+        var fn = hbs.compile('{{first foo 2}}');
+        expect(fn({foo: ['a', 'b', 'c']})).to.equal(['a', 'b'].toString());
+        done();
+      });
     });
 
-    it('should return the first item in an array.', function(done) {
-      var fn = hbs.compile('{{first foo}}');
-      expect(fn({foo: ['a', 'b', 'c']})).to.equal('a');
-      done();
-    });
+    describe('string', function () {
+      const context = {
+              myString: 'BigCommerce',
+              emptyString: '',
+              smallString: 'abc'
+          };
 
-    it('should return an array with the first two items in an array.', function(done) {
-      var fn = hbs.compile('{{first foo 2}}');
-      expect(fn({foo: ['a', 'b', 'c']})).to.equal(['a', 'b'].toString());
-      done();
+      it('should return an empty string when empty string is provided.', function (done) {
+        expect(hbs.compile('{{first emptyString}}')(context)).to.equal('');
+        expect(hbs.compile('{{first emptyString 2}}')(context)).to.equal('');
+        done();
+      });
+
+      it('should return the whole string when the number is big enough.', function (done) {
+        expect(hbs.compile('{{first smallString 5}}')(context)).to.equal('abc');
+        done();
+      });
+
+      it('should return the expected substring.', function (done) {
+        expect(hbs.compile('{{first myString 5}}')(context)).to.equal('BigCo');
+        done();
+      });
     });
   });
 
@@ -243,24 +269,50 @@ describe('array', function() {
   });
 
   describe('last', function() {
-    it('should return an empty string when undefined.', function(done) {
-      expect(hbs.compile('{{last}}')()).to.equal('');
-      done();
+    describe('array', function () {
+      it('should return an empty string when undefined.', function(done) {
+        expect(hbs.compile('{{last}}')()).to.equal('');
+        done();
+      });
+
+      it('should return the last item in an array.', function(done) {
+        expect(hbs.compile('{{last array}}')(context)).to.equal('h');
+        done();
+      });
+
+      it('should return an array with the last two items in an array.', function(done) {
+        expect(hbs.compile('{{last array 2}}')(context)).to.equal(['g', 'h'].toString());
+        done();
+      });
+
+      it('should return an empty array array if non array is passed', function(done) {
+        expect(hbs.compile('{{last notArray 2}}')(context)).to.equal([].toString());
+        done();
+      });
     });
 
-    it('should return the last item in an array.', function(done) {
-      expect(hbs.compile('{{last array}}')(context)).to.equal('h');
-      done();
-    });
+    describe('string', function () {
+      const context = {
+        myString: 'BigCommerce',
+        emptyString: '',
+        smallString: 'abc'
+      };
 
-    it('should return an array with the last two items in an array.', function(done) {
-      expect(hbs.compile('{{last array 2}}')(context)).to.equal(['g', 'h'].toString());
-      done();
-    });
-  
-    it('should return an empty array array if non array is passed', function(done) {
-      expect(hbs.compile('{{last notArray 2}}')(context)).to.equal([].toString());
-      done();
+      it('should return an empty string when empty string is provided.', function (done) {
+        expect(hbs.compile('{{last emptyString}}')(context)).to.equal('');
+        expect(hbs.compile('{{last emptyString 2}}')(context)).to.equal('');
+        done();
+      });
+
+      it('should return the whole string when the number is big enough.', function (done) {
+        expect(hbs.compile('{{last smallString 5}}')(context)).to.equal('abc');
+        done();
+      });
+
+      it('should return the expected substring.', function (done) {
+        expect(hbs.compile('{{last myString 5}}')(context)).to.equal('merce');
+        done();
+      });
     });
   });
 
@@ -395,7 +447,7 @@ describe('array', function() {
       expect(fn(o)).to.equal('c,b,a');
       done();
     });
-    
+
     it('should sort based on object key:', function(done) {
       var ctx = {arr: [{a: 'zzz'}, {a: 'aaa'}]};
 
