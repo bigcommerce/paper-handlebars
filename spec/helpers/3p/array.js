@@ -242,28 +242,6 @@ describe('array', function() {
     });
   });
 
-  describe('last', function() {
-    it('should return an empty string when undefined.', function(done) {
-      expect(hbs.compile('{{last}}')()).to.equal('');
-      done();
-    });
-
-    it('should return the last item in an array.', function(done) {
-      expect(hbs.compile('{{last array}}')(context)).to.equal('h');
-      done();
-    });
-
-    it('should return an array with the last two items in an array.', function(done) {
-      expect(hbs.compile('{{last array 2}}')(context)).to.equal(['g', 'h'].toString());
-      done();
-    });
-  
-    it('should return an empty array array if non array is passed', function(done) {
-      expect(hbs.compile('{{last notArray 2}}')(context)).to.equal([].toString());
-      done();
-    });
-  });
-
   describe('lengthEqual', function() {
     it('should render the first block if length is the given number', function(done) {
       var fn = hbs.compile('{{#lengthEqual array 8}}AAA{{else}}BBB{{/lengthEqual}}');

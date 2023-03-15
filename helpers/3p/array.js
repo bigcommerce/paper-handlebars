@@ -267,33 +267,6 @@ helpers.isArray = function(value) {
   return Array.isArray(value);
 };
 
-
-/**
- * Returns the last item, or last `n` items of an array.
- * Opposite of [first](#first).
- *
- * Given the array `['a', 'b', 'c', 'd', 'e']`:
- *
- * ```handlebars
- * {{last array 2}}
- * //=> '["d", "e"]'
- * ```
- * @param {Array} `array`
- * @param {Number} `n` Number of items to return, starting with the last item.
- * @return {Array}
- * @api public
- */
-
-helpers.last = function(array, n) {
-  if (!Array.isArray(array)) {
-    return [];
-  }
-  if (!utils.isNumber(n)) {
-    return array[array.length - 1];
-  }
-  return array.slice(-n);
-};
-
 /**
  * Block helper that compares the length of the given array to
  * the number passed as the second argument. If the array length
