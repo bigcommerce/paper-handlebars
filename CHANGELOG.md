@@ -1,3 +1,10 @@
+## [5.7.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.1...v5.7.2) (2023-03-15)
+
+
+### Bug Fixes
+
+* STRF-10494 last and first helpers works with strings ([#254](https://github.com/bigcommerce/paper-handlebars/issues/254)) ([51f341e](https://github.com/bigcommerce/paper-handlebars/commit/51f341e8067c4c43bca605d77cf3bb4f6e659c73))
+
 ## [5.7.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.0...v5.7.1) (2023-03-15)
 
 
