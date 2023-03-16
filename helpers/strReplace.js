@@ -14,7 +14,7 @@ const factory = globals => {
             throw new ValidationError("Invalid query parameter string passed to strReplace");
         } else if (!utils.isString(substr)) {
             throw new ValidationError("Invalid query paramter substring passed to strReplace");
-        } else if (!utils.isString(newSubstr)) {
+        } else if (!utils.isString(newSubstr) && newSubstr !== "") {
             throw new ValidationError("Invalid query parameter new substring passed to strReplace");
         }
 
