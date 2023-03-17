@@ -10,6 +10,7 @@
     "node": true,
     "es2017": true // suppport globals (like Promise) up to es2017 (es2018 doesn't have new globals)
   },
+  "ignorePatterns": ["dist/**/*"],
   "rules": {
     "curly": 2,
     "no-eq-null": 2,
