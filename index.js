@@ -360,7 +360,7 @@ class HandlebarsRenderer {
      */
     _overrideConsoleLog() {
         if (this.logger !== console) {
-            console.log = this.logger.log.bind(this.logger);
+            console.log = this.logger.info.bind(this.logger);
             console.info = this.logger.info.bind(this.logger);
             console.error = this.logger.error.bind(this.logger);
             console.warn = this.logger.warn.bind(this.logger);
