@@ -417,7 +417,6 @@ describe('logging', () => {
     beforeEach(done => {
         sandbox = Sinon.createSandbox();
         logger = {
-            log: Sinon.fake(),
             info: Sinon.fake(),
             warn: Sinon.fake(),
             error: Sinon.fake(),
@@ -448,7 +447,7 @@ describe('logging', () => {
     it('log helper should not be called, when log level = error', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'error');
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(logger.log.called).to.equal(false);
+            expect(logger.info.called).to.equal(false);
             done();
         });
     });
@@ -456,7 +455,7 @@ describe('logging', () => {
     it('log helper should not be called, when log level = warning', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v4', logger, 'warning');
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(logger.log.called).to.equal(false);
+            expect(logger.info.called).to.equal(false);
             done();
         });
     });
@@ -489,7 +488,7 @@ describe('logging', () => {
     it('should override default console.log', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
         console.log('test');
-        expect(logger.log.calledWith('test')).to.equal(true);
+        expect(logger.info.calledWith('test')).to.equal(true);
         done();
     });
 
