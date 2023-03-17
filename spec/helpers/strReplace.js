@@ -29,6 +29,15 @@ describe('strReplace helper', function() {
         ], done);
     });
 
+    it('should remove characters from string', function(done) {
+        runTestCases([
+            {
+                input: '{{strReplace "123-45-6789" "-" ""}}',
+                output: '123456789',
+            },
+        ], done);
+    });
+
     it('should replace multiple if given quantity', function(done) {
         runTestCases([
             {
