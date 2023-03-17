@@ -1,3 +1,10 @@
+## [5.7.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.3...v5.7.4) (2023-03-17)
+
+
+### Bug Fixes
+
+* Improve strReplace to remove characters ([#259](https://github.com/bigcommerce/paper-handlebars/issues/259)) ([95ae182](https://github.com/bigcommerce/paper-handlebars/commit/95ae182e470dbc528c781e04a32c308e9829e7e3))
+
 ## [5.7.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.2...v5.7.3) (2023-03-17)
 
 
