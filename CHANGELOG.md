@@ -1,3 +1,10 @@
+## [5.7.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.2...v5.7.3) (2023-03-17)
+
+
+### Bug Fixes
+
+* STRF-10408 Fix unknown level error ([#257](https://github.com/bigcommerce/paper-handlebars/issues/257)) ([8173571](https://github.com/bigcommerce/paper-handlebars/commit/817357195029ba94e76e23fdea4ea2baaabfb137))
+
 ## [5.7.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.1...v5.7.2) (2023-03-15)
 
 
