@@ -40,7 +40,7 @@
     "he": "^1.2.0",
     "moment": "^2.29.4",
     "remarkable": "^2.0.1",
-    "stringz": "^0.1.1"
+    "stringz": "2.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
