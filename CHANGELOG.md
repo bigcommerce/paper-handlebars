@@ -1,3 +1,10 @@
+## [5.7.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.4...v5.7.5) (2023-03-29)
+
+
+### Bug Fixes
+
+* This reverts PR [#263](https://github.com/bigcommerce/paper-handlebars/issues/263) ([#264](https://github.com/bigcommerce/paper-handlebars/issues/264)) ([94142a0](https://github.com/bigcommerce/paper-handlebars/commit/94142a08cea4950937f2e5cbbbe17fcb60877e0c))
+
 ## [5.7.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.3...v5.7.4) (2023-03-17)
 
 
