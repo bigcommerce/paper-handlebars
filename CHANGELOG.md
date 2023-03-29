@@ -1,9 +1,3 @@
-## [5.7.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.4...v5.7.5) (2023-03-29)
-
-### Features
-
-* bump `stringz` dependency version to its latest version ([#261](https://github.com/bigcommerce/paper-handlebars/pull/261)) ([b0ddeca](https://github.com/bigcommerce/paper-handlebars/pull/261/commits/625cda1611a89c14b244f7911cb25a7105a28383))
-
 ## [5.7.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.3...v5.7.4) (2023-03-17)
 
 
