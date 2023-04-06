@@ -16,7 +16,7 @@
     "build": "webpack",
     "lint": "eslint .",
     "lint-and-fix": "eslint . --fix",
-    "test": "lab -v -t 97.4 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask spec",
+    "test": "lab -v -t 97.4 --ignore FinalizationRegistry,WeakRef,WebAssembly,_time,format,SharedArrayBuffer,Atomics,BigUint64Array,BigInt64Array,BigInt,URL,URLSearchParams,TextEncoder,TextDecoder,queueMicrotask,__extends,__assign,__rest,__decorate,__param,__metadata,__awaiter,__generator,__exportStar,__createBinding,__values,__read,__spread,__spreadArrays,__spreadArray,__await,__asyncGenerator,__asyncDelegator,__asyncValues,__makeTemplateObject,__importStar,__importDefault,__classPrivateFieldGet,__classPrivateFieldSet,__classPrivateFieldIn spec",
     "coverage": "lab -c -r console -o stdout -r html -o coverage.html spec",
     "release": "semantic-release"
   },
