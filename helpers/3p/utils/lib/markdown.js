@@ -38,11 +38,15 @@ module.exports = function markdown(config) {
     }
 
     function buildRemarkable(options) {
+        let remarkable;
         if (options.linkify === true) {
-            delete options.linkify;
-            return new Remarkable(options).use(linkify);
+            remarkable = new Remarkable(options).use(linkify);
+        } else {
+            remarkable = new Remarkable(options);
         }
-        return new Remarkable(options);
+
+        delete options.linkify;
+        return remarkable;
     }
 
     return helper;
