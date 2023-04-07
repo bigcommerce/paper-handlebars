@@ -1,3 +1,10 @@
+## [5.7.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.5...v5.7.6) (2023-04-07)
+
+
+### Bug Fixes
+
+* STRF-10493 Address markdown helper messy logs ([#266](https://github.com/bigcommerce/paper-handlebars/issues/266)) ([b12710a](https://github.com/bigcommerce/paper-handlebars/commit/b12710a2bda7fa2bf1d1b84df09ab0974ddd54cf))
+
 ## [5.7.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.4...v5.7.5) (2023-03-29)
 
 
