@@ -44,7 +44,6 @@ describe('cdn helper', function () {
             const hints = renderer.getResourceHints();
             expect(hints).to.have.length(2);
             hints.forEach(hint => {
-                console.warn(hint);
                 expect(hint.state).to.satisfy((state) => state === 'preload' || state === 'preconnect');
                 expect(hint.type).to.equals("style");
                 expect(hint.cors).to.satisfy((cors) => cors === 'anonymous' || cors === 'use-credentials');
