@@ -1,3 +1,10 @@
+## [5.7.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.6...v5.7.7) (2023-05-09)
+
+
+### Bug Fixes
+
+* fixes cdn helper early hint construction ([#269](https://github.com/bigcommerce/paper-handlebars/issues/269)) ([9955e92](https://github.com/bigcommerce/paper-handlebars/commit/9955e92db93c181293c6d030228fe2b175716768))
+
 ## [5.7.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.5...v5.7.6) (2023-04-07)
 
 
