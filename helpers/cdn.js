@@ -11,7 +11,8 @@ const factory = globals => {
             globals,
             fullPath,
             options.hash.resourceHint,
-            options.hash.as
+            options.hash.as,
+            options.hash.crossorigin
         );
     }
 
