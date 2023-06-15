@@ -1,3 +1,10 @@
+## [5.7.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.7...v5.7.8) (2023-06-15)
+
+
+### Bug Fixes
+
+* STRF-10878 Fix money symbol position when setting is capitalized ([#271](https://github.com/bigcommerce/paper-handlebars/issues/271)) ([413aba1](https://github.com/bigcommerce/paper-handlebars/commit/413aba109dff783c8413e453c97f049b3ce088fb))
+* 
 ## [5.7.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.6...v5.7.7) (2023-05-09)
 
 
