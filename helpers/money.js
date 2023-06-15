@@ -44,7 +44,7 @@ const factory = globals => {
             decimalToken
         );
 
-        return money.currency_location === 'left'
+        return money.currency_location.toLowerCase() === 'left'
             ? money.currency_token + ' ' + value
             : value + ' ' + money.currency_token;
     };
