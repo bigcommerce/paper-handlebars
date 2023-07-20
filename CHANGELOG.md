@@ -1,3 +1,10 @@
+## [5.8.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
+
+
+### Features
+
+*  Build CI using Node 18 ([#274](https://github.com/bigcommerce/paper-handlebars/issues/274)) ([d76be48](https://github.com/bigcommerce/paper-handlebars/commit/d76be48d28a50182db92dc31df852fd661b76575))
+* 
 ## [5.7.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.7...v5.7.8) (2023-06-15)
 
 
