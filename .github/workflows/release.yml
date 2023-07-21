@@ -5,7 +5,7 @@ on:
     branches: [master, main]
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +20,3 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
       - name: Deploy to npm and git
         run: npm config list && npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GA_USERNAME: ${{ secrets.PAT_USERNAME }}
-          GA_TOKEN: ${{ secrets.PAT_TOKEN }}
