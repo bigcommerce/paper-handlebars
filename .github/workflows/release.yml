@@ -5,10 +5,12 @@ on:
     branches: [master, main]
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v3
         with:
           node-version: '18.x'
@@ -20,3 +22,5 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
       - name: Deploy to npm and git
         run: npm config list && npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
