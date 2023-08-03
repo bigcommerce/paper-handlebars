@@ -1,3 +1,11 @@
+## [5.9.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
+
+
+### Features
+
+*  Support Cache control for webdav images ([d76be48](https://github.com/bigcommerce/paper-handlebars/pull/273))
+
+
 ## [5.8.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
 
 
