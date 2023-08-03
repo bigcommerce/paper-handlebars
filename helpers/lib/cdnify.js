@@ -56,7 +56,7 @@ module.exports = globals => {
             }
 
             if (protocol === 'webdav:') {
-                return [cdnUrl, 'content', path].join('/');
+                return [cdnUrl, 'images/stencil/original', 'content', path].join('/');
             }
 
             if (cdnSettings) {
