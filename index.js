@@ -356,7 +356,7 @@ class HandlebarsRenderer {
     }
 
     /**
-     * As some handlebars helpers do not use the logger, we need to override the console.log method 
+     * As some handlebars helpers do not use the logger, we need to override the console.log method
      */
     _overrideConsoleLog() {
         if (this.logger !== console) {
