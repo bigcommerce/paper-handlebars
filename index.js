@@ -178,7 +178,7 @@ class HandlebarsRenderer {
     }
 
     /**
-     * Add templates to the active set of partials. The templates can either be raw
+     * Add templates to the active set of partials. The templates can either be raw 
      * template strings, or the result coming from the preProcessor function.
      *
      * @param {Object} A set of templates to register with handlebars
