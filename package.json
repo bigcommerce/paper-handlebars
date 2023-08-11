@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:bigcommerce/paper-handlebars.git"
+    "url": "git@github.com:jairo-bc/paper-handlebars.git"
   },
   "keywords": [
     "handlebars",
@@ -30,9 +30,9 @@
     "paper"
   ],
   "bugs": {
-    "url": "https://github.com/bigcommerce/paper-handlebars/issues"
+    "url": "https://github.com/jairo-bc/paper-handlebars/issues"
   },
-  "homepage": "https://github.com/bigcommerce/paper-handlebars",
+  "homepage": "https://github.com/jairo-bc/paper-handlebars",
   "dependencies": {
     "@bigcommerce/handlebars-v4": "4.7.6",
     "date.js": "^0.3.3",
