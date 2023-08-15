@@ -1,3 +1,10 @@
+## [5.9.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.1...v5.9.2) (2023-08-15)
+
+
+### Bug Fixes
+
+* bump PR to deploy new version ([#285](https://github.com/bigcommerce/paper-handlebars/issues/285)) ([448e5e9](https://github.com/bigcommerce/paper-handlebars/commit/448e5e97665135078f2e98c2caa51a9a2c0c6d62))
+
 ## [5.9.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
 
 
