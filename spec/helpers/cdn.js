@@ -198,15 +198,15 @@ describe('cdn helper', function () {
         runTestCases([
             {
                 input: '{{cdn "webdav:img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpg',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
             },
             {
                 input: '{{cdn "webdav:/img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpg',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
             },
             {
                 input: '{{cdn "webdav://img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpg',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
             },
         ], done);
     });
