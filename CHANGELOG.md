@@ -5,6 +5,13 @@
 
 * bump PR to deploy new version ([#285](https://github.com/bigcommerce/paper-handlebars/issues/285)) ([448e5e9](https://github.com/bigcommerce/paper-handlebars/commit/448e5e97665135078f2e98c2caa51a9a2c0c6d62))
 
+## [5.9.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.0...v5.9.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* STRF-11050 Fix pipeline by forking semantic-release-github-pullrequest ([#283](https://github.com/bigcommerce/paper-handlebars/issues/283)) ([769c7ad](https://github.com/bigcommerce/paper-handlebars/commit/769c7ad851486aa29342991fd69b79ba1e0ad07c))
+* 
 ## [5.9.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
 
 
