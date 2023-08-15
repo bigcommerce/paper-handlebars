@@ -1,3 +1,10 @@
+## [5.9.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.2...v5.9.3) (2023-08-15)
+
+
+### Bug Fixes
+
+* **merc:** REVERT MERC-9364 Use CDN Original images ([be4dfdb](https://github.com/bigcommerce/paper-handlebars/commit/be4dfdb62b58538c7e1ca082cdc40ace73d19376))
+
 ## [5.9.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.1...v5.9.2) (2023-08-15)
 
 
