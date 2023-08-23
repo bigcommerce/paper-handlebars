@@ -14,6 +14,26 @@ describe('moment helper', function () {
             {
                 input: `{{moment "1 year ago" "YYYY"}}`,
                 output: `${now.getFullYear() - 1}`,
+            },
+            {
+                input: `{{moment "2 days ago" "YYYY"}}`,
+                output: `${now.getFullYear()}`,
+            },
+            {
+                input: `{{moment '2022-06-29' 'DD/MM/YYYY'}}`,
+                output: '29/06/2022',
+            },
+            {
+                input: `{{moment '2022-06-30' 'DD/MM/YYYY'}}`,
+                output: '30/06/2022',
+            },
+            {
+                input: `{{moment '2022-07-29' 'DD/MM/YYYY'}}`,
+                output: '29/07/2022',
+            },
+            {
+                input: `{{moment '2022-07-30' 'DD/MM/YYYY'}}`,
+                output: '30/07/2022',
             }
         ], done);
     });
