@@ -1,3 +1,10 @@
+## [5.9.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.3...v5.9.4) (2023-08-25)
+
+
+### Bug Fixes
+
+* STRF-9936 Replaced outdated date.js with chrono ([#289](https://github.com/bigcommerce/paper-handlebars/issues/289)) ([9675357](https://github.com/bigcommerce/paper-handlebars/commit/9675357f7e42cb8ac0a16f080e1fbee16e3787ed))
+
 ## [5.9.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.2...v5.9.3) (2023-08-15)
 
 
