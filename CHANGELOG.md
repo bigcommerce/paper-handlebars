@@ -1,3 +1,10 @@
+## [5.9.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.4...v5.9.5) (2023-09-18)
+
+
+### Bug Fixes
+
+* STRF-11164 bump handlebars v4 to 4.7.8 ([#293](https://github.com/bigcommerce/paper-handlebars/issues/293)) ([3ddaec0](https://github.com/bigcommerce/paper-handlebars/commit/3ddaec0d373238a3ce2f79c98c78c619e9628d96))
+
 ## [5.9.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.3...v5.9.4) (2023-08-25)
 
 
