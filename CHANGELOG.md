@@ -1,3 +1,67 @@
+## [5.9.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.4...v5.9.5) (2023-09-18)
+
+
+### Bug Fixes
+
+* STRF-11164 bump handlebars v4 to 4.7.8 ([#293](https://github.com/bigcommerce/paper-handlebars/issues/293)) ([3ddaec0](https://github.com/bigcommerce/paper-handlebars/commit/3ddaec0d373238a3ce2f79c98c78c619e9628d96))
+
+## [5.9.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.3...v5.9.4) (2023-08-25)
+
+
+### Bug Fixes
+
+* STRF-9936 Replaced outdated date.js with chrono ([#289](https://github.com/bigcommerce/paper-handlebars/issues/289)) ([9675357](https://github.com/bigcommerce/paper-handlebars/commit/9675357f7e42cb8ac0a16f080e1fbee16e3787ed))
+
+## [5.9.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.2...v5.9.3) (2023-08-15)
+
+
+### Bug Fixes
+
+* **merc:** REVERT MERC-9364 Use CDN Original images ([be4dfdb](https://github.com/bigcommerce/paper-handlebars/commit/be4dfdb62b58538c7e1ca082cdc40ace73d19376))
+
+## [5.9.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.1...v5.9.2) (2023-08-15)
+
+
+### Bug Fixes
+
+* bump PR to deploy new version ([#285](https://github.com/bigcommerce/paper-handlebars/issues/285)) ([448e5e9](https://github.com/bigcommerce/paper-handlebars/commit/448e5e97665135078f2e98c2caa51a9a2c0c6d62))
+
+## [5.9.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.0...v5.9.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* STRF-11050 Fix pipeline by forking semantic-release-github-pullrequest ([#283](https://github.com/bigcommerce/paper-handlebars/issues/283)) ([769c7ad](https://github.com/bigcommerce/paper-handlebars/commit/769c7ad851486aa29342991fd69b79ba1e0ad07c))
+* 
+## [5.9.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
+
+
+### Features
+
+*  Support Cache control for webdav images ([d76be48](https://github.com/bigcommerce/paper-handlebars/pull/273))
+
+
+## [5.8.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.8...v5.8.0) (2023-07-20)
+
+
+### Features
+
+*  Build CI using Node 18 ([#274](https://github.com/bigcommerce/paper-handlebars/issues/274)) ([d76be48](https://github.com/bigcommerce/paper-handlebars/commit/d76be48d28a50182db92dc31df852fd661b76575))
+* 
+## [5.7.8](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.7...v5.7.8) (2023-06-15)
+
+
+### Bug Fixes
+
+* STRF-10878 Fix money symbol position when setting is capitalized ([#271](https://github.com/bigcommerce/paper-handlebars/issues/271)) ([413aba1](https://github.com/bigcommerce/paper-handlebars/commit/413aba109dff783c8413e453c97f049b3ce088fb))
+* 
+## [5.7.7](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.6...v5.7.7) (2023-05-09)
+
+
+### Bug Fixes
+
+* fixes cdn helper early hint construction ([#269](https://github.com/bigcommerce/paper-handlebars/issues/269)) ([9955e92](https://github.com/bigcommerce/paper-handlebars/commit/9955e92db93c181293c6d030228fe2b175716768))
+
 ## [5.7.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.7.5...v5.7.6) (2023-04-07)
 
 

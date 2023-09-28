@@ -1,7 +1,7 @@
 'use strict';
 
 const utils = require('./3p/utils');
-const date = require('date.js');
+const chrono = require('chrono-node');
 
 // suppress error messages that are not actionable
 const moment = require('moment');
@@ -40,7 +40,7 @@ const factory = () => {
         // so instead of doing magic we'll just ask the user to tell
         // us if the args should be passed to date.js or moment.
         if (typeof str === 'string' && typeof pattern === 'string') {
-            return moment(date(str)).format(pattern);
+            return moment(chrono.parseDate(str)).format(pattern);
         }
 
         // If handlebars, expose moment methods as hash properties

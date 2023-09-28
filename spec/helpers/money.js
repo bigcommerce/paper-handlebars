@@ -56,6 +56,26 @@ describe('money helper', function() {
         ], done);
     });
 
+    it('should correctly set currency position regardless of location capitalization - [STRF-10878]', function(done) {
+        const settingsWithCapitalizedLocation = {
+            money: {
+                currency_location: "Left",
+                currency_token: "$",
+                decimal_places: 2,
+                thousands_token: ',',
+                decimal_token: '.',
+            }
+        };
+
+        const runTestCases = testRunner({ context, siteSettings: settingsWithCapitalizedLocation });
+        runTestCases([
+            {
+                input: '{{money price}}',
+                output: '$ 1,234.56',
+            },
+        ], done);
+    });
+
     it('should throw an exception if the price value parameter has an invalid type', function(done) {
         renderString('{{money "hello"}}').catch(err => {
             expect(err.message).to.equal("money helper accepts only Number's as first parameter");

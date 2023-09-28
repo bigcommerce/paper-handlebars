@@ -29,15 +29,15 @@ describe('cdn helper', function () {
         const runTestCases = testRunner({context, renderer});
         runTestCases([
             {
-                input: '{{cdn "assets/css/style.css" resourceHint="preload" as="style"}}',
+                input: '{{cdn "assets/css/style.css" resourceHint="preload" as="style" crossorigin="use-credentials"}}',
                 output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.css',
             },
             {
-                input: '{{cdn "/assets/css/style.modal.css" resourceHint="preconnect" as="style"}}',
+                input: '{{cdn "/assets/css/style.modal.css" resourceHint="preconnect" as="style" crossorigin="anonymous"}}',
                 output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.modal.css',
             },
             {
-                input: '{{cdn "/assets/css/style.modal.css" as="style"}}',
+                input: '{{cdn "/assets/css/style.modal.css" as="style" crossorigin="use-credentials"}}',
                 output: 'https://cdn.bcapp/3dsf74g/stencil/123/css/style.modal.css',
             }
         ], () => {
@@ -45,7 +45,8 @@ describe('cdn helper', function () {
             expect(hints).to.have.length(2);
             hints.forEach(hint => {
                 expect(hint.state).to.satisfy((state) => state === 'preload' || state === 'preconnect');
-                expect(hint.type).to.equals("style")
+                expect(hint.type).to.equals("style");
+                expect(hint.cors).to.satisfy((cors) => cors === 'anonymous' || cors === 'use-credentials');
             });
             done();
         });
@@ -65,6 +66,7 @@ describe('cdn helper', function () {
             hints.forEach(hint => {
                 expect(hint.state).to.equals('preload');
                 expect(hint.type).to.not.exist();
+                expect(hint.cors).to.equals('no');
             });
             done();
         });
