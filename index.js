@@ -1,4 +1,5 @@
 'use strict';
+const vm = require('vm');
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
@@ -185,7 +186,8 @@ class HandlebarsRenderer {
      */
     addTemplates(templates) {
         const paths = Object.keys(templates);
-
+        const context = { template: {} };
+        vm.createContext(context);
         for (let i = 0; i < paths.length; i++) {
             const path = paths[i];
 
@@ -195,7 +197,7 @@ class HandlebarsRenderer {
 
             try {
                 // Check if it is a precompiled template
-                const template = this._tryRestoringPrecompiled(templates[path]);
+                const template = this._tryRestoringPrecompiled(context, templates[path]);
 
                 // Register it with handlebars
                 this.handlebars.registerPartial(path, template);
@@ -205,7 +207,7 @@ class HandlebarsRenderer {
         }
     };
 
-    _tryRestoringPrecompiled(precompiled) {
+    _tryRestoringPrecompiled(context, precompiled) {
         // Let's analyze the string to make sure it at least looks
         // something like a handlebars precompiled template. It should
         // be a string representation of an object containing a `main`
@@ -220,12 +222,11 @@ class HandlebarsRenderer {
 
         // We need to take the string representation and turn it into a
         // valid JavaScript object. eval is evil, but necessary in this case.
-        let template;
-        eval(`template = ${precompiled}`);
+        vm.runInContext(`template = ${precompiled}`, context);
 
         // Take the precompiled object and get the actual function out of it,
         // after first testing for runtime version compatibility.
-        return this.handlebars.template(template);
+        return this.handlebars.template(context.template);
     }
 
     /**
