@@ -23,14 +23,14 @@ describe('partial and block helpers', function () {
         });
     });
 
-    it('should not trigger an error if partial name is empty', function (done) {
+    it('should not trigger an error if partial name is empty, fallback case used instead', function (done) {
         var templates = {
-            template: '{{#partial}}World{{/partial}}{{> layout}}',
-            layout: 'Hello{{#block "page"}}{{/block}}',
+            template: '{{#partial }}World{{/partial}}{{> layout}}',
+            layout: 'Hello{{#block "page"}} Brave New World{{/block}}',
         };
 
         render('template', {}, {}, {}, templates).then(result => {
-            expect(result).to.be.equal('Hello');
+            expect(result).to.be.equal('Hello Brave New World');
             done();
         });
     });
