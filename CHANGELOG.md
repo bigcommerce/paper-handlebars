@@ -1,3 +1,10 @@
+## [5.9.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.5...v5.9.6) (2023-12-01)
+
+
+### Bug Fixes
+
+* make fallback case explicit in unit tests ([#296](https://github.com/bigcommerce/paper-handlebars/issues/296)) ([2cacbed](https://github.com/bigcommerce/paper-handlebars/commit/2cacbed6960e6393a8daf600e3e1664bdf79243e))
+
 ## [5.9.5](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.4...v5.9.5) (2023-09-18)
 
 
