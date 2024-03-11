@@ -2,11 +2,12 @@ const Crypto = require('crypto');
 const Renderer = require('../index');
 const expect = require('code').expect;
 
-function buildRenderer(siteSettings, themeSettings, templates, hbVersion) {
+function buildRenderer(siteSettings, themeSettings, templates, hbVersion, requestParams) {
     siteSettings = siteSettings || {};
     themeSettings = themeSettings || {};
     hbVersion = hbVersion || 'v3';
-    const renderer = new Renderer(siteSettings, themeSettings, hbVersion);
+    requestParams = requestParams || {};
+    const renderer = new Renderer(siteSettings, themeSettings, hbVersion, console, 'info', requestParams);
 
     // Register templates
     if (typeof templates !== 'undefined') {
@@ -17,18 +18,18 @@ function buildRenderer(siteSettings, themeSettings, templates, hbVersion) {
     return renderer;
 }
 
-function renderString(template, context, siteSettings, themeSettings, templates) {
-    const renderer = buildRenderer(siteSettings, themeSettings, templates);
+function renderString(template, context, siteSettings, themeSettings, templates, hbVersion, requestParams) {
+    const renderer = buildRenderer(siteSettings, themeSettings, templates, hbVersion, requestParams);
     return renderer.renderString(template, context);
 }
 
-function render(template, context, siteSettings, themeSettings, templates) {
-    const renderer = buildRenderer(siteSettings, themeSettings, templates);
+function render(template, context, siteSettings, themeSettings, templates, hbVersion, requestParams) {
+    const renderer = buildRenderer(siteSettings, themeSettings, templates, hbVersion, requestParams);
     return renderer.render(template, context);
 }
 
 // Return a function that is used to run through a set of test cases using renderString
-function testRunner({context, siteSettings, themeSettings, templates, renderer, hbVersion}) {
+function testRunner({context, siteSettings, themeSettings, templates, renderer, hbVersion, requestParams}) {
     return (testCases, done) => {
         const promises = testCases.map(testCase => {
             const render = testCase.renderer ||
@@ -36,7 +37,8 @@ function testRunner({context, siteSettings, themeSettings, templates, renderer, 
                            buildRenderer(testCase.siteSettings || siteSettings, 
                                          testCase.themeSettings || themeSettings,
                                          testCase.templates || templates,
-                                         testCase.hbVersion || hbVersion);
+                                         testCase.hbVersion || hbVersion,
+                                         testCase.requestParams || requestParams);
 
             return render.renderString(testCase.input, testCase.context || context).then(result => {
                 expect(result).to.be.equal(testCase.output);

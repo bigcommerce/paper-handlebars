@@ -35,7 +35,7 @@ class HandlebarsRenderer {
     * @param {Object} logger - A console-like object to use for logging
     * @param {String} logLevel - log level which will be overriden by renderer
     */
-    constructor(siteSettings, themeSettings, hbVersion, logger = console, logLevel = 'info') {
+    constructor(siteSettings, themeSettings, hbVersion, logger = console, logLevel = 'info', params = {}) {
         // Figure out which version of Handlebars to use.
         switch(hbVersion) {
             case 'v4':
@@ -56,12 +56,14 @@ class HandlebarsRenderer {
         this.setContent({});
         this.resetDecorators();
         this.setLoggerLevel(logLevel);
+        this.setRequestParams(params);
 
         // Build global context for helpers
         this.helperContext = {
             handlebars: this.handlebars,
             getSiteSettings: this.getSiteSettings.bind(this),
             getThemeSettings: this.getThemeSettings.bind(this),
+            getRequestParams: this.getRequestParams.bind(this),
             getTranslator: this.getTranslator.bind(this),
             getContent: this.getContent.bind(this),
             getLogger: this.getLogger.bind(this),
@@ -133,6 +135,25 @@ class HandlebarsRenderer {
     getThemeSettings() {
         return this._themeSettings;
     };
+
+
+    /**
+     * Set the request params object containing the request parameters.
+     * 
+     * @param {object} params 
+     */
+    setRequestParams(params) {
+        this._params = params;
+    }
+
+    /**
+     * Get the request params object containing the request parameters.
+     * 
+     * @returns {object} params
+     */
+    getRequestParams() {
+        return this._params;
+    }
 
     /**
      * Reset decorator list.
