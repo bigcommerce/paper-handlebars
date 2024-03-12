@@ -1,3 +1,10 @@
+# [5.10.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.6...v5.10.0) (2024-03-12)
+
+
+### Features
+
+* STRF-11673 Add nonce helper ([#299](https://github.com/bigcommerce/paper-handlebars/issues/299)) ([2e329af](https://github.com/bigcommerce/paper-handlebars/commit/2e329afd39b6b8b2ca1cd0814f160334d5461c51))
+
 ## [5.9.6](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.5...v5.9.6) (2023-12-01)
 
 
