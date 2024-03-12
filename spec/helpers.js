@@ -184,6 +184,7 @@ describe('helper registration', () => {
             'getShortMonth',
             'pick',
             'earlyHint',
+            'nonce'
         ].sort();
 
         expect(helpers.map(helper => helper.name).sort()).to.be.equal(expectedHelpers);

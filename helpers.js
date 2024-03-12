@@ -57,6 +57,7 @@ const helpersList = [
     'truncate',
     'unless',
     'earlyHint',
+    'nonce',
 ];
 
 const deprecatedHelpersList = [
