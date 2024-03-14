@@ -1,3 +1,10 @@
+## [5.10.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.0...v5.10.1) (2024-03-14)
+
+
+### Bug Fixes
+
+* strf-11673 Wrap nonce into SafeString ([#301](https://github.com/bigcommerce/paper-handlebars/issues/301)) ([2580ddd](https://github.com/bigcommerce/paper-handlebars/commit/2580ddd35ebdc98424f015ee87f5cc52ad771599))
+
 # [5.10.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.9.6...v5.10.0) (2024-03-12)
 
 
