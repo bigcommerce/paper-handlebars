@@ -56,7 +56,10 @@ module.exports = globals => {
             }
 
             if (protocol === 'webdav:') {
-                return [cdnUrl, 'content', path].join('/');
+                const imgRegex = /.(jpg|jpeg|gif|png)$/i;
+                const isImage = imgRegex.test(path);
+                const prefix = isImage ? 'images/stencil/original/content' : 'content'
+                return [cdnUrl, prefix, path].join('/');
             }
 
             if (cdnSettings) {
