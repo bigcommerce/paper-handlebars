@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         node: [18.x]
+    env:
+      TITLE: ${{ github.event.pull_request.title }}
 
     steps:
       - name: Checkout code
@@ -26,7 +28,7 @@ jobs:
         run: npm i
 
       - name: Verify Github PR Title
-        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
+        run: echo $TITLE | npx commitlint
 
       - name: Verify Git Commit Name 
         run: git log -1 --pretty=format:"%s" |  npx commitlint
