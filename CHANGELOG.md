@@ -1,3 +1,10 @@
+## [5.10.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.1...v5.10.2) (2024-04-15)
+
+
+### Bug Fixes
+
+* STRF-11934 Move PR Title to env ([#303](https://github.com/bigcommerce/paper-handlebars/issues/303)) ([eee9306](https://github.com/bigcommerce/paper-handlebars/commit/eee9306bebb42069af149187d65a6740fb7c5e74))
+
 ## [5.10.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.0...v5.10.1) (2024-03-14)
 
 
