@@ -6,7 +6,7 @@ const {testRunner, buildRenderer, randomString} = require('../spec-helpers');
 describe('nonce helper', function () {
     const context = {}
 
-    it('should render a nonce html attribute with the correct value from request params', function (done) {
+    it('should render a nonce in quotes with the correct value from request params', function (done) {
         const requestParams = {
             security: {
                 nonce: randomString()
@@ -17,7 +17,7 @@ describe('nonce helper', function () {
         runTestCases([
             {
                 input: '{{nonce}}',
-                output: ' nonce="' + requestParams.security.nonce + '"',
+                output: '"' + requestParams.security.nonce + '"',
             },
         ], done);
     });
