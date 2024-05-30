@@ -1,3 +1,10 @@
+## [5.10.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.2...v5.10.3) (2024-05-30)
+
+
+### Bug Fixes
+
+* **storefront:** STRF-11941 Empty commit for release ([84e9221](https://github.com/bigcommerce/paper-handlebars/commit/84e9221b01a7dcbc9f112e89125750d8d8870756))
+
 ## [5.10.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.1...v5.10.2) (2024-04-15)
 
 
