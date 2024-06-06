@@ -17,7 +17,7 @@ describe('nonce helper', function () {
         runTestCases([
             {
                 input: '{{nonce}}',
-                output: '"' + requestParams.security.nonce + '"',
+                output: requestParams.security.nonce,
             },
         ], done);
     });
