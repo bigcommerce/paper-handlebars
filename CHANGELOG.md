@@ -1,3 +1,10 @@
+## [5.10.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.3...v5.10.4) (2024-06-10)
+
+
+### Bug Fixes
+
+* **storefront:** STRF-11941 Remove quotes from nonce ([#309](https://github.com/bigcommerce/paper-handlebars/issues/309)) ([8554933](https://github.com/bigcommerce/paper-handlebars/commit/8554933201ef0c59b87fb271737c4b24463bcabc))
+
 ## [5.10.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.2...v5.10.3) (2024-05-30)
 
 
