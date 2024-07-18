@@ -1,7 +1,9 @@
 'use strict';
 
 const factory = () => {
-    return function(string) {
+    return function(...args) {
+        args.pop();
+        const string = args[0];
         if (typeof string !== 'string') {
             return string;
         }

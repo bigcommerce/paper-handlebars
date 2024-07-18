@@ -3,7 +3,9 @@ const utils = require('./3p/utils');
 const common = require('./lib/common');
 
 const factory = globals => {
-    return function (image, defaultImageUrl) {
+    return function (...args) {
+        args.pop();
+        let [image, defaultImageUrl] = args;
         // Regex to test size string is of the form 123x123 or 100w
         const sizeRegex = /(^\d+w$)|(^(\d+?)x(\d+?)$)/;
         // Regex to test to that srcset descriptor is of the form 1x 1.5x 2x OR 123w

@@ -374,7 +374,7 @@ describe('renderString', () => {
 
     it('throws RenderError if given malformed template', done => {
         renderer.renderString('{{', context).catch(e => {
-            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
+            expect(e instanceof HandlebarsRenderer.errors.CompileError).to.be.true();
             done();
         });
     });
@@ -514,3 +514,56 @@ describe('logging', () => {
     });
 
 });
+
+// STRF-12276
+describe('object manipulation fix', () => {
+    let sandbox, logger;
+    let consoleErrorCopy = console.error;
+    const templateString = `{{#JSONparse}} '{"a":"b"}'{{/JSONparse}}`;
+
+    beforeEach(done => {
+        sandbox = Sinon.createSandbox();
+        logger = {
+            info: Sinon.fake(),
+            warn: Sinon.fake(),
+            error: Sinon.fake(),
+        };
+        console = {
+            log: console.log,
+            error: Sinon.fake(),
+        };
+        done();
+    }); 
+
+    afterEach(done => {
+        console.error = consoleErrorCopy;
+        sandbox.restore();
+        done();
+    });
+
+    it('shouldnt print when use renderString', async () => {
+        const renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        try {
+            await renderer.renderString(templateString, {});
+            expect(logger.error.called()).to.equal(false);
+        } catch (e) {
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
+        }
+    });
+
+    it('shouldnt print when use render', async () => {
+        const renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        try {
+            const templates = {'foo': templateString };
+               
+            const processor = renderer.getPreProcessor();
+            renderer.addTemplates(processor(templates));
+            await renderer.render('foo', {});
+            expect(logger.error.called()).to.equal(false);
+        } catch (e) {
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.true();
+        }
+    });
+});
+
+

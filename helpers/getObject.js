@@ -10,7 +10,9 @@ const { getValue } = require('./lib/common');
  * Property paths (`a.b.c`) may be used to get nested properties.
  */
 const factory = (globals) => {
-    return function (path, context) {
+    return function (...args) {
+        args.pop();
+        let [path, context] = args;
         // use an empty context if none was given
         // (expect 3 args: `path`, `context`, and the `options` object 
         // Handlebars always passes as the last argument to a helper)

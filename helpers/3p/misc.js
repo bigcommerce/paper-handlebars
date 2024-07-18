@@ -16,7 +16,10 @@ var helpers = module.exports;
  * @api public
  */
 
-helpers.default = function(value, defaultValue) {
+helpers.default = function(...args) {
+  args.pop();
+  const value = args.shift();
+  const defaultValue = args.shift();
   return !value
     ? defaultValue
     : value;

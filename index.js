@@ -296,6 +296,8 @@ class HandlebarsRenderer {
                 context.locale_name = this._translator.getLocale();
             }
 
+            delete this.handlebars.compile;
+
             // Look up the template
             const template = this.handlebars.partials[path];
             if (typeof template === 'undefined') {
@@ -333,11 +335,19 @@ class HandlebarsRenderer {
      */
     renderString(template, context) {
         return new Promise((resolve, reject) => {
+            let precompiledTemplate;
             context = context || {};
+
+            if (typeof template !== 'string') {
+                return reject(new CompileError('Template must be a string'));
+            }
 
             // Compile the template
             try {
-                template = this.handlebars.compile(template);
+                delete this.handlebars.compile;
+                const precompiled = this.handlebars.precompile(template, handlebarsOptions);
+                eval(`precompiledTemplate = ${precompiled}`);
+                template = this.handlebars.template(precompiledTemplate);
             } catch(e) {
                 return reject(new CompileError(e.message));
             }
