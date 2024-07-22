@@ -1,3 +1,10 @@
+# [5.11.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.4...v5.11.0) (2024-07-22)
+
+
+### Features
+
+* STRF-12284 Add dependabot ([8f0b95e](https://github.com/bigcommerce/paper-handlebars/commit/8f0b95e42a5410ef99d673f3601207a1e769e78f))
+
 ## [5.10.4](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.3...v5.10.4) (2024-06-10)
 
 
