@@ -74,4 +74,18 @@ describe('partial and block helpers', function () {
             done();
         });
     });
+
+    it('should return empty string if using a reserved object property name', function (done) {
+        const templates = {
+            template: '{{#partial "__proto__"}}Page partial content.{{/partial}}{{> layout}}',
+            layout: '{{#block "constructor"}}{{/block}}',
+        };
+
+        const context = {};
+
+        render('template', context, {}, {}, templates).then(result => {
+            expect(result).to.equal('');
+            done();
+        });
+    });
 });
