@@ -1,3 +1,11 @@
+## [5.11.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.0...v5.11.1) (2024-07-24)
+
+
+### Bug Fixes
+
+* **storefront:** STRF-12281 Noop commit ([#318](https://github.com/bigcommerce/paper-handlebars/issues/318)) ([d5fdee5](https://github.com/bigcommerce/paper-handlebars/commit/d5fdee59746ca92a9435e65b095e28f438d3e1ec))
+* **storefront:** STRF-12281 Prevent block and partial helpers from being named prototype methods ([#317](https://github.com/bigcommerce/paper-handlebars/issues/317)) ([acb33f7](https://github.com/bigcommerce/paper-handlebars/commit/acb33f73ce25c7709b609ced20152a724c6cae3f))
+
 # [5.11.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.10.4...v5.11.0) (2024-07-22)
 
 
