@@ -1,3 +1,10 @@
+## [5.11.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.1...v5.11.2) (2024-07-30)
+
+
+### Bug Fixes
+
+* STRF-12276 Remove compile method from hbs renderer ([#320](https://github.com/bigcommerce/paper-handlebars/issues/320)) ([241747a](https://github.com/bigcommerce/paper-handlebars/commit/241747ae33e01ef005a0501eaeaddb8870f0ce57))
+
 ## [5.11.1](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.0...v5.11.1) (2024-07-24)
 
 
