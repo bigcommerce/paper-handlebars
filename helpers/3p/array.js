@@ -42,7 +42,9 @@ helpers.after = function(array, n) {
  * @api public
  */
 
-helpers.arrayify = function(value) {
+helpers.arrayify = function(...args) {
+  args.pop(); // remove handlebars options object
+  const value = args[0];
   return value ? (Array.isArray(value) ? value : [value]) : [];
 };
 

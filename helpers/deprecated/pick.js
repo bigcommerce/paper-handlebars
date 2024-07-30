@@ -6,6 +6,7 @@ const factory = () => {
      * @deprecate
      */
     return function(...args) {
+        args.pop();
         const target = args.shift();
         const toReturn = {};
         const paths = args[0];

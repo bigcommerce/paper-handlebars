@@ -24,7 +24,9 @@ const substring = require('stringz').substring;
  *  {{lang (truncate 'blog.post.body.' 40) }}
  */
 const factory = globals => {
-    return function(string, length) {
+    return function(...args) {
+        args.pop();
+        const [string, length] = args;
         if (typeof string !== 'string' || string.length === 0) {
             return string;
         }

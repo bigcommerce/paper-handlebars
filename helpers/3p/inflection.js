@@ -18,7 +18,9 @@ var helpers = module.exports;
  * @api public
  */
 
-helpers.inflect = function(count, singular, plural, include) {
+helpers.inflect = function(...args) {
+  args.pop();
+  const [count, singular, plural, include] = args;
   var word = (count > 1 || count === 0) ? plural : singular;
 
   if (utils.isUndefined(include) || include === false) {
