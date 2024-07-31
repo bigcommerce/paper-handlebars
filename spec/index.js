@@ -372,9 +372,9 @@ describe('renderString', () => {
         });
     });
 
-    it('throws RenderError if given malformed template', done => {
+    it('throws PrecompileError if given malformed template', done => {
         renderer.renderString('{{', context).catch(e => {
-            expect(e instanceof HandlebarsRenderer.errors.CompileError).to.be.true();
+            expect(e instanceof HandlebarsRenderer.errors.PrecompileError).to.be.true();
             done();
         });
     });
