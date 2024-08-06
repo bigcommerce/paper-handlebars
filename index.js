@@ -4,7 +4,7 @@ const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const helpers = require('./helpers');
 
 const AppError = require('./lib/appError');
-const { CompileError, FormatError, RenderError, DecoratorError, TemplateNotFoundError, ValidationError } = require('./lib/errors');
+const { CompileError, FormatError, RenderError, DecoratorError, TemplateNotFoundError, ValidationError, PrecompileError } = require('./lib/errors');
 
 const handlebarsOptions = {
     preventIndent: true
@@ -23,6 +23,7 @@ class HandlebarsRenderer {
             DecoratorError,
             TemplateNotFoundError,
             ValidationError,
+            PrecompileError,
         };
     }
 
@@ -335,17 +336,21 @@ class HandlebarsRenderer {
      */
     renderString(template, context) {
         return new Promise((resolve, reject) => {
-            let precompiledTemplate;
+            let precompiled, precompiledTemplate;
             context = context || {};
 
             if (typeof template !== 'string') {
                 return reject(new CompileError('Template must be a string'));
             }
 
-            // Compile the template
             try {
                 delete this.handlebars.compile;
-                const precompiled = this.handlebars.precompile(template, handlebarsOptions);
+                precompiled = this.handlebars.precompile(template, handlebarsOptions);
+            } catch (e) {
+                return reject(new PrecompileError(e.message));
+            }
+
+            try {
                 eval(`precompiledTemplate = ${precompiled}`);
                 template = this.handlebars.template(precompiledTemplate);
             } catch(e) {
