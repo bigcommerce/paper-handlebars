@@ -1,3 +1,10 @@
+## [5.11.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.2...v5.11.3) (2024-08-06)
+
+
+### Bug Fixes
+
+* add precompile error for renderString ([#322](https://github.com/bigcommerce/paper-handlebars/issues/322)) ([06d3580](https://github.com/bigcommerce/paper-handlebars/commit/06d35807e6ea5b1d2e4c5dfd08bc97688f712885))
+
 ## [5.11.2](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.1...v5.11.2) (2024-07-30)
 
 
