@@ -13,9 +13,8 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '20.x'
       - run: npm i
-      - run: npm run build
       - name: Check Git Commit name
         run: git log -1 --pretty=format:"%s" |  npx commitlint
       # Setup .npmrc file to publish package to npm registry
