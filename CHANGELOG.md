@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.3...v6.0.0) (2024-08-19)
+
+
+### Features
+
+* STRF-11900 Drop node 18, add node 20, 22 ([#324](https://github.com/bigcommerce/paper-handlebars/issues/324)) ([26341d2](https://github.com/bigcommerce/paper-handlebars/commit/26341d26faf99baa81f4ca577171cc9c406023d5))
+
+
+### BREAKING CHANGES
+
+* Drop Node 16, 18 Support
+
 ## [5.11.3](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.2...v5.11.3) (2024-08-06)
 
 
