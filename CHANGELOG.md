@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.0...v6.0.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* STRF-12234 Make moment.js to warn instead of error ([#331](https://github.com/bigcommerce/paper-handlebars/issues/331)) ([bd1a333](https://github.com/bigcommerce/paper-handlebars/commit/bd1a33344400bac0b9fc1543830ffbe5c7c05630))
+
 # [6.0.0](https://github.com/bigcommerce/paper-handlebars/compare/v5.11.3...v6.0.0) (2024-08-19)
 
 
