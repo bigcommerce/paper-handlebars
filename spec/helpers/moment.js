@@ -1,8 +1,13 @@
+const Sinon = require('sinon');
 const Lab = require('lab'),
     lab = exports.lab = Lab.script(),
     describe = lab.experiment,
     it = lab.it,
+    beforeEach = lab.beforeEach,
+    afterEach = lab.afterEach,
     testRunner = require('../spec-helpers').testRunner;
+const Code = require('code'),
+    expect = Code.expect;
 const moment = require('moment');
 
 describe('moment helper', function () {
@@ -66,5 +71,32 @@ describe('moment helper', function () {
                 output: `true`,
             }
         ], done);
+    });
+
+    describe('when amount is provided', () => {
+        let consoleWarnCopy = console.warn;
+    
+        beforeEach(done => {
+            console.warn = Sinon.fake();
+            done();
+        }); 
+    
+        afterEach(done => {
+            console.warn = consoleWarnCopy;
+            done();
+        });
+
+        it('runs console.warn', (done) => {
+            runTestCases([
+                {
+                    input: `{{moment "2022-01-01" isAfter="1999-12-31" amount=1}}`,
+                    output: `true`,
+                }
+            ], () => {
+                expect(console.warn.called).to.equal(true);
+                done();
+            });
+
+        });
     });
 });

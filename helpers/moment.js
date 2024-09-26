@@ -43,6 +43,7 @@ const factory = () => {
             return moment(chrono.parseDate(str)).format(pattern);
         }
 
+
         // If handlebars, expose moment methods as hash properties
         if (options && options.hash) {
             if (options.context) {
@@ -55,7 +56,7 @@ const factory = () => {
                 if (Object.keys(moment.prototype).indexOf(key) !== -1 && typeof res[key] === 'function') {
                     return res[key](options.hash[key]);
                 } else {
-                    console.error('moment.js does not support "' + key + '"');
+                    console.warn('moment.js does not support "' + key + '"');
                 }
             }
         }
