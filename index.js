@@ -385,6 +385,8 @@ class HandlebarsRenderer {
                 let method = this.handlebars.logger.methodMap[level];
                 if (typeof this.logger[method] !== 'function') {
                     method = 'log';
+                } else if (this._overrideHandlebarsAccessDeniedToPropertyMessageLevel(...message)) {
+                    method = 'info';
                 }
                 this.logger[method](...message);
             }
@@ -395,12 +397,18 @@ class HandlebarsRenderer {
      * As some handlebars helpers do not use the logger, we need to override the console.log method 
      */
     _overrideConsoleLog() {
+        this.isLoggerOverriden = false;
         if (this.logger !== console) {
             console.log = this.logger.info.bind(this.logger);
             console.info = this.logger.info.bind(this.logger);
             console.error = this.logger.error.bind(this.logger);
             console.warn = this.logger.warn.bind(this.logger);
+            this.isLoggerOverriden = true;
         }
+    }
+
+    _overrideHandlebarsAccessDeniedToPropertyMessageLevel(message) {
+        return this.isLoggerOverriden && message.includes('Handlebars: Access has been denied to resolve the property');
     }
 
     /**

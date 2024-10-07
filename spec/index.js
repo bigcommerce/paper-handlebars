@@ -513,6 +513,22 @@ describe('logging', () => {
         done();
     });
 
+    it('should check that property access denied message is set as info', async () => {
+        const renderer = new HandlebarsRenderer({}, {}, 'v4', logger);
+        const result = await renderer.renderString("{{aString.trim}}", { aString: "  abc  " });
+        expect(result).to.equal("");
+        expect(logger.info.calledWith('Handlebars: Access has been denied to resolve the property "trim" because it is not an "own property" of its parent.\n' + 'You can add a runtime option to disable the check or this warning:\n' + 'See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details'))
+            .to.equal(true);
+    });
+
+    it('should check that property access denied message is set as error', async () => {
+        console.error = Sinon.fake();
+        const renderer = new HandlebarsRenderer({}, {}, 'v4', console);
+        const result = await renderer.renderString("{{aString.toLowerCase}}", { aString: "  abc  " });
+        expect(result).to.equal("");
+        expect(console.error.calledWith('Handlebars: Access has been denied to resolve the property "toLowerCase" because it is not an "own property" of its parent.\n' + 'You can add a runtime option to disable the check or this warning:\n' + 'See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details'))
+            .to.equal(true);
+    });
 });
 
 // STRF-12276
