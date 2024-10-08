@@ -1,3 +1,10 @@
+## [6.0.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.1...v6.0.2) (2024-10-08)
+
+
+### Bug Fixes
+
+* STRF-12532 Set Access has been denied to resolve the property message to info level ([#333](https://github.com/bigcommerce/paper-handlebars/issues/333)) ([17ad67d](https://github.com/bigcommerce/paper-handlebars/commit/17ad67dc130ea57bd79d317c9fd9a02736a95fed))
+
 ## [6.0.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.0...v6.0.1) (2024-09-26)
 
 
