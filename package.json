@@ -35,7 +35,7 @@
   "dependencies": {
     "@bigcommerce/handlebars-v4": "4.7.8",
     "chrono-node": "^2.6.5",
-    "handlebars": "3.0.8",
+    "handlebars": "4.7.7",
     "he": "^1.2.0",
     "moment": "^2.29.4",
     "remarkable": "^2.0.1",
