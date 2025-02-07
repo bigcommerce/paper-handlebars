@@ -5,7 +5,10 @@ function factory(globals) {
     const options = arguments[arguments.length - 1];
 
     try {
-      return options.fn(JSON.parse(value));
+      if (options.fn) {
+        return options.fn(JSON.parse(value));
+      }
+      return JSON.parse(value);
     } catch (err) {
       return options.inverse(this);
     }
