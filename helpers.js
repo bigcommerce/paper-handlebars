@@ -8,6 +8,7 @@ const helpersList = [
     'concat',
     'contains',
     'decrementVar',
+    'dropKey',
     'dynamicComponent',
     'encodeHtmlEntities',
     'for',
