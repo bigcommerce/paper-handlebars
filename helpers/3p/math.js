@@ -190,5 +190,5 @@ helpers.max = function(a, b) {
  */
 
 helpers.clamp = function(test, min, max) {
-  return helpers.max(min, helpers.min(text, max));
+  return helpers.max(min, helpers.min(test, max));
 }
