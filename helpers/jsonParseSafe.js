@@ -10,7 +10,10 @@ function factory(globals) {
       }
       return JSON.parse(value);
     } catch (err) {
-      return options.inverse(this);
+      if (options.fn) { // If function block {{#JSONparseSafe "{}"}} escape here on excaption.
+        return options.inverse(this);
+      }
+      return {}; // Escape hatch to avoid crash due to inline malformed JSON input.
     }
   };
 }
