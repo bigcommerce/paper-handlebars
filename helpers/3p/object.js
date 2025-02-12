@@ -194,7 +194,10 @@ helpers.merge = function(context/*, objects, options*/) {
  */
 
 helpers.JSONparse = function(str, options) {
-  return options.fn(JSON.parse(str));
+  if (options.fn) {
+    return options.fn(JSON.parse(str));
+  }
+  return JSON.parse(str);
 };
 
 /**
