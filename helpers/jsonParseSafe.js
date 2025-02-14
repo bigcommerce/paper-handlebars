@@ -13,7 +13,7 @@ function factory(globals) {
       if (options.fn) { // If function block {{#JSONparseSafe "{}"}} escape here on excaption.
         return options.inverse(this);
       }
-      return {}; // Escape hatch to avoid crash due to inline malformed JSON input.
+      return undefined; // Escape hatch to avoid crash due to inline malformed JSON input.
     }
   };
 }
