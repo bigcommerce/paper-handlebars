@@ -41,7 +41,7 @@ function matchArray(arr, value) {
 
 function matchObject(obj, value) {
   for (var key in value) {
-    if (value.hasOwnProperty(key)) {
+    if (Object.hasOwnProperty.call(value, key)) {
       if (deepMatches(obj[key], value[key]) === false) {
         return false;
       }

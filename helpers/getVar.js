@@ -9,7 +9,7 @@ const factory = globals => {
             throw new ValidationError("getVar helper key must be a string");
         }
 
-        return globals.storage.variables && globals.storage.variables.hasOwnProperty(key) ? globals.storage.variables[key] : undefined
+        return globals.storage.variables && Object.hasOwnProperty.call(globals.storage.variables, key) ? globals.storage.variables[key] : undefined
     };
 };
 

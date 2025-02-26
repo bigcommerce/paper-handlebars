@@ -61,7 +61,7 @@ module.exports = globals => {
 
             if (cdnSettings) {
                 const endpointKey = protocol.slice(0, protocol.length - 1);
-                if (cdnSettings.hasOwnProperty(endpointKey)) {
+                if (Object.hasOwnProperty.call(cdnSettings, endpointKey)) {
                     if (cdnUrl) {
                         return [cdnSettings[endpointKey], path].join('/');
                     }

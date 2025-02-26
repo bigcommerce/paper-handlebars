@@ -12,7 +12,7 @@ const factory = () => {
         const paths = args[0];
         if (paths && Array.isArray(paths)) {
             paths.forEach((key) => {
-                if (target.hasOwnProperty(key)) {
+                if (Object.hasOwnProperty.call(target, key)) {
                     toReturn[key] = target[key];
                 }
             })

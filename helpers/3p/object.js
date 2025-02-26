@@ -36,7 +36,7 @@ helpers.extend = function(/*objects*/) {
     var obj = args[i];
     if (utils.isObject(obj)) {
       for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (Object.hasOwnProperty.call(obj, key)) {
           context[key] = obj[key];
         }
       }
@@ -93,7 +93,7 @@ helpers.forOwn = function(obj, options) {
   var result = '';
 
   for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.hasOwnProperty.call(obj, key)) {
       data.key = key;
       result += options.fn(obj[key], {data: data});
     }
