@@ -3,7 +3,7 @@
 const factory = () => {
     return function(collection, path) {
         if (collection && Array.isArray(collection)) {
-            return collection.map(item => item.hasOwnProperty(path) ? item[path] : undefined);
+            return collection.map(item => Object.hasOwnProperty.call(item, path) ? item[path] : undefined);
         }
         return [];
     };

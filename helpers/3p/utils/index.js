@@ -182,7 +182,7 @@ utils.isUndefined = function (val) {
  */
 
 utils.isOptions = function (val) {
-  return utils.isObject(val) && val.hasOwnProperty('hash');
+  return utils.isObject(val) && Object.hasOwnProperty.call(val, 'hash');
 };
 
 /**

@@ -16,7 +16,7 @@ function isPlainObject(o) {
     if (isObject(prot) === false) {return false;}
 
     // If constructor does not have an Object-specific method
-    if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    if (Object.hasOwnProperty.call(prot, 'isPrototypeOf') === false) {
         return false;
     }
 

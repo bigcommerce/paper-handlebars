@@ -28,7 +28,7 @@ module.exports = function markdown(config) {
 
         options = merge({html: true, breaks: true}, config, options);
         options = merge({}, options, options.markdown, options.hash);
-        if (options.hasOwnProperty('lang')) {
+        if (Object.hasOwnProperty.call(options, 'lang')) {
             options.langPrefix = options.lang;
         }
 

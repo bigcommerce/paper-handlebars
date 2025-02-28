@@ -19,7 +19,7 @@ const factory = globals => {
 
         path = Path.join(path, this['partial']);
 
-        if (globals.handlebars.partials[path] && globals.handlebars.partials.hasOwnProperty(path)) {
+        if (globals.handlebars.partials[path] && Object.hasOwnProperty.call(globals.handlebars.partials, path)) {
             return globals.handlebars.partials[path](this);
         }
     };
