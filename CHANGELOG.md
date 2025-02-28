@@ -1,3 +1,10 @@
+## [6.0.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.2...v6.0.3) (2025-02-28)
+
+
+### Bug Fixes
+
+* STRF-13077 Change hasOwnProperty usage ([#345](https://github.com/bigcommerce/paper-handlebars/issues/345)) ([a7961e2](https://github.com/bigcommerce/paper-handlebars/commit/a7961e233258c220177dacc2ed353ea334f345a0))
+
 ## [6.0.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.1...v6.0.2) (2024-10-08)
 
 
