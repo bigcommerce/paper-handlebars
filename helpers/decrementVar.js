@@ -12,7 +12,7 @@ const factory = globals => {
 
         // Setup storage
         if (typeof globals.storage.variables === 'undefined') {
-            globals.storage.variables = {};
+            globals.storage.variables = Object.create(null);
         }
 
         if (Object.hasOwnProperty.call(globals.storage.variables, key) && Number.isInteger(globals.storage.variables[key])) {

@@ -5,7 +5,6 @@
     Copy of https://github.com/jonschlinkert/array-sort/blob/0.1.2/index.js
 
 */
-const kindOf = require('./kindOf');
 const { getValue } = require('../../../lib/common');
 const { ValidationError } = require('../../../../lib/errors');
 
@@ -13,13 +12,12 @@ const { ValidationError } = require('../../../../lib/errors');
  * Sort an array of objects by one or more properties.
  *
  * @param  {Array} `arr` The Array to sort.
- * @param  {String|Array|Function} `props` One or more object paths or comparison functions.
- * @param  {Object} `opts` Pass `{ reverse: true }` to reverse the sort order.
  * @return {Array} Returns a sorted array.
  * @api public
  */
 
-function arraySort(arr, props, opts) {
+function arraySort(arr) {
+  const options = arguments[arguments.length - 1];
   if (!arr) {
     return [];
   }
@@ -34,12 +32,7 @@ function arraySort(arr, props, opts) {
 
   var args = flatten([].slice.call(arguments, 1));
 
-  // if the last argument appears to be a plain object,
-  // it's not a valid `compare` arg, so it must be options.
-  if (kindOf(args[args.length - 1]) === 'object') {
-    opts = args.pop();
-  }
-  return arr.sort(sortBy(args, opts));
+  return arr.sort(sortBy(args, options));
 }
 
 /**

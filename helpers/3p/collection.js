@@ -19,16 +19,15 @@ var helpers = module.exports;
  *
  * @name .isEmpty
  * @param {Object} `collection`
- * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.isEmpty = function(collection, options) {
-  if (!options) {
-    options = collection;
-    return options.fn(this);
+helpers.isEmpty = function(collection) {
+  const options = arguments[arguments.length - 1];
+  if (utils.isOptions(collection)) {
+    return collection.fn(this);
   }
 
   if (Array.isArray(collection) && !collection.length) {
@@ -47,13 +46,13 @@ helpers.isEmpty = function(collection, options) {
  *
  * @name .iterate
  * @param {Object|Array} `context` The collection to iterate over
- * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.iterate = function(context, options) {
+helpers.iterate = function(context) {
+  const options = arguments[arguments.length - 1];
   if (Array.isArray(context)) {
     return forEach.apply(forEach, arguments);
   } else if (utils.isObject(context)) {
