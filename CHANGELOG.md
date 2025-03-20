@@ -1,3 +1,10 @@
+## [6.0.4](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.3...v6.0.4) (2025-03-20)
+
+
+### Bug Fixes
+
+* STRF-13111 Helpers last arguments improvements and fixes ([#347](https://github.com/bigcommerce/paper-handlebars/issues/347)) ([249091e](https://github.com/bigcommerce/paper-handlebars/commit/249091e9ec0129cee5add4e4b9e90aa5729c943a))
+
 ## [6.0.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.2...v6.0.3) (2025-02-28)
 
 
