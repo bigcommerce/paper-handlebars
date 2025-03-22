@@ -1,0 +1,48 @@
+'use strict';
+const utils = require('./3p/utils');
+
+// Tests. Constructed with the assumption that the inline JSONparseSafe helper is available.
+// {{#with (JSONparseSafe '{"key": "value", "foo": 0, "bar": {"faz": 1}}')}}
+//     {{log (json this)}} {{! { "key":"value","foo":0,"bar":{"faz":1} } }}
+//     {{log (json (dropKey this "foo"))}} {{! { "key":"value","bar":{"faz":1} } }}
+//     {{log (json (dropKey this "bar.faz" asPath=true))}} {{! { "key":"value","foo":0,"bar":{} } }}
+// {{/with}}
+
+
+function factory(globals) {
+    /**
+     * Remove a key from an object
+     * @param {Object} value
+     * @param {String} key: key to remove as a string or a index number
+     * @param {Boolean} asPath: if the key is a string, interpret it as a json object path and split it by '.' for using in helper `deleteProp`.
+     */
+    return function (value, key, asPath) {
+
+        if (typeof value !== 'object' && key && !utils.isString(key) && !Number.isFinite(key)) {
+            return value;
+        }
+
+        // Attribution for this helper function goes to https://stackoverflow.com/a/48169830
+        function deleteProp(object, path) {
+            var last = path.pop();
+            delete path.reduce((o, k) => o[k] || {}, object)[last];
+        }
+
+        // Shallow clone the object to avoid mutating the original
+        const cloned = structuredClone(value); // Requires node 17.0.0 or later or polyfill. Alternatively, use JSON.parse(JSON.stringify(object)) or similar.
+        if (typeof key === 'number') {
+            delete cloned[key];
+        } else if (asPath) { // The key is a string at this point no matter what
+            deleteProp(cloned, key.split('.'));
+        } else {
+            delete cloned[key];
+        }
+
+        return cloned;
+    };
+}
+
+module.exports = [{
+    name: 'dropKey',
+    factory: factory,
+}];
