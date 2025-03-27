@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.4...v6.1.0) (2025-03-27)
+
+
+### Features
+
+* Update jsonParseSafe.js - Inline use patch ([#341](https://github.com/bigcommerce/paper-handlebars/issues/341)) ([e9ffbc1](https://github.com/bigcommerce/paper-handlebars/commit/e9ffbc1801382018d5b42511c495c0f24aa4c8e0))
+
 ## [6.0.4](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.3...v6.0.4) (2025-03-20)
 
 
