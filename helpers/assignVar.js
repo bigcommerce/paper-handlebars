@@ -12,29 +12,36 @@ const factory = globals => {
             throw new ValidationError("assignVar helper key must be a string");
         }
 
-        // Validate that value is a string or Number (int/float)
-        if (!utils.isString(value) && !Number.isFinite(value)) {
-            throw new ValidationError("assignVar helper value must be a string or a number (integer/float)");
-        }
+        //Check for if the assigned value is being set to null or undefined
+        if (!(value === null || value === undefined)) {
 
-        // Validate that string is not longer than the max length
-        if (utils.isString(value) && value.length >= max_length) {
-            throw new ValidationError(`assignVar helper value must be less than ${max_length} characters, 
+            // Validate that value is a string or Number (int/float)
+            if (!(utils.isString(value) || value === "") && !Number.isFinite(value)) {
+                throw new ValidationError("assignVar helper value must be a string or a number (integer/float)");
+            }
+
+            // Validate that string is not longer than the max length
+            if (utils.isString(value) && value.length >= max_length) {
+                throw new ValidationError(`assignVar helper value must be less than ${max_length} characters, 
                 but a ${value.length} character value was set to ${key}`);
-        }
+            }
 
-        // Setup storage
-        if (typeof globals.storage.variables === 'undefined') {
-            globals.storage.variables = Object.create(null);
-        }
+            // Setup storage
+            if (typeof globals.storage.variables === 'undefined') {
+                globals.storage.variables = Object.create(null);
+            }
 
-        // Make sure the number of total keys is within the limit
-        if (Object.keys(globals.storage.variables).length >= max_keys) {
-            throw new ValidationError(`Unique keys in variable storage may not exceed ${max_keys} in total`);
-        }
+            // Make sure the number of total keys is within the limit
+            if (Object.keys(globals.storage.variables).length >= max_keys) {
+                throw new ValidationError(`Unique keys in variable storage may not exceed ${max_keys} in total`);
+            }
 
-        // Store value for later use by getVar helper
-        globals.storage.variables[key] = value;
+            // Store value for later use by getVar helper
+            globals.storage.variables[key] = value;
+        } else {
+            // Delete value from storage as it is now unset.
+            delete globals.storage.variables[key];
+        }
     };
 };
 
