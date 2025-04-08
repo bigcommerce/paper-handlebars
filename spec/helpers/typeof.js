@@ -1,6 +1,6 @@
 const { describe, it } = exports.lab = require('lab').script();
 
-const { testRunner } = require('../spec-helpers');
+const { testRunner, renderString} = require('../spec-helpers');
 
 describe('typeof inline', () => {
     const context = {
@@ -11,6 +11,7 @@ describe('typeof inline', () => {
         undefinedValue: undefined,
         objectValue: { name: 'John' },
         array: ['John', 'Doe'],
+        // eslint-disable-next-line no-undef
         bigint: BigInt(12345678901234567890),
         functionValue: () => {},
     };
@@ -56,7 +57,7 @@ describe('typeof inline', () => {
         runTestCases([
             {
                 input: '{{typeof undefinedValue}}',
-                output: 'undefined', // Null is an object in JavaScript
+                output: 'undefined',
             },
         ], done);
     });
@@ -65,7 +66,7 @@ describe('typeof inline', () => {
         runTestCases([
             {
                 input: '{{typeof objectValue}}',
-                output: 'object', // Null is an object in JavaScript
+                output: 'object',
             },
         ], done);
     });
@@ -74,7 +75,7 @@ describe('typeof inline', () => {
         runTestCases([
             {
                 input: '{{typeof array}}',
-                output: 'object', // Null is an object in JavaScript
+                output: 'object',
             },
         ], done);
     });
@@ -83,7 +84,7 @@ describe('typeof inline', () => {
         runTestCases([
             {
                 input: '{{typeof bigint}}',
-                output: 'bigint', // Null is an object in JavaScript
+                output: 'bigint',
             },
         ], done);
     });
@@ -92,8 +93,30 @@ describe('typeof inline', () => {
         runTestCases([
             {
                 input: '{{typeof functionValue}}',
-                output: 'function', // Null is an object in JavaScript
+                output: 'function',
             },
         ], done);
+    });
+
+
+    it('should work with output from another function', done => {
+        runTestCases([
+            {
+                input: '{{typeof (multiConcat string number)}}',
+                output: 'string',
+            },
+        ], done);
+    });
+
+    it('should not accept more than one value, throw a error', function(done) {
+        renderString("{{typeof number string}}").catch(_ => {
+            done();
+        });
+    });
+
+    it('should not work as a block helper, throw a error', function(done) {
+        renderString("{{#typeof number}}").catch(_ => {
+            done();
+        });
     });
 });
