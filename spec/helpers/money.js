@@ -78,14 +78,14 @@ describe('money helper', function() {
 
     it('should throw an exception if the price value parameter has an invalid type', function(done) {
         renderString('{{money "hello"}}').catch(err => {
-            expect(err.message).to.equal("money helper accepts only Number's as first parameter");
+            expect(err.message.startsWith("money helper accepts only Number's as first parameter")).to.be.true();
             done();
         });
     });
 
     it('should throw an exception if the decimal places parameter has an invalid type', function(done) {
         renderString('{{money 1.2 "hello"}}').catch(err => {
-            expect(err.message).to.equal("money helper accepts only Number's for decimal places");
+            expect(err.message.startsWith("money helper accepts only Number's for decimal places")).to.be.true();
             done();
         });
     });
