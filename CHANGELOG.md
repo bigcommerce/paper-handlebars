@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.1.0...v6.1.1) (2025-04-09)
+
+
+### Reverts
+
+* Revert "fix: STRF-13111 Helpers last arguments improvements and fixes ([#347](https://github.com/bigcommerce/paper-handlebars/issues/347))" ([#352](https://github.com/bigcommerce/paper-handlebars/issues/352)) ([58f787d](https://github.com/bigcommerce/paper-handlebars/commit/58f787d639b147b18adeb9658859fcdabce9d434))
+
 # [6.1.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.0.4...v6.1.0) (2025-03-27)
 
 
