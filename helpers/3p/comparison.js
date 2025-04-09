@@ -17,13 +17,13 @@ var helpers = module.exports;
  *
  * @param {any} `a`
  * @param {any} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.and = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.and = function(a, b, options) {
   if (a && b) {
     return options.fn(this);
   }
@@ -40,14 +40,15 @@ helpers.and = function(a, b) {
  * @name .gt
  * @param {String} `a`
  * @param {String} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.gt = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.gt = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a > b) {
@@ -67,14 +68,15 @@ helpers.gt = function(a, b) {
  * @name .gte
  * @param {String} `a`
  * @param {String} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.gte = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.gte = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a >= b) {
@@ -89,13 +91,13 @@ helpers.gte = function(a, b) {
  *
  * @param {any} `val` The value to check.
  * @param {any} `pattern` The pattern to check for.
+ * @param {Object} `options` Handlebars provided options object
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.has = function(value, pattern) {
-  const options = arguments[arguments.length - 1];
+helpers.has = function(value, pattern, options) {
   if (arguments.length === 2) {
     return pattern.inverse(this);
   }
@@ -124,14 +126,15 @@ helpers.has = function(value, pattern) {
  * @name .eq
  * @param {String} `a`
  * @param {String} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.eq = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.eq = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a === b) {
@@ -151,13 +154,13 @@ helpers.eq = function(a, b) {
  * {{/ifEven}}
  * ```
  * @param  {Number} `number`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.ifEven = function(num) {
-  const options = arguments[arguments.length - 1];
+helpers.ifEven = function(num, options) {
   return utils.isEven(num)
     ? options.fn(this)
     : options.inverse(this);
@@ -170,13 +173,13 @@ helpers.ifEven = function(num) {
  *
  * @param {Number}
  * @param {Number}
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.ifNth = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.ifNth = function(a, b, options) {
   if (utils.isNumber(a) && utils.isNumber(b) && b % a === 0) {
     return options.fn(this);
   }
@@ -195,13 +198,13 @@ helpers.ifNth = function(a, b) {
  * {{/ifOdd}}
  * ```
  * @param  {Object} `value`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.ifOdd = function(val) {
-  const options = arguments[arguments.length - 1];
+helpers.ifOdd = function(val, options) {
   return utils.isOdd(val)
     ? options.fn(this)
     : options.inverse(this);
@@ -214,14 +217,15 @@ helpers.ifOdd = function(val) {
  * @name .is
  * @param {any} `a`
  * @param {any} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.is = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.is = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a === b) {
@@ -237,14 +241,15 @@ helpers.is = function(a, b) {
  * @name .isnt
  * @param {String} `a`
  * @param {String} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.isnt = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.isnt = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a !== b) {
@@ -262,14 +267,15 @@ helpers.isnt = function(a, b) {
  *
  * @name .lt
  * @param {Object} `context`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.lt = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.lt = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a < b) {
@@ -289,14 +295,15 @@ helpers.lt = function(a, b) {
  * @name .lte
  * @param {Sring} `a`
  * @param {Sring} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.lte = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.lte = function(a, b, options) {
   if (arguments.length === 2) {
+    options = b;
     b = options.hash.compare;
   }
   if (a <= b) {
@@ -313,13 +320,13 @@ helpers.lte = function(a, b) {
  * @name .neither
  * @param {any} `a`
  * @param {any} `b`
+ * @param `options` Handlebars options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.neither = function(a, b) {
-  const options = arguments[arguments.length - 1];
+helpers.neither = function(a, b, options) {
   if (!a && !b) {
     return options.fn(this);
   }
@@ -334,13 +341,13 @@ helpers.neither = function(a, b) {
  * @name .unlessEq
  * @param {String} `a`
  * @param {String} `b`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Inverse block by default, or block if falsey.
  * @block
  * @api public
  */
 
-helpers.unlessEq = function(context) {
-  const options = arguments[arguments.length - 1];
+helpers.unlessEq = function(context, options) {
   if (context === options.hash.compare) {
     return options.inverse(this);
   }
@@ -353,13 +360,13 @@ helpers.unlessEq = function(context) {
  *
  * @name .unlessGt
  * @param {Object} `context`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Inverse block by default, or block if falsey.
  * @block
  * @api public
  */
 
-helpers.unlessGt = function(context) {
-  const options = arguments[arguments.length - 1];
+helpers.unlessGt = function(context, options) {
   if (context > options.hash.compare) {
     return options.inverse(this);
   }
@@ -372,13 +379,13 @@ helpers.unlessGt = function(context) {
  *
  * @name .unlessLt
  * @param {Object} `context`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.unlessLt = function(context) {
-  const options = arguments[arguments.length - 1];
+helpers.unlessLt = function(context, options) {
   if (context < options.hash.compare) {
     return options.inverse(this);
   }
@@ -391,13 +398,13 @@ helpers.unlessLt = function(context) {
  *
  * @name .unlessGteq
  * @param {Object} `context`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.unlessGteq = function(context) {
-  const options = arguments[arguments.length - 1];
+helpers.unlessGteq = function(context, options) {
   if (context >= options.hash.compare) {
     return options.inverse(this);
   }
@@ -410,13 +417,13 @@ helpers.unlessGteq = function(context) {
  *
  * @name .unlessLteq
  * @param {Object} `context`
+ * @param {Object} `options` Handlebars provided options object
  * @return {String} Block, or inverse block if specified and falsey.
  * @block
  * @api public
  */
 
-helpers.unlessLteq = function(context) {
-  const options = arguments[arguments.length - 1];
+helpers.unlessLteq = function(context, options) {
   if (context <= options.hash.compare) {
     return options.inverse(this);
   }

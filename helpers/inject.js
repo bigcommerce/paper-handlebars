@@ -8,7 +8,7 @@ const factory = globals => {
 
         // Setup storage
         if (typeof globals.storage.inject === 'undefined') {
-            globals.storage.inject = Object.create(null);
+            globals.storage.inject = {};
         }
 
         // Store value for later use by jsContext

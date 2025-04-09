@@ -29,13 +29,13 @@ helpers.default = function(...args) {
 /**
  * Block helper that renders the block without taking any arguments.
  *
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.noop = function() {
-  const options = arguments[arguments.length - 1];
+helpers.noop = function(options) {
   return options.fn(this);
 };
 
@@ -43,13 +43,13 @@ helpers.noop = function() {
  * Block helper that builds the context for the block
  * from the options hash.
  *
+ * @param {Object} `options` Handlebars provided options object.
  * @contributor Vladimir Kuznetsov <https://github.com/mistakster>
  * @block
  * @api public
  */
 
-helpers.withHash = function() {
-  const options = arguments[arguments.length - 1];
+helpers.withHash = function(options) {
   if (options.hash && Object.keys(options.hash).length) {
     return options.fn(options.hash);
   } else {
