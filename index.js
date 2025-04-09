@@ -7,9 +7,7 @@ const AppError = require('./lib/appError');
 const { CompileError, FormatError, RenderError, DecoratorError, TemplateNotFoundError, ValidationError, PrecompileError } = require('./lib/errors');
 
 const handlebarsOptions = {
-    preventIndent: true,
-    knownHelpers: [],
-    knownHelpersOnly: true,
+    preventIndent: true
 };
 
 // HandlebarsRenderer implements the interface Paper requires for its
@@ -78,7 +76,6 @@ class HandlebarsRenderer {
         for (let i = 0; i < helpers.length; i++) {
             const spec = helpers[i];
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
-            handlebarsOptions.knownHelpers[spec.name] = true;
         }
     }
 

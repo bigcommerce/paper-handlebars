@@ -95,13 +95,13 @@ helpers.sanitize = function (str) {
  * Block helper for creating unordered lists (`<ul></ul>`)
  *
  * @param  {Object} `context`
+ * @param  {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.ul = function (context) {
-  const options = arguments[arguments.length - 1];
+helpers.ul = function (context, options) {
   return ('<ul ' + (parseAttributes(options.hash)) + '>') + context.map(function (item) {
     if (typeof item !== 'string') {
       item = options.fn(item);
@@ -114,13 +114,13 @@ helpers.ul = function (context) {
  * Block helper for creating ordered lists  (`<ol></ol>`)
  *
  * @param  {Object} `context`
+ * @param  {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.ol = function (context) {
-  const options = arguments[arguments.length - 1];
+helpers.ol = function (context, options) {
   return ('<ol ' + (parseAttributes(options.hash)) + '>') + context.map(function (item) {
     if (typeof item !== 'string') {
       item = options.fn(item);

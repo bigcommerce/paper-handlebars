@@ -377,14 +377,16 @@ helpers.split = function(str, ch) {
  * ```
  * @param  {String} `prefix`
  * @param  {String} `testString`
+ * @param  {String} `options`
  * @contributor Dan Fox <http://github.com/iamdanfox>
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.startsWith = function(prefix, str) {
-  const options = arguments[arguments.length - 1];
+helpers.startsWith = function(prefix, str, options) {
+  var args = [].slice.call(arguments);
+  options = args.pop();
   if (str && typeof str === 'string') {
     if (str.indexOf(prefix) === 0) {
       return options.fn(this);
@@ -454,15 +456,17 @@ helpers.trim = function(str) {
  * @name .uppercase
  * @related capitalize capitalizeAll
  * @param {String} `str` The string to uppercase
+ * @param {Object} `options` Handlebars options object
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.uppercase = function(str) {
-  const options = arguments[arguments.length - 1];
+helpers.uppercase = function(str, options) {
   if (str && typeof str === 'string') {
     return str.toUpperCase();
+  } else {
+    options = str;
   }
   if (options && typeof options === 'object' && options.fn) {
     return options.fn(this).toUpperCase();

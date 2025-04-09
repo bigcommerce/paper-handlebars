@@ -25,7 +25,7 @@ const factory = globals => {
 
         // Setup storage
         if (typeof globals.storage.variables === 'undefined') {
-            globals.storage.variables = Object.create(null);
+            globals.storage.variables = {};
         }
 
         // Make sure the number of total keys is within the limit

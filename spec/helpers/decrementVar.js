@@ -59,7 +59,7 @@ describe('decrementVar helper', function() {
         runTestCases([
             {
                 input: "{{decrementVar '__proto__'}}",
-                output: '0',
+                output: '',
             },
             {
                 input: "{{decrementVar 'constructor'}}",

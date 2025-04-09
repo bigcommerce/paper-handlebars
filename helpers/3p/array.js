@@ -83,10 +83,9 @@ helpers.before = function(array, n) {
  * @api public
  */
 
-helpers.eachIndex = function(array) {
+helpers.eachIndex = function(array, options) {
   var result = '';
   if (Array.isArray(array)) {
-    const options = arguments[arguments.length - 1];
     for (var i = 0; i < array.length; i++) {
       result += options.fn({item: array[i], index: i});
     }
@@ -114,10 +113,9 @@ helpers.eachIndex = function(array) {
  * @api public
  */
 
-helpers.filter = function(array, value) {
+helpers.filter = function(array, value, options) {
   var content = '';
   var results = [];
-  const options = arguments[arguments.length - 1];
 
   // filter on a specific property
   var prop = options.hash && options.hash.property;
@@ -215,8 +213,7 @@ helpers.first = function(array, n) {
  * @api public
  */
 
-helpers.forEach = function(array) {
-  const options = arguments[arguments.length - 1];
+helpers.forEach = function(array, options) {
   var data = utils.createFrame(options, options.hash);
   if (!array) {
     return '';
@@ -256,13 +253,13 @@ helpers.forEach = function(array) {
  * @name .inArray
  * @param {Array} `array`
  * @param {any} `value`
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.inArray = function(array, value) {
-  const options = arguments[arguments.length - 1];
+helpers.inArray = function(array, value, options) {
   if (utils.indexOf(array, value) > -1) {
     return options.fn(this);
   }
@@ -345,13 +342,13 @@ helpers.last = function(array, n) {
  * @name .lengthEqual
  * @param {Array} `array`
  * @param {Number} `length`
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.lengthEqual = function(array, length) {
-  const options = arguments[arguments.length - 1];
+helpers.lengthEqual = function(array, length, options) {
   if (array.length === length) {
     return options.fn(this);
   }
@@ -412,13 +409,13 @@ helpers.map = function(array, fn) {
  * @name .some
  * @param {Array} `array`
  * @param {Function} `cb` callback function
+ * @param {Options} Handlebars provided options object
  * @return {Array}
  * @block
  * @api public
  */
 
-helpers.some = function(arr, cb) {
-  const options = arguments[arguments.length - 1];
+helpers.some = function(arr, cb, options) {
   cb = utils.iterator(cb, this);
   if (!arr) {
     return options.inverse(this);
@@ -504,13 +501,13 @@ helpers.sortBy = function(arr/*, prop*/) {
  * ```
  * @param {Array} `array`
  * @param {Number} `idx`
+ * @param {Object} `options`
  * @return {Array}
  * @block
  * @api public
  */
 
-helpers.withAfter = function(array, idx) {
-  const options = arguments[arguments.length - 1];
+helpers.withAfter = function(array, idx, options) {
   array = array.slice(idx);
   var result = '';
 
@@ -535,13 +532,13 @@ helpers.withAfter = function(array, idx) {
  * ```
  * @param {Array} `array`
  * @param {Number} `idx`
+ * @param {Object} `options`
  * @return {Array}
  * @block
  * @api public
  */
 
-helpers.withBefore = function(array, idx) {
-  const options = arguments[arguments.length - 1];
+helpers.withBefore = function(array, idx, options) {
   array = array.slice(0, -idx);
   var result = '';
 
@@ -566,13 +563,13 @@ helpers.withBefore = function(array, idx) {
  * ```
  * @param {Array} `array`
  * @param {Number} `idx`
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.withFirst = function(arr, idx) {
-  const options = arguments[arguments.length - 1];
+helpers.withFirst = function(arr, idx, options) {
   if (utils.isEmpty(arr) || utils.isUndefined(arr)) {
     return '';
   }
@@ -583,6 +580,7 @@ helpers.withFirst = function(arr, idx) {
   }
 
   if (utils.isUndefined(idx)) {
+    options = idx;
     return options.fn(arr[0]);
   }
 
@@ -609,13 +607,13 @@ helpers.withFirst = function(arr, idx) {
  * ```
  * @param {Array} `array`
  * @param {Number} `idx` The starting index.
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.withLast = function(array, idx) {
-  const options = arguments[arguments.length - 1];
+helpers.withLast = function(array, idx, options) {
   if (utils.isUndefined(array)) {return '';}
   array = utils.result(array);
 
@@ -624,6 +622,7 @@ helpers.withLast = function(array, idx) {
   }
 
   if (utils.isUndefined(idx)) {
+    options = idx;
     return options.fn(array[array.length - 1]);
   }
 
@@ -649,17 +648,19 @@ helpers.withLast = function(array, idx) {
  * @name .withSort
  * @param {Array} `array`
  * @param {String} `prop`
+ * @param {Object} `options` Specify `reverse="true"` to reverse the array.
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.withSort = function(array, prop) {
-  const options = arguments[arguments.length - 1];
+helpers.withSort = function(array, prop, options) {
   if (utils.isUndefined(array)) {return '';}
   var result = '';
 
   if (utils.isUndefined(prop)) {
+    options = prop;
+
     array = array.sort();
     if (utils.get(options, 'hash.reverse')) {
       array = array.reverse();

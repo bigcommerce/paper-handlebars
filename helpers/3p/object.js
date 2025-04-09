@@ -51,14 +51,14 @@ helpers.extend = function(/*objects*/) {
  *
  * @name .forIn
  * @param {Object} `context`
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.forIn = function(obj) {
-  const options = arguments[arguments.length - 1];
-  if (utils.isOptions(obj)) {
+helpers.forIn = function(obj, options) {
+  if (!utils.isOptions(options)) {
     return obj.inverse(this);
   }
 
@@ -78,14 +78,14 @@ helpers.forIn = function(obj) {
  *
  * @name .forOwn
  * @param {Object} `obj` The object to iterate over.
+ * @param {Object} `options`
  * @return {String}
  * @block
  * @api public
  */
 
-helpers.forOwn = function(obj) {
-  const options = arguments[arguments.length - 1];
-  if (utils.isOptions(obj)) {
+helpers.forOwn = function(obj, options) {
+  if (!utils.isOptions(options)) {
     return obj.inverse(this);
   }
 
@@ -187,13 +187,13 @@ helpers.merge = function(context/*, objects, options*/) {
  * then passes the parsed object to the block as context.
  *
  * @param {String} `string` The string to parse
+ * @param {Object} `options` Handlebars options object
  * @contributor github.com/keeganstreet
  * @block
  * @api public
  */
 
-helpers.JSONparse = function(str) {
-  const options = arguments[arguments.length - 1];
+helpers.JSONparse = function(str, options) {
   return options.fn(JSON.parse(str));
 };
 
