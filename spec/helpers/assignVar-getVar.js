@@ -32,13 +32,13 @@ describe('assignVar and getVar helpers', function() {
     const runTestCases = testRunner({context});
 
     it('should throw an exception if the assignVar key is not a string', function (done) {
-        renderString('{{assignVar 1 2}}').catch(e => {
+        renderString('{{assignVar 1 2}}').catch(_ => {
             done();
         });
     });
 
     it('should throw an exception if the getVar key is not a string', function (done) {
-        renderString('{{getVar 2}}').catch(e => {
+        renderString('{{getVar 2}}').catch(_ => {
             done();
         });
     });
@@ -140,7 +140,7 @@ describe('assignVar and getVar helpers', function() {
 
     it(`should throw an error if buffer is filled (Max length: ${AssignVarHelper.max_length})`,
         function(done) {
-            renderString(`{{assignVar "fill" "${context.valueFillStringBuffer}"}}`).catch(e => {
+            renderString(`{{assignVar "fill" "${context.valueFillStringBuffer}"}}`).catch(_ => {
                 // If inline injection of string is not done, the test will fail when it should pass via the catch.
                 // See context above for more information.
                 done();
@@ -150,13 +150,49 @@ describe('assignVar and getVar helpers', function() {
 
     it(`should throw an error if buffer is overflowed (Max length: ${AssignVarHelper.max_length})`,
         function(done) {
-            renderString(`{{assignVar 'overflow' "${context.valueOverflowStringBufferBy1}"}}`).catch(e => {
+            renderString(`{{assignVar 'overflow' "${context.valueOverflowStringBufferBy1}"}}`).catch(_ => {
                 // If inline injection of string is not done, the test will fail when it should pass via the catch.
                 // See context above for more information.
                 done();
             });
         }
     );
+
+    it(`should allow for the writing of up to and including maximum variables (Maximum: ${AssignVarHelper.max_keys})`, function(done) {
+        runTestCases([
+            {
+                input: `{{#for 1 ${AssignVarHelper.max_keys}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}`,
+                output: [...Array(50).keys()]
+                    .map(n=>n+1) // Start at 1
+                    .join(""),
+            },
+        ], done);
+    });
+
+    it(`should fail when creating more than the maximum variables (Overflow at: ${AssignVarHelper.max_keys+1})`,
+        function(done) {
+            renderString(`{{#for 1 ${AssignVarHelper.max_keys+1}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}`,
+            ).catch(_ => {
+                done();
+            });
+        }
+    );
+
+    it("should allow for more variable assignments when some are deleted", function(done) {
+        runTestCases([
+            {
+                input: `
+                    {{~#for 1 ${AssignVarHelper.max_keys}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}
+                    {{~assignVar 'data1' null}}
+                    {{~assignVar 'data2' null}}
+                    {{~#for ${AssignVarHelper.max_keys+1} ${AssignVarHelper.max_keys+2}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}
+                `.trim(),
+                output: [...Array(50).keys()]
+                    .map(n=>n+1) // Start at 1
+                    .join("") + "51" + "52",
+            },
+        ], done);
+    });
 
     it('should return undefined accessing proto/constructor', function(done) {
         runTestCases([
