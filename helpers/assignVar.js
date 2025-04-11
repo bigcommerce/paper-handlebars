@@ -3,6 +3,7 @@ const utils = require('./3p/utils');
 const max_length = 1024;
 const max_keys = 50;
 const { ValidationError } = require('../lib/errors');
+const common = require("./lib/common");
 
 const factory = globals => {
     return function (key, value) {
@@ -12,8 +13,17 @@ const factory = globals => {
             throw new ValidationError("assignVar helper key must be a string");
         }
 
+
+        // Setup storage
+        if (typeof globals.storage.variables === 'undefined') {
+            globals.storage.variables = Object.create(null);
+        }
+
         //Check for if the assigned value is being set to null or undefined
         if (!(value === null || value === undefined)) {
+
+            // Due to check for string length, we need to unwrap Handlebars.SafeString
+            value = common.unwrapIfSafeString(globals.handlebars, value);
 
             // Validate that value is a string or Number (int/float)
             if (!(utils.isString(value) || value === "") && !Number.isFinite(value)) {
@@ -24,11 +34,6 @@ const factory = globals => {
             if (utils.isString(value) && value.length >= max_length) {
                 throw new ValidationError(`assignVar helper value must be less than ${max_length} characters, 
                 but a ${value.length} character value was set to ${key}`);
-            }
-
-            // Setup storage
-            if (typeof globals.storage.variables === 'undefined') {
-                globals.storage.variables = Object.create(null);
             }
 
             // Make sure the number of total keys is within the limit
