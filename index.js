@@ -362,7 +362,7 @@ class HandlebarsRenderer {
             try {
                 result = template(context);
             } catch(e) {
-                return reject(new RenderError(`${e.message} : ${e.stack}`));
+                return reject(new RenderError(e.message));
             }
 
             resolve(result);
