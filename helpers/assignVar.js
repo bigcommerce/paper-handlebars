@@ -3,6 +3,7 @@ const utils = require('./3p/utils');
 const max_length = 1024;
 const max_keys = 50;
 const { ValidationError } = require('../lib/errors');
+const common = require("./lib/common");
 
 const factory = globals => {
     return function (key, value) {
@@ -14,6 +15,9 @@ const factory = globals => {
 
         //Check for if the assigned value is being set to null or undefined
         if (!(value === null || value === undefined)) {
+
+            // Due to check for string length, we need to unwrap Handlebars.SafeString
+            value = common.unwrapIfSafeString(globals.handlebars, value);
 
             // Validate that value is a string or Number (int/float)
             if (!(utils.isString(value) || value === "") && !Number.isFinite(value)) {
