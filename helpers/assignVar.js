@@ -7,12 +7,12 @@ const common = require("./lib/common");
 
 const factory = globals => {
     return function (key, value) {
+        globals.getLogger().info(`DEBUG assignVar helper called with key: ${key} and value: ${value}`);
 
         // Validate that key is a string
         if (!utils.isString(key)) {
             throw new ValidationError("assignVar helper key must be a string");
         }
-
 
         // Setup storage
         if (typeof globals.storage.variables === 'undefined') {
@@ -30,7 +30,7 @@ const factory = globals => {
                 throw new ValidationError("assignVar helper value must be a string or a number (integer/float)");
             }
 
-            // Validate that string is not longer than the max length
+            // Validate that string is not longer than or equal to the max length
             if (utils.isString(value) && value.length >= max_length) {
                 throw new ValidationError(`assignVar helper value must be less than ${max_length} characters, 
                 but a ${value.length} character value was set to ${key}`);
@@ -53,4 +53,6 @@ const factory = globals => {
 module.exports = [{
     name: 'assignVar',
     factory: factory,
+    max_length: max_length,
+    max_keys: max_keys
 }];
