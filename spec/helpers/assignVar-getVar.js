@@ -5,33 +5,61 @@ const Lab = require('lab'),
     specHelpers = require('../spec-helpers'),
     testRunner = specHelpers.testRunner,
     renderString = specHelpers.renderString;
-
+const AssignVarHelper = require('../../helpers/assignVar')[0];
 
 describe('assignVar and getVar helpers', function() {
+
+    const generateOverflowString = (length, char) => {
+        return `${[...Array(length).keys()].map(_=>char).join("")}`;
+    }
+
     const context = {
         value1: "Big",
         value2: "Commerce",
         value3: 12,
         value4: -12.34,
-        value1300char: "rOiWsgkWKLRm0fve752Upp7qe3QBNBlKaSgMJaG6zbB8TChtbxLfnEbidd6GiJdjm5Q18LDwy24zQxjOpGKqVzbg3cyEh5vwSZvdwl34EMXM8Iqa3QTP2aEXCBhpnoTBBv4USIPU3dmyNRL7Gmx63TyBkVCqrjXZ033KhrDXrGmE9eVGpzNktFxpAiylJHFnQmehKFnsPn5fbicfDChGhTbu3hk4ti9tvmawWziljUmqdGQ8ddovJ2ivz0fSfoC5UoBTOMU4xNJfupFunE1ayncImLJUnDCW1hWC99Qb2AVAMNCzH84V3Pch0cERhxYed87Aw1rH4tMOLBnnOWF6KYDd5hGQLWaSMiv2kS5PHiAfcndquARxnSrAxGY01ly3bSLivoW98AD7poZXb61Skuiw5wSd6rAfr2WXRTlaQWsyJ3r5qqtmg9k5LwH9p76FMKYDOFtf0tqE8nK0ZoSBesASojH3aNLEV9Ad8zXBIv5euClEwDs54aWtYgnAZt1fBz9pDmcwMi32YrHcYDHM2HGDkdfjaGpEsPzvlipBRveXQwmwgxzqNlXoQT98vPSFXKm8WC2dQkcCt8XbMEr5gk37UJNoqhcaAp7vKCentu1iO8y80aN2ggzJ14tHTk5zYpvtk2gplkh6yWri9z99FpHpWoXIHH37EEGaw9KmRju5Gb7GK4HsDhQmkxUajdpcWZGneNQEbQ0kHd3iPaTzioJJ1tLoi4qRoTvttahwIcuxFtOXi6mg6dE60RtlZUPDn8MLsA7o7Ofu6uuzktP8ZyafhmC1YVAO5GPxSi9DAbtAC8EkWFNkD6ZGJdPWCbSGNVjfMwZ5Jn4Y9MpV3hF4wuTj2HLdSmhq0SO9npznJpXX38N6mgMoW9OOSKa2meGT7IzqAH4hzjagHJoKjVz0N06TO5jclv72nyHXv9tfQHyrT5HAHDCWvmqvDKmqyJlmZ78bZLa8CyE1CChqjtI6lhsf2grHw7sHE0wmA3K3TbQuAg1DHxhHZtUzoDHj8JBrW3iSACljFu8KBGnBVEdVV9amvLaZSj466sougBQUcpjfkPKeig7iqJmzqBhA2WXZ03qXoIioCQFxbUuZJ7H53LtK8AbB9Nou8E0eChhEnTE69K3R9g15I8zD8xvFQvat8h62Ac0UBj4SqOvpYwtK0yXY3a87kK341KA7pFH99k0SRtUxAUHSYwnhvSAYHe2oZyDUxoQbF3ElbF68cMWbFB39x40lnKKxV0V6T97JI2lDivSH4r6sJV416P5xh7a21q20gwEmAfEBKSQ20i5f",
+        valueUnderStringBuffer: generateOverflowString(AssignVarHelper.max_length-1, "U"),
+        // Bug in testing suite, strings in context that are over or equal to the max length are not being sent to the
+        // helpers. instead an `undefined` is being sent. To handle this we can use a template string in the tests
+        // directly to pretend that the string is being sent to the helpers.
+        valueFillStringBuffer: generateOverflowString(AssignVarHelper.max_length, "F"),
+        valueOverflowStringBufferBy1: generateOverflowString(AssignVarHelper.max_length+1, "O"),
+        valueEmptyString: "",
+        valueNull: null,
+        valueEncodedSafeString: "<script>alert('XSS')</script>",
     };
 
     const runTestCases = testRunner({context});
 
     it('should throw an exception if the assignVar key is not a string', function (done) {
-        renderString('{{assignVar 1 2}}').catch(e => {
+        renderString('{{assignVar 1 2}}').catch(_ => {
             done();
         });
     });
 
     it('should throw an exception if the getVar key is not a string', function (done) {
-        renderString('{{getVar 2}}').catch(e => {
+        renderString('{{getVar 2}}').catch(_ => {
             done();
         });
     });
 
     it('should assign and get variables', function(done) {
         runTestCases([
+            {
+                // New test case: Assigning a variable with an empty string value
+                input: "{{assignVar 'data1' valueEmptyString}}{{getVar 'data1'}}",
+                output: '',
+            },
+            {
+                // New test case: Assigning a variable with a string value, then delete it by assigning null
+                input: "{{assignVar 'data1' value1}}{{getVar 'data1'}} {{assignVar 'data1' null}}{{getVar 'data1'}} {{assignVar 'data1' value1}}{{getVar 'data1'}} {{assignVar 'data1' valueNull}}{{getVar 'data1'}}",
+                output: 'Big  Big ',
+            },
+            {
+                // New test case: Assigning a variable with a string value, then delete it by assigning undefined
+                input: "{{assignVar 'data1' value1}}{{getVar 'data1'}} {{assignVar 'data1' undefined}}{{getVar 'data1'}}",
+                output: 'Big ',
+            },
             {
                 input: "{{assignVar 'data1' value1}}{{assignVar 'data2' 12}}{{getVar 'data1'}} {{getVar 'data2'}}",
                 output: 'Big 12',
@@ -43,6 +71,20 @@ describe('assignVar and getVar helpers', function() {
             {
                 input: "{{assignVar 'data1' value1}}{{assignVar 'data2' value2}}{{getVar 'data1'}}{{getVar 'data2'}}",
                 output: 'BigCommerce',
+            },
+            {
+                input: "{{assignVar 'data1' null}}{{assignVar 'data2' undefined}}{{getVar 'data1'}}{{getVar 'data2'}}",
+                output: '',
+            },
+        ], done);
+    });
+
+    // Check to see if the assignVar still works when the situation is that no data has been stored yet, and a delete instruction is given.
+    it('should accept null and undefined as input before any variables are stored', function(done) {
+        runTestCases([
+            {
+                input: "{{assignVar 'data1' null}}{{assignVar 'data2' undefined}}{{getVar 'data1'}}{{getVar 'data2'}}",
+                output: '',
             },
         ], done);
     });
@@ -78,10 +120,78 @@ describe('assignVar and getVar helpers', function() {
         ], done);
     });
 
-    it('should throw an error if too long of a value is used', function(done) {
-        renderString("{{assignVar 'data1' value1300char}}").catch(e => {
-            done();
-        });
+    it('should accept a "SafeString" object as a valid alternative to a string (results should be a string when stored)', function(done) {
+        runTestCases([
+            {
+                input: "{{assignVar 'data1' (encodeHtmlEntities valueEncodedSafeString)}}{{getVar 'data1'}}",
+                output: '&amp;#x3C;script&amp;#x3E;alert(&amp;#x27;XSS&amp;#x27;)&amp;#x3C;/script&amp;#x3E;', // SAY NO TO XSS
+            },
+        ], done);
+    });
+
+    it(`should accept a string up to the maximum length of the buffer (Max length: ${AssignVarHelper.max_length})`, function(done) {
+        runTestCases([
+            {
+                input: "{{assignVar 'data1' valueUnderStringBuffer}}{{getVar 'data1'}}",
+                output: `${context.valueUnderStringBuffer}`,
+            },
+        ], done);
+    });
+
+    it(`should throw an error if buffer is filled (Max length: ${AssignVarHelper.max_length})`,
+        function(done) {
+            renderString(`{{assignVar "fill" "${context.valueFillStringBuffer}"}}`).catch(_ => {
+                // If inline injection of string is not done, the test will fail when it should pass via the catch.
+                // See context above for more information.
+                done();
+            });
+        }
+    );
+
+    it(`should throw an error if buffer is overflowed (Max length: ${AssignVarHelper.max_length})`,
+        function(done) {
+            renderString(`{{assignVar 'overflow' "${context.valueOverflowStringBufferBy1}"}}`).catch(_ => {
+                // If inline injection of string is not done, the test will fail when it should pass via the catch.
+                // See context above for more information.
+                done();
+            });
+        }
+    );
+
+    it(`should allow for the writing of up to and including maximum variables (Maximum: ${AssignVarHelper.max_keys})`, function(done) {
+        runTestCases([
+            {
+                input: `{{#for 1 ${AssignVarHelper.max_keys}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}`,
+                output: [...Array(50).keys()]
+                    .map(n=>n+1) // Start at 1
+                    .join(""),
+            },
+        ], done);
+    });
+
+    it(`should fail when creating more than the maximum variables (Overflow at: ${AssignVarHelper.max_keys+1})`,
+        function(done) {
+            renderString(`{{#for 1 ${AssignVarHelper.max_keys+1}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}`,
+            ).catch(_ => {
+                done();
+            });
+        }
+    );
+
+    it("should allow for more variable assignments when some are deleted", function(done) {
+        runTestCases([
+            {
+                input: `
+                    {{~#for 1 ${AssignVarHelper.max_keys}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}
+                    {{~assignVar 'data1' null}}
+                    {{~assignVar 'data2' null}}
+                    {{~#for ${AssignVarHelper.max_keys+1} ${AssignVarHelper.max_keys+2}}}{{assignVar (multiConcat 'data' this.$index) this.$index}}{{getVar (multiConcat 'data' this.$index)}}{{/for}}
+                `.trim(),
+                output: [...Array(50).keys()]
+                    .map(n=>n+1) // Start at 1
+                    .join("") + "51" + "52",
+            },
+        ], done);
     });
 
     it('should return undefined accessing proto/constructor', function(done) {
