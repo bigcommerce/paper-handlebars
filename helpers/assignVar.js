@@ -7,7 +7,7 @@ const common = require("./lib/common");
 
 const factory = globals => {
     return function (key, value) {
-        globals.getLogger().info(`DEBUG assignVar helper called with key: ${key} and value: ${value}`);
+        //globals.getLogger().info(`DEBUG assignVar helper called with key: ${key} and value: ${value}`);
 
         // Validate that key is a string
         if (!utils.isString(key)) {
@@ -53,6 +53,7 @@ const factory = globals => {
 module.exports = [{
     name: 'assignVar',
     factory: factory,
+    // Expose for use in testing to prevent magic numbers that can de-sync.
     max_length: max_length,
     max_keys: max_keys
 }];
