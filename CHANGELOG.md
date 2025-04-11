@@ -1,3 +1,17 @@
+## [6.2.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.0...v6.2.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* STRF-13111 Add stack trace to RenderError; Add knownHelpers ([#354](https://github.com/bigcommerce/paper-handlebars/issues/354)) ([5b82501](https://github.com/bigcommerce/paper-handlebars/commit/5b825012b3a4c1106af40ab5e86789326f6b87a1))
+
+# [6.2.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.1.1...v6.2.0) (2025-04-10)
+
+
+### Features
+
+* **typeof:** Implement js operator 'typeof' as inline handlebars operation ([#340](https://github.com/bigcommerce/paper-handlebars/issues/340)) ([040942a](https://github.com/bigcommerce/paper-handlebars/commit/040942ae40774c9f92bc463de632283f05052185))
+
 ## [6.1.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.1.0...v6.1.1) (2025-04-09)
 
 
