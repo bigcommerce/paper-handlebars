@@ -22,6 +22,7 @@ const helpersList = [
     'getImageSrcset',
     'getImageSrcset1x2x',
     'getObject',
+    'getURLQueryParam',
     'getVar',
     'helperMissing',
     'if',
