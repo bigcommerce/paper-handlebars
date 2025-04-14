@@ -1,3 +1,4 @@
+const path = require('path');
 const Lab = require('lab'),
       lab = exports.lab = Lab.script(),
       describe = lab.experiment,
@@ -6,9 +7,9 @@ const Lab = require('lab'),
 
 describe('dynamicComponent helper', function() {
     const templates = {
-              'component/fields/one': '1{{animal}}',
-              'component/fields/two': '2{{animal}}',
-              'component/fields/three': '3{{animal}}',
+              [path.normalize('component/fields/one')]: '1{{animal}}',
+              [path.normalize('component/fields/two')]: '2{{animal}}',
+              [path.normalize('component/fields/three')]: '3{{animal}}',
           },
           context = {
               fields: [
