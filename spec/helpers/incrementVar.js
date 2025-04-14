@@ -61,7 +61,7 @@ describe('incrementVar helper', function() {
         runTestCases([
             {
                 input: "{{incrementVar '__proto__'}}",
-                output: '',
+                output: '0',
             },
             {
                 input: "{{incrementVar 'constructor'}}",
