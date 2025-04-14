@@ -1,3 +1,10 @@
+## [6.2.4](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.3...v6.2.4) (2025-04-14)
+
+
+### Bug Fixes
+
+* STRF-13111 Object.create(null) insted of empty object ([#364](https://github.com/bigcommerce/paper-handlebars/issues/364)) ([3b19c00](https://github.com/bigcommerce/paper-handlebars/commit/3b19c0005d77ff54cc00bbf18f7c3912fb082aac))
+
 ## [6.2.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.2...v6.2.3) (2025-04-14)
 
 
