@@ -1,3 +1,11 @@
+## [6.2.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.2...v6.2.3) (2025-04-14)
+
+
+### Bug Fixes
+
+* STRF-13111 comparison, html, misc, object helpers ([#362](https://github.com/bigcommerce/paper-handlebars/issues/362)) ([c6fac22](https://github.com/bigcommerce/paper-handlebars/commit/c6fac2253093d5bc37c23616baa20b1c02cbc107))
+* STRF-13111 Helpers last arguments improvements and fixes part 3: comparison, html, misc, object ([#361](https://github.com/bigcommerce/paper-handlebars/issues/361)) ([f6fa2c4](https://github.com/bigcommerce/paper-handlebars/commit/f6fa2c4350e393c55b3612b618e3fbd5e4a33dc9))
+
 ## [6.2.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.1...v6.2.2) (2025-04-11)
 
 
