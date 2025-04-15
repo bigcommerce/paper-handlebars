@@ -135,3 +135,60 @@ helpers.avg = function() {
   args.pop();
   return exports.sum(args) / args.length;
 };
+
+/**
+ * Return the min of `a` and `b`.
+ * ```handlebars
+ * {{min 1 5}}
+ * //=> '1'
+ * ```
+ *
+ * @param {Number} `a`
+ * @param {Number} `b`
+ * @api public
+ */
+
+helpers.min = function(a, b) {
+  return a < b ? a : b;
+}
+
+
+/**
+ * Return the max of `a` and `b`.
+ * ```handlebars
+ * {{max 1 5}}
+ * //=> '5'
+ * ```
+ *
+ * @param {Number} `a`
+ * @param {Number} `b`
+ * @api public
+ */
+
+helpers.max = function(a, b) {
+  return a > b ? a : b;
+}
+
+
+/**
+ * Return the value `test` constrained to the provided `min` and `max`.
+ * If the value `test` falls outside of the provided `min` or `max`, the respective bounds will be returned instead.
+ *
+ * ```handlebars
+ * {{clamp 3 2 4}}
+ * //=> '3'
+ * {{clamp 10 2 4}}
+ * //=> '4'
+ * {{clamp -10 2 4}}
+ * //=> '2'
+ * ```
+ *
+ * @param {Number} `test`
+ * @param {Number} `min`
+ * @param {Number} `max`
+ * @api public
+ */
+
+helpers.clamp = function(test, min, max) {
+  return helpers.max(min, helpers.min(test, max));
+}
