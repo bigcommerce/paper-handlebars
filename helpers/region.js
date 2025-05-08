@@ -2,32 +2,46 @@
 
 const factory = globals => {
     return function(params) {
-        let regionId = params.hash.name;
-        let regionTranslation = params.hash.translation;
-        let regionEmpty = params.hash.empty; //Propal key of empty
-        let regionRaw = params.hash.raw; //Propal key of raw
-        let contentRegions = globals.getContent();
+        const regionId = params.hash.name;
+        const regionTranslation = params.hash.translation;
+        const contentRegions = globals.getContent();
 
-        if (!contentRegions) {
+        const applyModifierOrDefaultValue = (modifierVariable, defaultValue) => {
+            if (typeof modifierVariable === 'undefined') {
+                return defaultValue;
+            }
+            return !!modifierVariable; // Convert to boolean using truthiness.
+        }
+
+        const shouldUnwrap = applyModifierOrDefaultValue(params.hash.unwrapped, false);
+
+        if (!contentRegions) { // If no regions at all, return empty string. Short circuit escape.
             return '';
         }
 
-        // If content is empty, and flag to render nothing `empty` is set, then return nothing because there is nothing to render.
-        if (!contentRegions[regionId] && regionEmpty) {
-            return '';
+        // Construct the content to be returned as a string containing raw HTML.
+        // Trim the string to remove any leading or trailing whitespace.
+        const drawableContent = (contentRegions[regionId] || '').trim();
+
+
+        let outputContent;
+        if (shouldUnwrap) {
+            // Return the content without the wrapper div.
+            outputContent = drawableContent;
+        } else {
+
+            const wrapperDrawnAttributes = Object.values({
+                "region_identifier": `data-content-region="${regionId}"`,
+                "translation_data": regionTranslation && `data-content-region-translation="${regionTranslation}"`
+                // More attributes can be added here if needed.
+            }).filter(Boolean).join(' ');
+
+            // Create the wrapper div with the regionId and translation data attribute.
+            // This is the default behavior.
+            outputContent = `<div ${wrapperDrawnAttributes}>${drawableContent}</div>`;
         }
 
-        //Write just the region content to the output variable.
-        //If the flag is set for raw rendering, this will be the output.
-        let content = contentRegions[regionId] || '';
-        if (!regionRaw) {
-            //Return the original structure that is typical of the {{region}} handlebars entity.
-            const translationDataAttribute = regionTranslation ? ` data-content-region-translation="${regionTranslation}"` : '';
-            //Original returned structure.
-            content = `<div data-content-region="${regionId}"${translationDataAttribute}>${contentRegions[regionId] || ''}</div>`;
-        }
-        
-        return new globals.handlebars.SafeString(content);
+        return new globals.handlebars.SafeString(outputContent);
     };
 };
 
