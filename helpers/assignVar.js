@@ -7,7 +7,6 @@ const common = require("./lib/common");
 
 const factory = globals => {
     return function (key, value) {
-        //globals.getLogger().info(`DEBUG assignVar helper called with key: ${key} and value: ${value}`);
 
         // Validate that key is a string
         if (!utils.isString(key)) {
@@ -37,7 +36,7 @@ const factory = globals => {
             }
 
             // Make sure the number of total keys is within the limit
-            if (Object.keys(globals.storage.variables).length >= max_keys) {
+            if (Object.keys(globals.storage.variables).length > max_keys) {
                 throw new ValidationError(`Unique keys in variable storage may not exceed ${max_keys} in total`);
             }
 
