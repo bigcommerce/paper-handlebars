@@ -36,7 +36,7 @@ const factory = globals => {
             }
 
             // Make sure the number of total keys is within the limit
-            if (Object.keys(globals.storage.variables).length > max_keys) {
+            if (Object.keys(globals.storage.variables).length >= max_keys) {
                 throw new ValidationError(`Unique keys in variable storage may not exceed ${max_keys} in total`);
             }
 
