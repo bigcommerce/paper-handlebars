@@ -77,6 +77,8 @@ class HandlebarsRenderer {
             const spec = helpers[i];
             this.handlebars.registerHelper(spec.name, spec.factory(this.helperContext));
         }
+
+        this.overrideHelpers();
     }
 
     getResourceHints() {
@@ -417,6 +419,12 @@ class HandlebarsRenderer {
      */
     setLoggerLevel(level) {
         this.handlebars.logger.level = level;
+    }
+
+    overrideHelpers() {
+        if (this.isLoggerOverriden) {
+            this.handlebars.registerHelper('log', () => undefined);
+        }
     }
 }
 
