@@ -1,3 +1,15 @@
+# [6.3.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.4...v6.3.0) (2025-05-14)
+
+
+### Bug Fixes
+
+* Trigger Build ([#371](https://github.com/bigcommerce/paper-handlebars/issues/371)) ([b5cd3fd](https://github.com/bigcommerce/paper-handlebars/commit/b5cd3fd8223ca6aebed3556666484c4e2e1e36a7))
+
+
+### Features
+
+* **assignVar:** Patch for assignVar to add "drop key" feature and fixes reflecting documentation ([#350](https://github.com/bigcommerce/paper-handlebars/issues/350)) ([67d2c54](https://github.com/bigcommerce/paper-handlebars/commit/67d2c540c1cac103773512ee8f18fe985a5c897f))
+
 ## [6.2.4](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.3...v6.2.4) (2025-04-14)
 
 
