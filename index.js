@@ -379,6 +379,9 @@ class HandlebarsRenderer {
 
         // Override logger.log to use the given console alternative
         this.handlebars.log = this.handlebars.logger.log = (level, ...message) => {
+            if (this.isLoggerOverriden) {
+                return;
+            }
             level = this.handlebars.logger.lookupLevel(level);
 
             if (this.handlebars.logger.lookupLevel(this.handlebars.logger.level) <= level) {
