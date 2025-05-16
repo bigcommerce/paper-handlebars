@@ -26,7 +26,7 @@ describe('Region Helper', () => {
         done();
     });
 
-    it('should return an empty container if using empty content context', done => {
+    it('should return an empty container if using empty content context: Wrapped', done => {
         runTestCases([
             {
                 input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation"}}',
@@ -36,7 +36,7 @@ describe('Region Helper', () => {
         ], done);
     });
 
-    it('should return an empty container if no matching region on context object', done => {
+    it('should return an empty container if no matching region on context object: Wrapped', done => {
         runTestCases([
             {
                 input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation"}}',
@@ -45,7 +45,7 @@ describe('Region Helper', () => {
         ], done);
     });
 
-    it('should return without region translation data attribute if no translation is provided', done => {
+    it('should return without region translation data attribute if no translation is provided: Wrapped', done => {
         runTestCases([
             {
                 input: '{{region name="banner-bottom"}}',
@@ -54,11 +54,52 @@ describe('Region Helper', () => {
         ], done);
     });
 
-    it('should return Hello World', done => {
+    it('should return Hello World: Wrapped', done => {
         runTestCases([
             {
                 input: '{{region name="banner-top" translation="i18n.RegionName.TestingTranslation"}}',
                 output: '<div data-content-region="banner-top" data-content-region-translation="i18n.RegionName.TestingTranslation">hello world</div>',
+            },
+        ], done);
+    });
+
+    // -------------------------------------------------
+    // Unwrapped tests
+    // -------------------------------------------------
+
+    it('should return an empty container if using empty content context: Unwrapped', done => {
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation" unwrapped=true}}',
+                output: '',
+                renderer: buildRenderer(),
+            },
+        ], done);
+    });
+
+    it('should return an empty container if no matching region on context object: Unwrapped', done => {
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom" translation="i18n.RegionName.TestingTranslation" unwrapped=true}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should return without region translation data attribute if no translation is provided: Unwrapped', done => {
+        runTestCases([
+            {
+                input: '{{region name="banner-bottom" unwrapped=true}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should return Hello World: Unwrapped', done => {
+        runTestCases([
+            {
+                input: '{{region name="banner-top" translation="i18n.RegionName.TestingTranslation" unwrapped=true}}',
+                output: 'hello world',
             },
         ], done);
     });
