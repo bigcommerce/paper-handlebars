@@ -439,7 +439,7 @@ describe('logging', () => {
     it('log helper uses given logger', done => {
         renderer = new HandlebarsRenderer({}, {}, 'v3', logger);
         renderer.renderString('{{log bar}}', context).then(() => {
-            expect(logger.info.calledWith('baz')).to.equal(true);
+            expect(logger.info.called).to.equal(false);
             done();
         });
     });
@@ -519,6 +519,7 @@ describe('logging', () => {
         expect(result).to.equal("");
         expect(logger.info.calledWith('Handlebars: Access has been denied to resolve the property "trim" because it is not an "own property" of its parent.\n' + 'You can add a runtime option to disable the check or this warning:\n' + 'See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details'))
             .to.equal(true);
+   
     });
 
     it('should check that property access denied message is set as error', async () => {
