@@ -1,3 +1,10 @@
+## [6.3.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.0...v6.3.1) (2025-05-20)
+
+
+### Bug Fixes
+
+* Trigger Build ([#374](https://github.com/bigcommerce/paper-handlebars/issues/374)) ([8a141ca](https://github.com/bigcommerce/paper-handlebars/commit/8a141ca87d5382ee65610108127a49c99a15f54e))
+
 # [6.3.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.2.4...v6.3.0) (2025-05-14)
 
 
