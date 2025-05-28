@@ -34,7 +34,7 @@
   "homepage": "https://github.com/bigcommerce/paper-handlebars",
   "dependencies": {
     "@bigcommerce/handlebars-v4": "4.7.8",
-    "chrono-node": "^2.6.5",
+    "chrono-node": "2.8.0",
     "handlebars": "3.0.8",
     "he": "^1.2.0",
     "moment": "^2.29.4",
