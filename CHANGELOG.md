@@ -1,3 +1,10 @@
+## [6.3.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.1...v6.3.2) (2025-05-28)
+
+
+### Bug Fixes
+
+* set chrono-node to 2.8.0 ([#378](https://github.com/bigcommerce/paper-handlebars/issues/378)) ([bde0775](https://github.com/bigcommerce/paper-handlebars/commit/bde07750eda5a6744d15fb45c85b12d5fcbbee4d))
+
 ## [6.3.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.0...v6.3.1) (2025-05-20)
 
 
