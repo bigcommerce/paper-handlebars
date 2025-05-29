@@ -56,7 +56,13 @@ module.exports = globals => {
             }
 
             if (protocol === 'webdav:') {
-                return [cdnUrl, 'content', path].join('/');
+                const supportedImageExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+                const unsupportedPathSyntaxes = ['../', './'];
+                const isImage = supportedImageExtensions.some(ext => path.toLowerCase().includes(ext));
+                const isTraversedPathUsed = unsupportedPathSyntaxes.some(syntax => path.startsWith(syntax));
+                // to avoid breaking changes, we keep paths for webdav content unchanged if the path is traversed
+                const prefix = isImage && !isTraversedPathUsed ? 'images/stencil/original/content' : 'content'
+                return [cdnUrl, prefix, path].join('/');
             }
 
             if (cdnSettings) {
