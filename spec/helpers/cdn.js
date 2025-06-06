@@ -194,19 +194,48 @@ describe('cdn helper', function () {
         ], done);
     });
 
-    it('should return a webDav asset if webdav protocol specified', function (done) {
+    it('should return an original cdn img asset if webdav protocol specified but file type indicates it is an image', function (done) {
         runTestCases([
             {
                 input: '{{cdn "webdav:img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpg',
             },
             {
-                input: '{{cdn "webdav:/img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
+                input: '{{cdn "webdav:/img/image.jpeg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpeg',
             },
             {
-                input: '{{cdn "webdav://img/image.jpg"}}',
-                output: 'https://cdn.bcapp/3dsf74g/content/img/image.jpg',
+                input: '{{cdn "webdav://img/image.gif"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.gif',
+            },
+            {
+                input: '{{cdn "webdav://img/image.png"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.png',
+            },
+            {
+                input: '{{cdn "webdav:img/image.jpg?040620250934"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/img/image.jpg?040620250934',
+            },
+        ], done);
+    });
+
+    it('should return a webDav asset if webdav protocol specified but is not a supported image type', function (done) {
+        runTestCases([
+            {
+                input: '{{cdn "webdav:img/image.pdf"}}',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.pdf',
+            },
+            {
+                input: '{{cdn "webdav:/img/image.pdf"}}',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.pdf',
+            },
+            {
+                input: '{{cdn "webdav://img/image.pdf"}}',
+                output: 'https://cdn.bcapp/3dsf74g/content/img/image.pdf',
+            },
+            {
+                input: '{{cdn "webdav://gifts/image.pdf"}}',
+                output: 'https://cdn.bcapp/3dsf74g/content/gifts/image.pdf',
             },
         ], done);
     });
