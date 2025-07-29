@@ -81,6 +81,10 @@ class HandlebarsRenderer {
         this.overrideHelpers();
     }
 
+    getHelpersForExternalUse() {
+        return helpers;
+    }
+
     getResourceHints() {
         return this.helperContext.resourceHints;
     }
