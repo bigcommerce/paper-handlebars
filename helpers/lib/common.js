@@ -80,9 +80,9 @@ function appendLossyParam(url, lossy) {
         return url;
     }
     
-    // Check if URL already has query parameters
-    const separator = url.indexOf('?') !== -1 ? '&' : '?';
-    return url + separator + 'compression=lossy';
+    const urlObj = new URL(url);
+    urlObj.searchParams.set('compression', 'lossy');
+    return urlObj.toString();
 }
 
 module.exports = {
