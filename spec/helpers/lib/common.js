@@ -1,4 +1,5 @@
 const getValue = require('../../../helpers/lib/common').getValue;
+const appendLossyParam = require('../../../helpers/lib/common').appendLossyParam;
 const Code = require('code'),
       expect = Code.expect;
 const Lab = require('lab'),
@@ -90,6 +91,41 @@ describe('common utils', function () {
         it('should not access inherited props', (done) => {
             expect(getValue(obj, 'x', globals)).to.equal(undefined);
             expect(getValue(obj, 'a.constructor', globals)).to.equal(undefined);
+            done();
+        });
+    });
+
+    describe('appendLossyParam', function() {
+        it('should append compression=lossy to URLs without query params', function(done) {
+            const result = appendLossyParam('https://example.com/image.jpg', true);
+            expect(result).to.equal('https://example.com/image.jpg?compression=lossy');
+            done();
+        });
+
+        it('should append compression=lossy to URLs with existing query params', function(done) {
+            const result = appendLossyParam('https://example.com/image.jpg?c=2', true);
+            expect(result).to.equal('https://example.com/image.jpg?c=2&compression=lossy');
+            done();
+        });
+
+        it('should not modify URL when lossy is false', function(done) {
+            const url = 'https://example.com/image.jpg?c=2';
+            const result = appendLossyParam(url, false);
+            expect(result).to.equal(url);
+            done();
+        });
+
+        it('should not modify URL when lossy is undefined', function(done) {
+            const url = 'https://example.com/image.jpg';
+            const result = appendLossyParam(url);
+            expect(result).to.equal(url);
+            done();
+        });
+
+        it('should not modify URL when lossy is not a boolean', function(done) {
+            const url = 'https://example.com/image.jpg';
+            const result = appendLossyParam(url, 'true');
+            expect(result).to.equal(url);
             done();
         });
     });

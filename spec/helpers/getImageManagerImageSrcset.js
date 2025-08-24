@@ -44,4 +44,21 @@ describe('getImageManagerImageSrcset helper', function() {
             },
         ], done);
     });
+
+    it('should support lossy compression parameter', function(done) {
+        runTestCases([
+            {
+                input: '{{getImageManagerImageSrcset "asset.jpg" lossy=true}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/80w/image-manager/asset.jpg?compression=lossy 80w, https://cdn.bcapp/3dsf74g/images/stencil/160w/image-manager/asset.jpg?compression=lossy 160w, https://cdn.bcapp/3dsf74g/images/stencil/320w/image-manager/asset.jpg?compression=lossy 320w, https://cdn.bcapp/3dsf74g/images/stencil/640w/image-manager/asset.jpg?compression=lossy 640w, https://cdn.bcapp/3dsf74g/images/stencil/960w/image-manager/asset.jpg?compression=lossy 960w, https://cdn.bcapp/3dsf74g/images/stencil/1280w/image-manager/asset.jpg?compression=lossy 1280w, https://cdn.bcapp/3dsf74g/images/stencil/1920w/image-manager/asset.jpg?compression=lossy 1920w, https://cdn.bcapp/3dsf74g/images/stencil/2560w/image-manager/asset.jpg?compression=lossy 2560w'
+            },
+            {
+                input: '{{getImageManagerImageSrcset "asset.jpg" lossy=false}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/80w/image-manager/asset.jpg 80w, https://cdn.bcapp/3dsf74g/images/stencil/160w/image-manager/asset.jpg 160w, https://cdn.bcapp/3dsf74g/images/stencil/320w/image-manager/asset.jpg 320w, https://cdn.bcapp/3dsf74g/images/stencil/640w/image-manager/asset.jpg 640w, https://cdn.bcapp/3dsf74g/images/stencil/960w/image-manager/asset.jpg 960w, https://cdn.bcapp/3dsf74g/images/stencil/1280w/image-manager/asset.jpg 1280w, https://cdn.bcapp/3dsf74g/images/stencil/1920w/image-manager/asset.jpg 1920w, https://cdn.bcapp/3dsf74g/images/stencil/2560w/image-manager/asset.jpg 2560w'
+            },
+            {
+                input: '{{getImageManagerImageSrcset "asset.jpg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/80w/image-manager/asset.jpg 80w, https://cdn.bcapp/3dsf74g/images/stencil/160w/image-manager/asset.jpg 160w, https://cdn.bcapp/3dsf74g/images/stencil/320w/image-manager/asset.jpg 320w, https://cdn.bcapp/3dsf74g/images/stencil/640w/image-manager/asset.jpg 640w, https://cdn.bcapp/3dsf74g/images/stencil/960w/image-manager/asset.jpg 960w, https://cdn.bcapp/3dsf74g/images/stencil/1280w/image-manager/asset.jpg 1280w, https://cdn.bcapp/3dsf74g/images/stencil/1920w/image-manager/asset.jpg 1920w, https://cdn.bcapp/3dsf74g/images/stencil/2560w/image-manager/asset.jpg 2560w'
+            },
+        ], done);
+    });
 });

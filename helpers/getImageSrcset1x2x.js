@@ -7,8 +7,14 @@ const factory = globals => {
     return function (image, size1x) {
         // Regex to test size string is of the form 123x123
         const pixelDimensionsRegex = /(^\d+w$)|(^(\d+?)x(\d+?)$)/;
-        const return1x = (image, size1x) =>
-            new globals.handlebars.SafeString(image.data.replace('{:size}', size1x));
+        const options = arguments[arguments.length - 1];
+        const lossy = options && options.hash && options.hash.lossy;
+        
+        const return1x = (image, size1x) => {
+            const processedUrl = image.data.replace('{:size}', size1x);
+            const finalUrl = common.appendLossyParam(processedUrl, lossy);
+            return new globals.handlebars.SafeString(finalUrl);
+        };
 
         if (!utils.isObject(image) || !utils.isString(image.data)
             || !common.isValidURL(image.data) || image.data.indexOf('{:size}') === -1) {
@@ -42,8 +48,11 @@ const factory = globals => {
             }
 
             const sizeXx = `${widthXx}x${heightXx}`;
+            
+            const url1x = common.appendLossyParam(image.data.replace('{:size}', size1x), lossy);
+            const urlXx = common.appendLossyParam(image.data.replace('{:size}', sizeXx), lossy);
 
-            return new globals.handlebars.SafeString(`${image.data.replace('{:size}', size1x)} 1x, ${image.data.replace('{:size}', sizeXx)} ${roundedFactor}x`);
+            return new globals.handlebars.SafeString(`${url1x} 1x, ${urlXx} ${roundedFactor}x`);
         }
     };
 };

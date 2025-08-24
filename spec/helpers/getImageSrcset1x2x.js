@@ -93,4 +93,21 @@ describe('getImageSrcset1x2x helper', function() {
             done();
         });
     });
+
+    it('should support lossy compression parameter', function(done) {
+        runTestCases([
+            {
+                input: '{{getImageSrcset1x2x image_with_dimensions "123x456" lossy=true}}',
+                output: 'https://cdn.example.com/path/to/123x456/image.png?c=2&compression=lossy 1x, https://cdn.example.com/path/to/246x912/image.png?c=2&compression=lossy 2x',
+            },
+            {
+                input: '{{getImageSrcset1x2x image_with_dimensions "123x456" lossy=false}}',
+                output: 'https://cdn.example.com/path/to/123x456/image.png?c=2 1x, https://cdn.example.com/path/to/246x912/image.png?c=2 2x',
+            },
+            {
+                input: '{{getImageSrcset1x2x image_with_dimensions "123x456"}}',
+                output: 'https://cdn.example.com/path/to/123x456/image.png?c=2 1x, https://cdn.example.com/path/to/246x912/image.png?c=2 2x',
+            },
+        ], done);
+    });
 });

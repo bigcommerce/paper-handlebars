@@ -69,9 +69,26 @@ function unwrapIfSafeString(handlebars, val) {
 
 const maximumPixelSize = 5120;
 
+/**
+ * Append compression=lossy query parameter to a URL if lossy is true
+ * @param {string} url - The URL to modify
+ * @param {boolean} lossy - Whether to append the lossy compression parameter
+ * @returns {string} - The modified URL
+ */
+function appendLossyParam(url, lossy) {
+    if (!lossy || typeof lossy !== 'boolean') {
+        return url;
+    }
+    
+    // Check if URL already has query parameters
+    const separator = url.indexOf('?') !== -1 ? '&' : '?';
+    return url + separator + 'compression=lossy';
+}
+
 module.exports = {
     isValidURL,
     getValue,
     unwrapIfSafeString,
-    maximumPixelSize
+    maximumPixelSize,
+    appendLossyParam
 };

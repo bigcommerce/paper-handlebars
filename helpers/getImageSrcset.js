@@ -12,6 +12,7 @@ const factory = globals => {
         const descriptorRegex = /(^\d+w$)|(^([0-9](\.[0-9]+)?)x)$/;
 
         const options = arguments[arguments.length - 1];
+        const lossy = options && options.hash && options.hash.lossy;
 
         if (utils.isUndefined(defaultImageUrl)) {
             defaultImageUrl = '';
@@ -51,7 +52,10 @@ const factory = globals => {
                 };
             }
         } else {
-            srcsets = options.hash;
+            srcsets = Object.assign({}, options.hash);
+            // Remove non-srcset parameters like 'lossy'
+            delete srcsets.lossy;
+            
             if (!utils.isObject(srcsets) || Object.keys(srcsets).some(descriptor => {
                 return !(descriptorRegex.test(descriptor) && sizeRegex.test(srcsets[descriptor]));
             })) {
@@ -62,11 +66,15 @@ const factory = globals => {
 
         // If there's only one argument, return a `src` only (also works for `srcset`)
         if (Object.keys(srcsets).length === 1) {
-            return new globals.handlebars.SafeString((image.data.replace('{:size}', srcsets[Object.keys(srcsets)[0]])));
+            const processedUrl = image.data.replace('{:size}', srcsets[Object.keys(srcsets)[0]]);
+            const finalUrl = common.appendLossyParam(processedUrl, lossy);
+            return new globals.handlebars.SafeString(finalUrl);
         }
 
         return new globals.handlebars.SafeString(Object.keys(srcsets).reverse().map(descriptor => {
-            return ([image.data.replace('{:size}', srcsets[descriptor]), descriptor].join(' '));
+            const processedUrl = image.data.replace('{:size}', srcsets[descriptor]);
+            const finalUrl = common.appendLossyParam(processedUrl, lossy);
+            return ([finalUrl, descriptor].join(' '));
         }).join(', '));
     };
 };
