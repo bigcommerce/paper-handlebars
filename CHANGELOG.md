@@ -1,3 +1,10 @@
+# [6.4.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.2...v6.4.0) (2025-08-26)
+
+
+### Features
+
+* implement lossy compression parameter for all image helpers ([1f6a978](https://github.com/bigcommerce/paper-handlebars/commit/1f6a978304186f833d23fc35f9f3f478c1be0383))
+
 ## [6.3.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.1...v6.3.2) (2025-05-28)
 
 
