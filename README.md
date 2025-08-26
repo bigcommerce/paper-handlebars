@@ -1,5 +1,5 @@
 # paper-handlebars
-[![Build Status](https://github.com/bigcommerce/paper-handlebars/workflows/Build/badge.svg)](https://travis-ci.org/bigcommerce/paper-handlebars) [![npm (scoped)](https://img.shields.io/npm/v/@bigcommerce/stencil-paper-handlebars.svg)](https://www.npmjs.com/package/@bigcommerce/stencil-paper-handlebars)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/bigcommerce/paper-handlebars) [![Build Status](https://github.com/bigcommerce/paper-handlebars/workflows/Build/badge.svg)](https://travis-ci.org/bigcommerce/paper-handlebars) [![npm (scoped)](https://img.shields.io/npm/v/@bigcommerce/stencil-paper-handlebars.svg)](https://www.npmjs.com/package/@bigcommerce/stencil-paper-handlebars)
 
 *paper-handlebars* is a plugin for [Paper](http://github.com/bigcommerce/paper). Its duty is to render pages and strings using the [Handlebars](http://handlebarsjs.com/) template engine.
 
