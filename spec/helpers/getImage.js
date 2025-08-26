@@ -144,4 +144,25 @@ describe('getImage helper', function() {
             },
         ], done);
     });
+
+    it('should support lossy compression parameter', function(done) {
+        runTestCases([
+            {
+                input: '{{getImage image "logo" lossy=true}}',
+                output: urlData.replace('{:size}', '250x100') + '&compression=lossy',
+            },
+            {
+                input: '{{getImage image "logo" lossy=false}}',
+                output: urlData.replace('{:size}', '250x100'),
+            },
+            {
+                input: '{{getImage image "logo"}}',
+                output: urlData.replace('{:size}', '250x100'),
+            },
+            {
+                input: '{{getImage image_with_2_qs "logo" lossy=true}}',
+                output: urlData_2_qs.replace('{:size}', '250x100') + '&compression=lossy',
+            },
+        ], done);
+    });
 });

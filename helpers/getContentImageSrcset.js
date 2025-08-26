@@ -6,8 +6,9 @@ const factory = globals => {
         const siteSettings = globals.getSiteSettings();
 
         const cdnUrl = siteSettings.cdn_url || '';
+        const options = arguments[arguments.length - 1];
 
-        return getObjectStorageImageSrcset(globals.handlebars, cdnUrl, 'content', path);
+        return getObjectStorageImageSrcset(globals.handlebars, cdnUrl, 'content', path, options);
     };
 };
 

@@ -136,4 +136,29 @@ describe('getImageSrcset helper', function() {
             },
         ], done);
     });
+
+    it('should support lossy compression parameter', function(done) {
+        runTestCases([
+            {
+                input: '{{getImageSrcset image 100w="100w" 200w="200w" lossy=true}}',
+                output: 'https://cdn.example.com/path/to/100w/image.png?c=2&compression=lossy 100w, https://cdn.example.com/path/to/200w/image.png?c=2&compression=lossy 200w',
+            },
+            {
+                input: '{{getImageSrcset image_with_2_qs 100w="100w" 200w="200w" lossy=true}}',
+                output: 'https://cdn.example.com/path/to/100w/image.png?c=2&imbypass=on&compression=lossy 100w, https://cdn.example.com/path/to/200w/image.png?c=2&imbypass=on&compression=lossy 200w',
+            },
+            {
+                input: '{{getImageSrcset image 100w="100w" lossy=true}}',
+                output: 'https://cdn.example.com/path/to/100w/image.png?c=2&compression=lossy',
+            },
+            {
+                input: '{{getImageSrcset image 100w="100w" lossy=false}}',
+                output: 'https://cdn.example.com/path/to/100w/image.png?c=2',
+            },
+            {
+                input: '{{getImageSrcset image 100w="100w"}}',
+                output: 'https://cdn.example.com/path/to/100w/image.png?c=2',
+            },
+        ], done);
+    });
 });

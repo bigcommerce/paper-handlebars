@@ -11,6 +11,10 @@ const factory = globals => {
         var size;
         var width;
         var height;
+        
+        // Get options object to access hash parameters
+        const options = arguments[arguments.length - 1];
+        const lossy = options && options.hash && options.hash.lossy;
 
         if (!utils.isObject(image) || !utils.isString(image.data)
             || !common.isValidURL(image.data) || image.data.indexOf('{:size}') === -1) {
@@ -39,7 +43,10 @@ const factory = globals => {
             size = `${Math.min(image.width, width)}x${Math.min(image.height, height)}`
         }
 
-        return new globals.handlebars.SafeString(image.data.replace('{:size}', size));
+        const processedUrl = image.data.replace('{:size}', size);
+        const finalUrl = common.appendLossyParam(processedUrl, lossy);
+        
+        return new globals.handlebars.SafeString(finalUrl);
     };
 };
 

@@ -22,6 +22,7 @@ function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
 
     // Return original image if there are no arguments
     let size = 'original';
+    const lossy = options && options.hash && options.hash.lossy;
 
     if (Number.isInteger(options.hash['width'])) {
         if (Number.isInteger(options.hash['height'])) {
@@ -33,16 +34,22 @@ function getObjectStorageImage(handlebars, cdnUrl, source, path, options) {
         }
     }
 
-    return new handlebars.SafeString(`${cdnUrl}/images/stencil/${size}/${source}/${path}`);
+    const baseUrl = `${cdnUrl}/images/stencil/${size}/${source}/${path}`;
+    const finalUrl = common.appendLossyParam(baseUrl, lossy);
+    return new handlebars.SafeString(finalUrl);
 }
 
-function getObjectStorageImageSrcset(handlebars, cdnUrl, source, path) {
+function getObjectStorageImageSrcset(handlebars, cdnUrl, source, path, options) {
     if (!utils.isString(path) || common.isValidURL(path)) {
         throw new ValidationError("Invalid image path - please use a filename or folder path starting from the appropriate folder");
     }
 
+    const lossy = options && options.hash && options.hash.lossy;
+
     return new handlebars.SafeString(Object.keys(srcsets).map(descriptor => {
-        return ([`${cdnUrl}/images/stencil/${srcsets[descriptor]}/${source}/${path} ${descriptor}`].join(' '));
+        const baseUrl = `${cdnUrl}/images/stencil/${srcsets[descriptor]}/${source}/${path}`;
+        const finalUrl = common.appendLossyParam(baseUrl, lossy);
+        return ([`${finalUrl} ${descriptor}`].join(' '));
     }).join(', '));
 }
 

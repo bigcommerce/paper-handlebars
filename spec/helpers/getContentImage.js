@@ -86,4 +86,29 @@ describe('getContentImage helper', function() {
             },
         ], done);
     });
+
+    it('should support lossy compression parameter', function(done) {
+        runTestCases([
+            {
+                input: '{{getContentImage "asset.jpg" lossy=true}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/asset.jpg?compression=lossy'
+            },
+            {
+                input: '{{getContentImage "asset.jpg" width=123 lossy=true}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/123w/content/asset.jpg?compression=lossy'
+            },
+            {
+                input: '{{getContentImage "asset.jpg" width=123 height=321 lossy=true}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/123x321/content/asset.jpg?compression=lossy'
+            },
+            {
+                input: '{{getContentImage "asset.jpg" lossy=false}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/asset.jpg'
+            },
+            {
+                input: '{{getContentImage "asset.jpg"}}',
+                output: 'https://cdn.bcapp/3dsf74g/images/stencil/original/content/asset.jpg'
+            },
+        ], done);
+    });
 });
