@@ -35,4 +35,43 @@ describe('nonce helper', function () {
             },
         ], done);
     });
+
+    it('should not render a nonce when no security in params', function (done) {
+        const requestParams = {}
+        const renderer = buildRenderer({}, {}, {}, null, requestParams);
+        const runTestCases = testRunner({context, renderer});
+        runTestCases([
+            {
+                input: '{{nonce}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should not render a nonce when params is null', function (done) {
+        const renderer = buildRenderer({}, {}, {}, null, null);
+        const runTestCases = testRunner({context, renderer});
+        runTestCases([
+            {
+                input: '{{nonce}}',
+                output: '',
+            },
+        ], done);
+    });
+
+    it('should not render a nonce when security.nonce is falsy', function (done) {
+        const requestParams = {
+            security: {
+                nonce: ''
+            },
+        }
+        const renderer = buildRenderer({}, {}, {}, null, requestParams);
+        const runTestCases = testRunner({context, renderer});
+        runTestCases([
+            {
+                input: '{{nonce}}',
+                output: '',
+            },
+        ], done);
+    });
 });

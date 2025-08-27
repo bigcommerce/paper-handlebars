@@ -34,4 +34,13 @@ describe('inject helper', function() {
             },
         ], done);
     });
+
+    it('should return empty object when no variables injected', function(done) {
+        runTestCases([
+            {
+                input: "{{jsContext}}",
+                output: '"{}"',
+            },
+        ], done);
+    });
 });
