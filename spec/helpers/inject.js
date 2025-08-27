@@ -20,4 +20,18 @@ describe('inject helper', function() {
             },
         ], done);
     });
+
+    it('should do nothing when injecting a function', function(done) {
+        const functionContext = Object.assign({}, context, {
+            myFunction: function() { return 'test'; }
+        });
+        const runTestCasesWithFunction = testRunner({context: functionContext});
+        
+        runTestCasesWithFunction([
+            {
+                input: "{{inject 'func' myFunction}}{{jsContext}}",
+                output: '"{}"',
+            },
+        ], done);
+    });
 });
