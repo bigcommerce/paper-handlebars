@@ -1,3 +1,10 @@
+## [6.4.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.4.0...v6.4.1) (2025-09-03)
+
+
+### Bug Fixes
+
+* SD-9364 Use CDN Original images for webdav - cache control ([0dd26e2](https://github.com/bigcommerce/paper-handlebars/commit/0dd26e244b4f8d9318cb3c14a1ab7dd87a591ba4))
+
 # [6.4.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.3.2...v6.4.0) (2025-08-26)
 
 
