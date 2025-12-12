@@ -437,3 +437,4 @@ class HandlebarsRenderer {
 }
 
 module.exports = HandlebarsRenderer;
+module.exports.HandlebarsRuntime = HandlebarsV4Runtime;
