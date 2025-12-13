@@ -1,6 +1,7 @@
 'use strict';
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
+const HandlebarsV4Runtime = require('@bigcommerce/handlebars-v4').runtime;
 const helpers = require('./helpers');
 
 const AppError = require('./lib/appError');
@@ -39,6 +40,9 @@ class HandlebarsRenderer {
     constructor(siteSettings, themeSettings, hbVersion, logger = console, logLevel = 'info', params = {}) {
         // Figure out which version of Handlebars to use.
         switch(hbVersion) {
+            case 'v4-runtime':
+                this.handlebars = HandlebarsV4Runtime;
+                break;
             case 'v4':
                 this.handlebars = HandlebarsV4.create();
                 break;
@@ -79,6 +83,10 @@ class HandlebarsRenderer {
         }
 
         this.overrideHelpers();
+    }
+
+    getHelpersForExternalUse() {
+        return helpers;
     }
 
     getResourceHints() {
@@ -429,3 +437,4 @@ class HandlebarsRenderer {
 }
 
 module.exports = HandlebarsRenderer;
+module.exports.HandlebarsRuntime = HandlebarsV4Runtime;

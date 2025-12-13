@@ -1,5 +1,20 @@
 'use strict';
 
+const thirdPartyHelpers = {
+    array: require('./3p/array'),
+    collection: require('./3p/collection'),
+    comparison: require('./3p/comparison'),
+    html: require('./3p/html'),
+    inflection: require('./3p/inflection'),
+    markdown: require('./3p/markdown'),
+    math: require('./3p/math'),
+    misc: require('./3p/misc'),
+    number: require('./3p/number'),
+    object: require('./3p/object'),
+    string: require('./3p/string'),
+    url: require('./3p/url'),
+};
+
 const whitelist = [
     {
         name: 'array',
@@ -32,7 +47,6 @@ const whitelist = [
     },
     {
         name: 'comparison',
-        module: require('./3p/comparison'),
         include: [
             'and',
             'gt',
@@ -104,7 +118,6 @@ const whitelist = [
     },
     {
         name: 'string',
-        module: require('./3p/string'),
         include: [
             'camelcase',
             'capitalize',
@@ -140,12 +153,7 @@ const whitelist = [
 const exportedHelpers = [];
 for (let i = 0; i < whitelist.length; i++) {
     const spec = whitelist[i];
-
-    // Initialize module
-    const module = require(`./3p/${spec.name}`);
-    if (typeof spec.init === 'function') {
-        spec.init(module);
-    }
+    const module = thirdPartyHelpers[spec.name];
 
     // Pluck whitelisted functions from each helper module and wrap in object of expected format
     const moduleWhitelist = spec.include;
