@@ -24,8 +24,6 @@ jobs:
       - run: npm i
       - name: Check Git Commit name
         run: git log -1 --pretty=format:"%s" |  npx commitlint
-      # Setup .npmrc file to publish package to npm registry
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
       - name: Deploy to npm and git
         run: npm config list && npm run release
         env:
