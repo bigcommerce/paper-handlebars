@@ -1,3 +1,17 @@
+# [6.5.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.4.1...v6.5.0) (2025-12-18)
+
+
+### Bug Fixes
+
+* bump deps ([#394](https://github.com/bigcommerce/paper-handlebars/issues/394)) ([b2db6fc](https://github.com/bigcommerce/paper-handlebars/commit/b2db6fc623f79062cc1c8b49fbb7b804f7a2b420))
+* remove ~/.npmrc ([#393](https://github.com/bigcommerce/paper-handlebars/issues/393)) ([41c73d7](https://github.com/bigcommerce/paper-handlebars/commit/41c73d7e9ac540d41d39c861212d7337bfcf19f7))
+
+
+### Features
+
+* Enable Handlebars Runtime option ([#391](https://github.com/bigcommerce/paper-handlebars/issues/391)) ([e5791b2](https://github.com/bigcommerce/paper-handlebars/commit/e5791b2835f66f0bb08b836aa70efa0f75c8bf6c))
+* use trusted publishing release flow ([#392](https://github.com/bigcommerce/paper-handlebars/issues/392)) ([e62378e](https://github.com/bigcommerce/paper-handlebars/commit/e62378e2189018271320bf21063d82f82808513b))
+
 ## [6.4.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.4.0...v6.4.1) (2025-09-03)
 
 
