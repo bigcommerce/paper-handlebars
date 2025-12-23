@@ -42,4 +42,13 @@ describe('stripQuerystring helper', function() {
             },
         ], done);
     });
+
+    it('should return nothing when url is not a string', function(done) {
+        runTestCases([
+            {
+                input: '{{stripQuerystring 123}}',
+                output: '',
+            },
+        ], done);
+    });
 });
