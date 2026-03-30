@@ -1,3 +1,10 @@
+## [6.5.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.5.0...v6.5.1) (2026-03-30)
+
+
+### Bug Fixes
+
+* **deps:** trigger release for handlebars-v4 4.8.1 bump ([#398](https://github.com/bigcommerce/paper-handlebars/issues/398)) ([338b005](https://github.com/bigcommerce/paper-handlebars/commit/338b0052454dafe6b63c79dd5dc190f639fab1f5))
+
 # [6.5.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.4.1...v6.5.0) (2025-12-18)
 
 
