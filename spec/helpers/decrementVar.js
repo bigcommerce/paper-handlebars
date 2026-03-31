@@ -67,4 +67,11 @@ describe('decrementVar helper', function() {
             },
         ], done);
     });
+
+    it('should throw error when max keys exceeded', function(done) {
+        const template = `{{#for 1 51}}{{decrementVar (multiConcat 'data' this.$index)}}{{/for}}`;
+        renderString(template).catch(_ => {
+            done();
+        });
+    });
 });

@@ -43,6 +43,12 @@ describe('assignVar and getVar helpers', function() {
         });
     });
 
+    it('should throw an exception if the assignVar value is not a string or number', function (done) {
+        renderString('{{assignVar "key" true}}').catch(_ => {
+            done();
+        });
+    });
+
     it('should assign and get variables', function(done) {
         runTestCases([
             {
