@@ -1,5 +1,6 @@
 'use strict';
 const HandlebarsV3 = require('handlebars');
+const HandlebarsV3Runtime = require('handlebars/runtime.js');
 const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
 const HandlebarsV4Runtime = require('@bigcommerce/handlebars-v4').runtime;
 const helpers = require('./helpers');
@@ -42,6 +43,9 @@ class HandlebarsRenderer {
         switch(hbVersion) {
             case 'v4-runtime':
                 this.handlebars = HandlebarsV4Runtime;
+                break;
+            case 'v3-runtime':
+                this.handlebars = HandlebarsV3Runtime;
                 break;
             case 'v4':
                 this.handlebars = HandlebarsV4.create();
