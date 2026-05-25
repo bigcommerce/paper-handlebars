@@ -1,3 +1,10 @@
+# [6.6.0](https://github.com/bigcommerce/paper-handlebars/compare/v6.5.1...v6.6.0) (2026-05-25)
+
+
+### Features
+
+* TRAC-642 expose v3 runtime ([#400](https://github.com/bigcommerce/paper-handlebars/issues/400)) ([0f9f894](https://github.com/bigcommerce/paper-handlebars/commit/0f9f894caef9eb329f26f6785d864d3f7c7a8edf))
+
 ## [6.5.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.5.0...v6.5.1) (2026-03-30)
 
 
