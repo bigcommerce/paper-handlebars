@@ -1,3 +1,10 @@
+## [6.6.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.0...v6.6.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* TRAC-838 resolve unsafe JSONStringify helper ([b483b33](https://github.com/bigcommerce/paper-handlebars/commit/b483b33c359c8c72c079a16fd241294df91210e8))
+
 ## [6.5.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.5.0...v6.5.1) (2026-03-30)
 
 
