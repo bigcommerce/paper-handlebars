@@ -165,5 +165,13 @@ describe('object', function() {
       expect(res).to.equal('{"name":"Halle","age":4,"userid":"Nicole"}');
       done();
     });
+
+    it('should escape HTML-unsafe characters so output is safe inside a <script> tag:', function(done) {
+      var fn = hbs.compile('{{{JSONstringify data}}}');
+      var res = fn({data: 'Music</script><script>alert(1)</script>'});
+      expect(res).to.equal('"Music\\u003c\\u002fscript\\u003e\\u003cscript\\u003ealert(1)\\u003c\\u002fscript\\u003e"');
+      expect(res).to.not.contain('</script>');
+      done();
+    });
   });
 });
