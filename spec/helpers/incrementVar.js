@@ -69,4 +69,20 @@ describe('incrementVar helper', function() {
             },
         ], done);
     });
+
+    it('should throw error when max keys exceeded', function(done) {
+        const template = `{{#for 1 51}}{{incrementVar (multiConcat 'data' this.$index)}}{{/for}}`;
+        renderString(template).catch(_ => {
+            done();
+        });
+    });
+
+    it('should return undefined for non-existent key after clearing', function(done) {
+        runTestCases([
+            {
+                input: '{{incrementVar "newkey"}}',
+                output: '0',
+            },
+        ], done);
+    });
 });
