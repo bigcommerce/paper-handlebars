@@ -1,3 +1,11 @@
+## [6.6.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.1...v6.6.2) (2026-07-13)
+
+
+### Bug Fixes
+
+* **ci:** remove npm@latest upgrade in release workflow ([#405](https://github.com/bigcommerce/paper-handlebars/issues/405)) ([3971afe](https://github.com/bigcommerce/paper-handlebars/commit/3971afe7edc6fe7da0428a5912952a087178a7f3))
+* **TRAC-875:** preserve ValidationError type in render/renderString ([#404](https://github.com/bigcommerce/paper-handlebars/issues/404)) ([e50e87e](https://github.com/bigcommerce/paper-handlebars/commit/e50e87ead563a3b14710fffbdd264346d7ee9442))
+
 ## [6.6.1](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.0...v6.6.1) (2026-06-11)
 
 
