@@ -324,6 +324,9 @@ class HandlebarsRenderer {
             try {
                 result = template(context);
             } catch(e) {
+                if (e instanceof ValidationError) {
+                    return reject(new ValidationError(`${e.message} : ${e.stack}`));
+                }
                 return reject(new RenderError(`${e.message} : ${e.stack}`));
             }
 
@@ -376,6 +379,9 @@ class HandlebarsRenderer {
             try {
                 result = template(context);
             } catch(e) {
+                if (e instanceof ValidationError) {
+                    return reject(new ValidationError(`${e.message} : ${e.stack}`));
+                }
                 return reject(new RenderError(`${e.message} : ${e.stack}`));
             }
 

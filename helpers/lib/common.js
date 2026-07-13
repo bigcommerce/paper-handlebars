@@ -11,7 +11,7 @@ function isValidURL(val) {
 
 /*
  * Based on https://github.com/jonschlinkert/get-value/blob/2.0.6/index.js with some enhancements.
- * 
+ *
  * - Performs "hasOwnProperty" checks for safety.
  * - Now accepts Handlebars.SafeString paths.
  */
@@ -67,6 +67,38 @@ function unwrapIfSafeString(handlebars, val) {
     return val;
 }
 
+// Maps the char code of characters that are valid inside a JSON string but
+// dangerous when that JSON is emitted (unescaped) inside an HTML <script> tag,
+// to their \uXXXX escape sequences. Encoding `<` and `/` prevents the HTML
+// parser from ever seeing a closing tag such as `</script>`; `>` guards
+// against `-->`/`]]>`; U+2028/U+2029 are illegal in JS string literals. Every
+// replacement is still valid JSON and round-trips through `JSON.parse`.
+const HTML_UNSAFE_JSON_ESCAPES = {
+    0x3c: '\\u003c', // <
+    0x3e: '\\u003e', // >
+    0x2f: '\\u002f', // /
+    0x2028: '\\u2028',
+    0x2029: '\\u2029',
+};
+
+const HTML_UNSAFE_JSON_REGEX = /[<>/\u2028\u2029]/g;
+
+/**
+ * Escape the output of `JSON.stringify` so it can be safely embedded inside an
+ * HTML <script> tag. Encodes `<`, `>`, `/` and the U+2028/U+2029 line
+ * separators as unicode escape sequences. The result is still valid JSON and
+ * round-trips through `JSON.parse`.
+ *
+ * @param {string} jsonString - The output of JSON.stringify
+ * @returns {string} - The HTML-safe JSON string
+ */
+function escapeJsonForHtml(jsonString) {
+    if (typeof jsonString !== 'string') {
+        return jsonString;
+    }
+    return jsonString.replace(HTML_UNSAFE_JSON_REGEX, char => HTML_UNSAFE_JSON_ESCAPES[char.charCodeAt(0)]);
+}
+
 const maximumPixelSize = 5120;
 
 /**
@@ -79,7 +111,7 @@ function appendLossyParam(url, lossy) {
     if (!lossy || typeof lossy !== 'boolean') {
         return url;
     }
-    
+
     const urlObj = new URL(url);
     urlObj.searchParams.set('compression', 'lossy');
     return urlObj.toString();
@@ -89,6 +121,7 @@ module.exports = {
     isValidURL,
     getValue,
     unwrapIfSafeString,
+    escapeJsonForHtml,
     maximumPixelSize,
     appendLossyParam
 };

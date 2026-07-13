@@ -10,7 +10,8 @@ describe('json helper', function() {
         image_with_2_qs: {
             data: urlData_2_qs
         },
-        object: { a: 1, b: "hello" }
+        object: { a: 1, b: "hello" },
+        xss: 'Music</script><script>alert(1)</script>'
     };
 
     const runTestCases = testRunner({context});
@@ -27,7 +28,7 @@ describe('json helper', function() {
         runTestCases([
             {
                 input: '{{{json (getImage image_with_2_qs)}}}',
-                output: '"https://cdn.example.com/path/to/original/image.png?c=2&imbypass=on"',
+                output: '"https:\\u002f\\u002fcdn.example.com\\u002fpath\\u002fto\\u002foriginal\\u002fimage.png?c=2&imbypass=on"',
             },
         ], done);
     });
@@ -37,6 +38,15 @@ describe('json helper', function() {
             {
                 input: '{{{json (concat \'Hello \' \'World\')}}}',
                 output: '"Hello World"',
+            },
+        ], done);
+    });
+
+    it('should escape HTML-unsafe characters so output is safe inside a <script> tag', function(done) {
+        runTestCases([
+            {
+                input: '{{{json xss}}}',
+                output: '"Music\\u003c\\u002fscript\\u003e\\u003cscript\\u003ealert(1)\\u003c\\u002fscript\\u003e"',
             },
         ], done);
     });

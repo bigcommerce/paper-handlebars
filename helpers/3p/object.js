@@ -2,6 +2,7 @@
 
 var hasOwn = Object.hasOwnProperty;
 var utils = require('./utils/');
+var common = require('../lib/common.js');
 
 /**
  * Expose `helpers`
@@ -209,7 +210,9 @@ helpers.JSONstringify = function(obj, indent) {
   if (!utils.isNumber(indent)) {
     indent = 0;
   }
-  return JSON.stringify(obj, null, indent);
+  // Escape characters that are unsafe when this output is embedded inside an
+  // HTML <script> tag (e.g. JSON-LD), preventing reflected XSS via `</script>`.
+  return common.escapeJsonForHtml(JSON.stringify(obj, null, indent));
 };
 
 /**
