@@ -233,6 +233,7 @@ describe('render', () => {
         'capitalize_foo': '{{capitalize bar}}',
         'with_locale': '{{locale_name}}',
         'with_template': '{{template}}',
+        'assign_var_too_long': '{{assignVar "foo" longString}}',
     };
     const context = {
         bar: 'baz'
@@ -325,6 +326,16 @@ describe('render', () => {
             done();
         });
     });
+
+    it('throws ValidationError (not RenderError) if a helper rejects its input, formatted like RenderError', done => {
+        renderer.render('assign_var_too_long', { longString: 'a'.repeat(1024) }).catch(e => {
+            expect(e instanceof HandlebarsRenderer.errors.ValidationError).to.be.true();
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.false();
+            expect(e.message).to.include('assignVar helper value must be less than 1024 characters');
+            expect(e.message).to.include(' : ');
+            done();
+        });
+    });
 });
 
 describe('renderString', () => {
@@ -375,6 +386,16 @@ describe('renderString', () => {
     it('throws PrecompileError if given malformed template', done => {
         renderer.renderString('{{', context).catch(e => {
             expect(e instanceof HandlebarsRenderer.errors.PrecompileError).to.be.true();
+            done();
+        });
+    });
+
+    it('throws ValidationError (not RenderError) if a helper rejects its input, formatted like RenderError', done => {
+        renderer.renderString('{{assignVar "foo" longString}}', { longString: 'a'.repeat(1024) }).catch(e => {
+            expect(e instanceof HandlebarsRenderer.errors.ValidationError).to.be.true();
+            expect(e instanceof HandlebarsRenderer.errors.RenderError).to.be.false();
+            expect(e.message).to.include('assignVar helper value must be less than 1024 characters');
+            expect(e.message).to.include(' : ');
             done();
         });
     });
