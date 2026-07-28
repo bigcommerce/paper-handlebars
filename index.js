@@ -1,8 +1,8 @@
 'use strict';
 const HandlebarsV3 = require('handlebars');
 const HandlebarsV3Runtime = require('handlebars/runtime.js');
-const HandlebarsV4 = require('@bigcommerce/handlebars-v4');
-const HandlebarsV4Runtime = require('@bigcommerce/handlebars-v4').runtime;
+const HandlebarsV4 = require('handlebars-v4');
+const HandlebarsV4Runtime = require('handlebars-v4/runtime.js');
 const helpers = require('./helpers');
 
 const AppError = require('./lib/appError');

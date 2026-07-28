@@ -7,7 +7,7 @@ const describe = lab.describe;
 
 const createFrame = require('../../../../../helpers/3p/utils/lib/createFrame');
 
-var hbs = require('@bigcommerce/handlebars-v4');
+var hbs = require('handlebars-v4');
 
 describe('createFrame', function () {
   it('should create a reference to _parent:', function (done) {
