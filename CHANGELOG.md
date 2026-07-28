@@ -1,3 +1,10 @@
+## [6.6.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.2...v6.6.3) (2026-07-28)
+
+
+### Bug Fixes
+
+* **deps:** replace @bigcommerce/handlebars-v4 with npm alias ([#407](https://github.com/bigcommerce/paper-handlebars/issues/407)) ([2bc3f6b](https://github.com/bigcommerce/paper-handlebars/commit/2bc3f6b6ecff85d11e8d8cfc90bc6ff08a607897))
+
 ## [6.6.2](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.1...v6.6.2) (2026-07-13)
 
 
