@@ -104,4 +104,27 @@ describe('compare helper', function() {
             },
         ], done);
     });
+
+    it('should use default operator when none specified', function(done) {
+        runTestCases([
+            {
+                input: '{{#compare num1 1}}big{{/compare}}',
+                output: 'big',
+            },
+        ], done);
+    });
+
+    it('should throw error when less than 2 parameters provided', function(done) {
+        const renderString = require('../spec-helpers').renderString;
+        renderString('{{#compare num1}}big{{/compare}}', context).catch(_ => {
+            done();
+        });
+    });
+
+    it('should throw error when invalid operator is used', function(done) {
+        const renderString = require('../spec-helpers').renderString;
+        renderString('{{#compare num1 num2 operator="invalid"}}big{{/compare}}', context).catch(_ => {
+            done();
+        });
+    });
 });
