@@ -6,6 +6,7 @@ const it = lab.it;
 const describe = lab.describe
 
 const { buildRenderer } = require('../../spec-helpers');
+const { ValidationError } = require('../../../lib/errors');
 const renderer = buildRenderer();
 const hbs = renderer.handlebars;
 const helpers = require('../../../helpers/3p/misc');
@@ -71,6 +72,13 @@ describe('url', function() {
       });
       done();
     });
+
+    it('should throw ValidationError if input is not a string', function(done) {
+      var fn = hbs.compile('{{urlParse testUrl}}');
+      expect(() => fn({ testUrl: undefined })).to.throw(ValidationError, 'Non-string passed to urlParse');
+      expect(() => fn({ testUrl: 123 })).to.throw(ValidationError, 'Non-string passed to urlParse');
+      done();
+    });
   });
 
   describe('strip protocol', function() {
@@ -103,6 +111,13 @@ describe('url', function() {
       var data = { testUrl: testUrl };
       var fn = hbs.compile('{{stripProtocol testUrl}}');
       expect(fn(data)).to.equal(testUrl);
+      done();
+    });
+
+    it('should throw ValidationError if input is not a string', function(done) {
+      var fn = hbs.compile('{{stripProtocol testUrl}}');
+      expect(() => fn({ testUrl: undefined })).to.throw(ValidationError, 'Non-string passed to stripProtocol');
+      expect(() => fn({ testUrl: { foo: 'bar' } })).to.throw(ValidationError, 'Non-string passed to stripProtocol');
       done();
     });
 
