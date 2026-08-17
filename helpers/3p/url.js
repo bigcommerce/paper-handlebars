@@ -1,6 +1,7 @@
 'use strict';
 
 var url = require('url');
+var ValidationError = require('../../lib/errors').ValidationError;
 
 /**
  * Expose `helpers`
@@ -58,6 +59,9 @@ helpers.urlResolve = function(base, href) {
  */
 
 helpers.urlParse = function(str) {
+  if (typeof str !== 'string') {
+    throw new ValidationError("Non-string passed to urlParse");
+  }
   return url.parse(str);
 };
 
@@ -75,6 +79,9 @@ helpers.urlParse = function(str) {
  */
 
 helpers.stripProtocol = function(str) {
+  if (typeof str !== 'string') {
+    throw new ValidationError("Non-string passed to stripProtocol");
+  }
   var parsed = url.parse(str);
   delete parsed.protocol;
   return parsed.format();
