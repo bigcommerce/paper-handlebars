@@ -1,3 +1,10 @@
+## [6.6.4](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.3...v6.6.4) (2026-08-17)
+
+
+### Bug Fixes
+
+* **TRAC-1339:** throw ValidationError for non-string input in urlParse and stripProtocol ([f453812](https://github.com/bigcommerce/paper-handlebars/commit/f4538121f9a2d666690bf9c47b6536152083198b))
+
 ## [6.6.3](https://github.com/bigcommerce/paper-handlebars/compare/v6.6.2...v6.6.3) (2026-07-28)
 
 
