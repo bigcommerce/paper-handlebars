@@ -109,13 +109,13 @@ describe('typeof inline', () => {
     });
 
     it('should not accept more than one value, throw a error', function(done) {
-        renderString("{{typeof number string}}").catch(_ => {
+        renderString("{{typeof number string}}", context).catch(_ => {
             done();
         });
     });
 
     it('should not work as a block helper, throw a error', function(done) {
-        renderString("{{#typeof number}}").catch(_ => {
+        renderString("{{#typeof number}}content{{/typeof}}", context).catch(_ => {
             done();
         });
     });
