@@ -231,6 +231,30 @@ describe('array', function() {
       done();
     });
 
+    it('should expose `@root`', function(done) {
+      var arr = [{name: 'a'}, {name: 'b'}];
+
+      var fn = hbs.compile('{{#forEach arr}}{{@root.title}}{{/forEach}}');
+      expect(fn({arr: arr, title: 'x'})).to.equal('xx');
+      done();
+    });
+
+    it('should expose `@index` and hash private variables alongside `@root`', function(done) {
+      var arr = [{name: 'a'}, {name: 'b'}];
+
+      var fn = hbs.compile('{{#forEach arr abc="y"}}{{@index}}{{@abc}}{{@root.title}}{{/forEach}}');
+      expect(fn({arr: arr, title: 'x'})).to.equal('0yx1yx');
+      done();
+    });
+
+    it('should not forward enclosing private variables other than `@root`, but allow `@../` scope shifts', function(done) {
+      var arr = [{name: 'a'}];
+
+      var fn = hbs.compile('{{#each outer}}{{#forEach ../arr}}<{{@key}}{{@../key}}>{{/forEach}}{{/each}}');
+      expect(fn({arr: arr, outer: {k1: 1, k2: 2}})).to.equal('<k1><k2>');
+      done();
+    });
+
     it('should return empty block', function(done) {
       let arr = [];
       var fn = hbs.compile('{{#forEach arr}}{{isLast}}{{/forEach}}');
@@ -561,6 +585,67 @@ describe('array', function() {
       });
       expect(res).to.equal('f: 8021 <br>b: 239 <br>d: -12 <br>');
       done();
+    });
+  });
+});
+
+describe('forEach @ variable boundary', function() {
+  // pierces: reaches the block body across the helper boundary.
+  // blocked: must NOT reach the block body directly.
+  // gotcha:  documented behaviour that may surprise.
+  // l{n}:    loop marker, one per iteration, each iteration ends with a single space;
+  //          nested loops list each level outer-first (l0x1:).
+  const { renderString } = require('../../spec-helpers');
+  const boundaryContext = {
+    title: 'T',
+    nested: { title: 'N' },
+    arr: [{n: 'a'}, {n: 'b'}],
+    outer: [1, 2],
+    outerObj: {k1: 1, k2: 2},
+    obj: {a: 1, b: 2},
+  };
+  const boundaryCases = [
+    { desc: 'pierces: @root from the top level',
+      input: '{{#forEach arr}}l{{@index}}:{{@root.title}} {{/forEach}}', output: 'l0:T l1:T ' },
+    { desc: 'pierces: @root is the page, not the current context, when nested',
+      input: '{{#with nested}}{{#forEach ../arr}}l{{@index}}:{{@root.title}} {{/forEach}}{{/with}}', output: 'l0:T l1:T ' },
+    { desc: 'pierces: own @index and hash private variables',
+      input: '{{#forEach arr foo="y"}}l{{@index}}:{{@index}}{{@foo}} {{/forEach}}', output: 'l0:0y l1:1y ' },
+    { desc: 'pierces: @../index scope shift to an enclosing #each',
+      input: '{{#each outer}}{{#forEach ../arr}}l{{@../index}}x{{@index}}:{{@../index}} {{/forEach}}{{/each}}', output: 'l0x0:0 l0x1:0 l1x0:1 l1x1:1 ' },
+    { desc: 'pierces: @../key scope shift to an enclosing #each over an object',
+      input: '{{#each outerObj}}{{#forEach ../arr}}l{{@../key}}x{{@index}}:{{@../key}} {{/forEach}}{{/each}}', output: 'lk1x0:k1 lk1x1:k1 lk2x0:k2 lk2x1:k2 ' },
+    { desc: 'pierces: @../first / @../last scope shift',
+      input: '{{#each outer}}{{#forEach ../arr}}l{{@../index}}x{{@index}}:[{{@../first}}{{@../last}}] {{/forEach}}{{/each}}',
+      output: 'l0x0:[truefalse] l0x1:[truefalse] l1x0:[falsetrue] l1x1:[falsetrue] ' },
+    { desc: 'pierces: @../../index two-level scope shift',
+      input: '{{#each outer}}{{#each @root.outerObj}}{{#forEach @root.arr}}l{{@../../index}}x{{@../key}}x{{@index}}:{{@../../index}}{{@../key}} {{/forEach}}{{/each}}{{/each}}',
+      output: 'l0xk1x0:0k1 l0xk1x1:0k1 l0xk2x0:0k2 l0xk2x1:0k2 l1xk1x0:1k1 l1xk1x1:1k1 l1xk2x0:1k2 l1xk2x1:1k2 ' },
+    { desc: 'pierces: nested forEach sees its own @index and the outer one via @../index',
+      input: '{{#forEach arr}}{{#forEach ../arr}}l{{@../index}}x{{@index}}:{{@index}}{{@../index}} {{/forEach}}{{/forEach}}', output: 'l0x0:00 l0x1:10 l1x0:01 l1x1:11 ' },
+    { desc: 'blocked: enclosing @key',
+      input: '{{#each outerObj}}{{#forEach ../arr}}l{{@../key}}x{{@index}}:[{{@key}}] {{/forEach}}{{/each}}', output: 'lk1x0:[] lk1x1:[] lk2x0:[] lk2x1:[] ' },
+    { desc: 'blocked: enclosing @first / @last',
+      input: '{{#each outer}}{{#forEach ../arr}}l{{@../index}}x{{@index}}:[{{@first}}{{@last}}] {{/forEach}}{{/each}}', output: 'l0x0:[] l0x1:[] l1x0:[] l1x1:[] ' },
+    { desc: 'blocked: enclosing custom @var (reachable via @../ only)',
+      input: '{{#forIn obj abc="x"}}{{#forEach @root.arr}}l{{@../key}}x{{@index}}:[{{@abc}}|{{@../abc}}] {{/forEach}}{{/forIn}}',
+      output: 'lax0:[|x] lax1:[|x] lbx0:[|x] lbx1:[|x] ' },
+    { desc: 'blocked: options internals that used to leak (@data, @fn, @hash)',
+      input: '{{#forEach arr foo="y"}}l{{@index}}:[{{@data.root.title}}{{@fn}}{{@hash.foo}}] {{/forEach}}', output: 'l0:[] l1:[] ' },
+    { desc: 'blocked: inner frame changes do not leak back out to the enclosing #each',
+      input: '{{#each outer}}l{{@index}}:{{#forEach ../arr}}{{/forEach}}{{@index}} {{/each}}', output: 'l0:0 l1:1 ' },
+    { desc: 'gotcha: a hash arg named root shadows @root',
+      input: '{{#forEach arr root="X"}}l{{@index}}:{{@root}} {{/forEach}}', output: 'l0:X l1:X ' },
+  ];
+
+  ['v3', 'v4'].forEach(hbVersion => {
+    boundaryCases.forEach(({ desc, input, output }) => {
+      it(`${hbVersion} ${desc}`, function(done) {
+        renderString(input, boundaryContext, {}, {}, undefined, hbVersion).then(result => {
+          expect(result).to.equal(output);
+          done();
+        }).catch(done);
+      });
     });
   });
 });
