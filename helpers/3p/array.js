@@ -215,7 +215,29 @@ helpers.first = function(array, n) {
 
 helpers.forEach = function(array) {
   const options = arguments[arguments.length - 1];
-  var data = utils.createFrame(options, options.hash);
+  // Child `@` frame for the block body. Only `@root` is forwarded from the
+  // enclosing frame (options.data) into the block's own frame; no other private
+  // variables are copied across the helper boundary. createFrame(base, hash):
+  //   1. shallow-copies `base` ({ root }) into a new object,
+  //   2. sets `_parent` to `base`; overwritten below with the real enclosing
+  //      frame, so explicit scope shifts (`@../index`) walk up to the parent,
+  //   3. copies hash args on top, so `{{#forEach arr foo=1}}` exposes `@foo`.
+  //
+  // Side effects / things NOT forwarded:
+  //   - enclosing `@index`, `@key`, `@first`, `@last`, custom `@vars` are not
+  //     visible directly (`@key` is empty), only via a scope shift (`@../key`).
+  //   - a hash arg named `root` (e.g. `root="x"`) shadows `@root`.
+  //   - this used to be `createFrame(options, ...)`, which copied the options
+  //     object itself (`fn`, `inverse`, `hash`, `data`, ...) and no `@root`.
+  //     Templates reaching `@root` via `@data.root` (or using `@fn`, `@hash`)
+  //     get empty now; use `@root` directly.
+  // To make ALL enclosing `@` variables visible directly, use
+  //   utils.createFrame(options.data || {}, options.hash)
+  // instead (it sets `_parent` itself), accepting that outer loop variables then
+  // leak into the block.
+  // The frame object is reused across iterations and mutated (`data.index`).
+  var data = utils.createFrame({ root: options.data && options.data.root }, options.hash);
+  data._parent = options.data;
   if (!array) {
     return '';
   }
